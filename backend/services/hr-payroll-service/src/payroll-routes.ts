@@ -266,6 +266,7 @@ export function registerPayrollRoutes(
           let totalEr = 0;
           let rulesetHash: string | null = null;
 
+          try {
           await withPayrollSchema(client, schema, async () => {
             await client.query(`DELETE FROM payroll_record_lines WHERE payroll_record_id IN (
               SELECT id FROM payroll_records WHERE payroll_run_id = $1
@@ -341,11 +342,25 @@ export function registerPayrollRoutes(
               `UPDATE payroll_runs SET
                  status = 'computed', ruleset_hash = $2,
                  total_gross = $3, total_deductions = $4, total_net = $5, total_employer_cost = $6,
-                 updated_at = now()
+                 updated_at = now(), failure_reason = NULL
                WHERE id = $1`,
               [runId, rulesetHash, totalGross, totalDed, totalNet, totalEr],
             );
           });
+          } catch (calcErr) {
+            await withPayrollSchema(client, schema, async () => {
+              await client.query(`DELETE FROM payroll_record_lines WHERE payroll_record_id IN (
+                SELECT id FROM payroll_records WHERE payroll_run_id = $1
+              )`, [runId]);
+              await client.query(`DELETE FROM payroll_records WHERE payroll_run_id = $1`, [runId]);
+              await client.query(
+                `UPDATE payroll_runs SET status = 'failed', failure_reason = $2, updated_at = now()
+                 WHERE id = $1`,
+                [runId, (calcErr instanceof Error ? calcErr.message : 'calculate failed').slice(0, 2000)],
+              );
+            });
+            throw calcErr;
+          }
 
           return { run_id: runId, employees: employees.rowCount, ruleset_hash: rulesetHash };
         });

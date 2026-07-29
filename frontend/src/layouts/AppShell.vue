@@ -25,6 +25,7 @@ function logout() {
       <nav>
         <RouterLink to="/" exact-active-class="active">{{ t('app.overview') }}</RouterLink>
         <RouterLink to="/grants" active-class="active">{{ t('app.grants') }}</RouterLink>
+        <RouterLink to="/finance" active-class="active">{{ t('app.finance') }}</RouterLink>
         <RouterLink to="/reports" active-class="active">{{ t('app.reports') }}</RouterLink>
         <RouterLink to="/employees" active-class="active">{{ t('app.employees') }}</RouterLink>
         <RouterLink to="/leave" active-class="active">{{ t('app.leave') }}</RouterLink>

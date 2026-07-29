@@ -7,8 +7,8 @@ const root = join(fileURLToPath(import.meta.url), '..', '..');
 const boardPath = join(root, 'ops', 'phase2-gate-status.md');
 
 const board = readFileSync(boardPath, 'utf8');
-const MUST_BLOCKED = new Set(['4', '7', '10', '11', '12', '13']);
-const MUST_PASS = new Set(['1', '2', '3', '5', '6', '8', '9']);
+const MUST_BLOCKED = new Set(['4', '10', '13']);
+const MUST_PASS = new Set(['1', '2', '3', '5', '6', '7', '8', '9', '11', '12']);
 
 let failed = false;
 
@@ -44,14 +44,23 @@ if (process.env.PHASE2_RUN_FIXTURES === '1') {
   }
 }
 
-if (!existsSync(join(root, 'backend/services/hr-payroll-service/src/index.ts'))) {
-  console.error('FAIL hr-payroll-service missing');
-  failed = true;
-}
-
-if (!existsSync(join(root, 'backend/services/reporting-service/src/index.ts'))) {
-  console.error('FAIL reporting-service missing');
-  failed = true;
+const requiredPaths = [
+  'backend/services/hr-payroll-service/src/index.ts',
+  'backend/services/reporting-service/src/index.ts',
+  'backend/services/grant-service/src/coa-expenses.ts',
+  'scripts/smoke-phase2-e2e.mjs',
+  'scripts/drill-erasure.mjs',
+  'scripts/canary-analysis-stub.mjs',
+  'ops/compliance/dpia-phase2-draft.md',
+  'ops/compliance/retention-schedule.md',
+  'infra/kubernetes/canary/analysis-template.yaml',
+  'infra/observability/prometheus/rules/phase2-alerts.yaml',
+];
+for (const rel of requiredPaths) {
+  if (!existsSync(join(root, ...rel.split('/')))) {
+    console.error(`FAIL missing ${rel}`);
+    failed = true;
+  }
 }
 
 if (failed) process.exit(1);

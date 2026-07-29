@@ -150,26 +150,31 @@ npm run test:coverage
 
 ## Phase 2 scope (Workforce)
 
-HR core + statutory payroll for **South Sudan** and **Uganda**. See [docs/sdd/31-implementation-roadmap.md §31.4](docs/sdd/31-implementation-roadmap.md).
+HR core + statutory payroll for **South Sudan** and **Uganda**, plus finance COA/expenses, fair report queue, quotas, and compliance erasure/DSAR. See [docs/sdd/31-implementation-roadmap.md §31.4](docs/sdd/31-implementation-roadmap.md).
 
 - **`@ngois/payroll-engine`** — jurisdiction-agnostic calculation (NSIF deductible before PAYE; NSSF not; Appendix I fixtures)
-- **`hr-payroll-service`** on `:3006` — `/v1/hr/employees`, `/v1/hr/payroll-runs`, calculate/submit/approve with maker-checker
-- **`reporting-service`** on `:3008` — async payslip export (`POST /v1/reporting/payslips`, CSV/HTML download)
-- **Per-tenant payroll schema** (ADR-0006) — `provision_tenant_payroll_schema()` in `006_payroll_tenant.sql`
-- **Migrations:** `005_workforce.sql` (HR tables + statutory seed), `006_payroll_tenant.sql` (leave + payroll schema), `007_reporting.sql` (report jobs/artifacts)
-- **UI:** `/employees`, `/leave`, `/payroll`
-- **APIs:** leave request/approve, employee+contract create, FX refresh (`POST /v1/hr/fx-rates/refresh`)
-- **Seed users:** `hr@design-partner.example` / `changeme` (`hr_manager`), `finance@…` approves payroll & FX
+- **`hr-payroll-service`** on `:3006` — employees, leave accrue/balances, positions/onboarding, payroll calculate/submit/approve
+- **`grant-service`** — chart of accounts, expense maker-checker, budget vs actual (`/finance` UI)
+- **`reporting-service`** on `:3008` — payslip export + fair-share job queue (CSV/XLSX/PDF), concurrent report quota
+- **`tenant-service`** — `GET /v1/tenant/quotas`, erasure + DSAR workflows
+- **Gateway** — per-tenant RPM (`NGOIS-API-0429`)
+- **Migrations:** `005`–`013` (workforce, payroll schema, reporting, accrual/onboarding, COA, quotas/compliance, fair claim)
+- **UI:** `/employees`, `/leave` (balances + accrue), `/payroll`, `/finance`
+- **Seed users:** `hr@design-partner.example` / `changeme` (`hr_manager`), `finance@…` approves payroll & expenses; synthetic tenants 3–8 for gate #12
 
 ```powershell
 npm run dev:hr          # hr-payroll-service :3006
 npm run dev:reporting   # reporting-service :3008
 npm run test:payroll-fixtures
 npm run verify:phase2-gates
-npm run smoke:payroll-e2e   # login → create run → calculate → export/download payslips
+npm run smoke:payroll-e2e
+npm run smoke:phase2-e2e    # accrue, expense, BvA, report claim, quotas, erasure
+npm run drill:erasure
+npm run canary:analysis-stub
+npm run retention:sweep     # dry-run default; see ops/compliance/retention-schedule.md
 ```
 
-Gate board: [`ops/phase2-gate-status.md`](ops/phase2-gate-status.md). Fixture corpus and reproducibility pass locally; scale load, erasure, canary, quotas, 8-tenant RB-05, and accountant sign-off remain **BLOCKED**.
+Gate board: [`ops/phase2-gate-status.md`](ops/phase2-gate-status.md). Still **BLOCKED** (by design): #4 scale load, #10 live Argo canary, #13 accountant review; DPIA is draft-only (not DPO-approved).
 
 ## Conventions
 

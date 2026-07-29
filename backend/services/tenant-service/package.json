@@ -10,10 +10,12 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "@ngois/audit": "*",
     "@ngois/config": "*",
     "@ngois/db": "*",
     "@ngois/errors": "*",
     "@ngois/service-kit": "*",
+    "@ngois/tenant-context": "*",
     "zod": "^3.25.28"
   },
   "devDependencies": {

@@ -224,4 +224,113 @@ export function registerLeaveRoutes(app: Express, pool: pg.Pool, config: Service
       }
     },
   );
+
+  app.get('/v1/hr/leave-balances', requirePermission('hr:leave:read'), async (req, res, next) => {
+    try {
+      const tenantId = requireTenantId(req.ctx.tenantId);
+      const rows = await withTenant(pool, tenantId, async (client) => {
+        const r = await client.query(
+          `SELECT lb.id, lb.employee_id, e.display_name, e.employee_number,
+                  lb.leave_type_id, lt.code AS leave_type_code, lt.name AS leave_type_name,
+                  lb.accrued_days::text, lb.taken_days::text,
+                  (lb.accrued_days - lb.taken_days)::text AS remaining_days, lb.updated_at
+           FROM leave_balances lb
+           JOIN employees e ON e.id = lb.employee_id
+           JOIN leave_types lt ON lt.id = lb.leave_type_id
+           ORDER BY e.employee_number, lt.code`,
+        );
+        return r.rows;
+      });
+      ok(res, req, rows);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post(
+    '/v1/hr/leave/accrue',
+    requirePermission('hr:leave:balance:adjust'),
+    async (req, res, next) => {
+      try {
+        const tenantId = requireTenantId(req.ctx.tenantId);
+        const now = new Date();
+        const year = typeof req.body?.period_year === 'number' ? req.body.period_year : now.getFullYear();
+        const month =
+          typeof req.body?.period_month === 'number' ? req.body.period_month : now.getMonth() + 1;
+
+        const result = await withTenant(pool, tenantId, async (client) => {
+          const existing = await client.query(
+            `SELECT id FROM leave_accrual_runs
+             WHERE tenant_id = $1 AND period_year = $2 AND period_month = $3`,
+            [tenantId, year, month],
+          );
+          if (existing.rows[0]) {
+            throw new AppError({
+              code: 'NGOIS-HR-0110',
+              message: 'Accrual already run for this period.',
+              statusCode: 409,
+            });
+          }
+
+          const runId = (
+            await client.query(
+              `INSERT INTO leave_accrual_runs (tenant_id, period_year, period_month, run_by)
+               VALUES ($1,$2,$3,$4) RETURNING id`,
+              [tenantId, year, month, req.ctx.userId ?? null],
+            )
+          ).rows[0].id as string;
+
+          const types = await client.query<{ id: string; accrual_days: string }>(
+            `SELECT id, accrual_days::text FROM leave_types`,
+          );
+          const emps = await client.query<{ id: string }>(
+            `SELECT id FROM employees WHERE status IN ('active','on_leave') AND NOT is_deleted`,
+          );
+
+          let count = 0;
+          for (const emp of emps.rows) {
+            for (const lt of types.rows) {
+              const monthly = (Number(lt.accrual_days) / 12).toFixed(2);
+              if (Number(monthly) <= 0) continue;
+              await client.query(
+                `INSERT INTO leave_balances (tenant_id, employee_id, leave_type_id, accrued_days, taken_days)
+                 VALUES ($1,$2,$3,$4,0)
+                 ON CONFLICT (tenant_id, employee_id, leave_type_id)
+                 DO UPDATE SET accrued_days = leave_balances.accrued_days + EXCLUDED.accrued_days,
+                               updated_at = now()`,
+                [tenantId, emp.id, lt.id, monthly],
+              );
+              await client.query(
+                `INSERT INTO leave_accrual_lines (
+                   tenant_id, accrual_run_id, employee_id, leave_type_id, days_accrued
+                 ) VALUES ($1,$2,$3,$4,$5)`,
+                [tenantId, runId, emp.id, lt.id, monthly],
+              );
+              count += 1;
+            }
+          }
+
+          await client.query(
+            `UPDATE leave_accrual_runs SET employees_accrued = $2 WHERE id = $1`,
+            [runId, emps.rowCount ?? 0],
+          );
+          await writeAuditEvent(client, {
+            tenantId,
+            serviceName: config.SERVICE_NAME,
+            action: 'hr.leave.accrued',
+            resourceType: 'leave_accrual_run',
+            resourceId: runId,
+            actorUserId: req.ctx.userId,
+            actorRole: req.ctx.role,
+            afterState: { period_year: year, period_month: month, lines: count },
+            correlationId: req.ctx.correlationId,
+          });
+          return { run_id: runId, period_year: year, period_month: month, lines: count };
+        });
+        ok(res, req, result, 201);
+      } catch (err) {
+        next(err);
+      }
+    },
+  );
 }

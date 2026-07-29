@@ -190,11 +190,79 @@ async function main(): Promise<void> {
        ON CONFLICT (tenant_id, code) DO NOTHING`,
       [tenantId],
     );
+    const positionId = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd';
+    await client.query(
+      `INSERT INTO positions (id, tenant_id, department_id, title, grade, is_supervisory)
+       VALUES ($1, $2, $3, 'Programme Officer', 'G6', false)
+       ON CONFLICT (id) DO NOTHING`,
+      [positionId, tenantId, deptId],
+    );
+    await client.query(
+      `INSERT INTO onboarding_templates (tenant_id, code, name, task_defs)
+       VALUES ($1, 'DEFAULT', 'Standard staff onboarding', $2::jsonb)
+       ON CONFLICT (tenant_id, code) DO NOTHING`,
+      [
+        tenantId,
+        JSON.stringify([
+          { code: 'CONTRACT', title: 'Signed contract on file', sort_order: 1 },
+          { code: 'BANK', title: 'Bank details collected', sort_order: 2 },
+          { code: 'ID', title: 'ID document verified', sort_order: 3 },
+        ]),
+      ],
+    );
+    await client.query(
+      `INSERT INTO tenant_quotas (tenant_id) VALUES ($1)
+       ON CONFLICT (tenant_id) DO NOTHING`,
+      [tenantId],
+    );
+    await client.query(
+      `INSERT INTO chart_of_accounts (tenant_id, account_code, name, account_type)
+       VALUES ($1, '5100', 'Programme expenses', 'expense')
+       ON CONFLICT (tenant_id, account_code) DO NOTHING`,
+      [tenantId],
+    );
     await client.query('COMMIT');
   } catch (err) {
     await client.query('ROLLBACK');
     throw err;
   }
+
+  // Phase 2 gate #12 — synthetic tenants 3–8 (RB-05 loop, no manual steps)
+  for (let n = 3; n <= 8; n++) {
+    const id = `99999999-9999-4999-8999-99999999999${n}`;
+    const slug = `synthetic-tenant-${n}`;
+    const adminId = `aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa${n}`;
+    await client.query(
+      `INSERT INTO tenants (id, slug, name, status, primary_country, created_at, updated_at)
+       VALUES ($1, $2, $3, 'active', 'SS', now(), now())
+       ON CONFLICT (id) DO NOTHING`,
+      [id, slug, `Synthetic Tenant ${n}`],
+    );
+    await client.query('BEGIN');
+    try {
+      await client.query(`SELECT set_config('app.tenant_id', $1, true)`, [id]);
+      await client.query(
+        `INSERT INTO users (id, tenant_id, email, display_name, role, password_hash, status, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, 'org_admin', $5, 'active', now(), now())
+         ON CONFLICT (tenant_id, email) DO UPDATE SET password_hash = EXCLUDED.password_hash`,
+        [adminId, id, `admin@${slug}.example`, `Synthetic ${n} Admin`, passwordHash],
+      );
+      await client.query(
+        `INSERT INTO tenant_quotas (tenant_id) VALUES ($1) ON CONFLICT (tenant_id) DO NOTHING`,
+        [id],
+      );
+      await client.query('COMMIT');
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    }
+    await client.query(`SELECT provision_tenant_payroll_schema($1, $2)`, [id, slug]);
+  }
+  await client.query(
+    `INSERT INTO tenant_quotas (tenant_id)
+     SELECT id FROM tenants t
+     WHERE NOT EXISTS (SELECT 1 FROM tenant_quotas q WHERE q.tenant_id = t.id)`,
+  );
 
   await client.end();
   console.log('seed complete');
@@ -204,6 +272,7 @@ async function main(): Promise<void> {
   console.log('  user:   hr@design-partner.example / changeme  (hr_manager)');
   console.log('  tenant: design-partner-b');
   console.log('  user:   admin@design-partner-b.example / changeme  (org_admin)');
+  console.log('  tenants: synthetic-tenant-3 … synthetic-tenant-8 (gate #12)');
 }
 
 main().catch((err) => {

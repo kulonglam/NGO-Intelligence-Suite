@@ -18,11 +18,22 @@ type LeaveRequest = {
   days_requested: string;
   status: string;
 };
+type LeaveBalance = {
+  employee_id: string;
+  employee_number: string;
+  display_name: string;
+  leave_type_code: string;
+  leave_type_name: string;
+  accrued_days: string;
+  taken_days: string;
+  balance_days?: string;
+};
 
 const { t } = useI18n();
 const types = ref<LeaveType[]>([]);
 const employees = ref<Employee[]>([]);
 const requests = ref<LeaveRequest[]>([]);
+const balances = ref<LeaveBalance[]>([]);
 const error = ref<string | null>(null);
 const loading = ref(true);
 const busy = ref(false);
@@ -38,14 +49,16 @@ async function load() {
   loading.value = true;
   error.value = null;
   try {
-    const [lt, emps, reqs] = await Promise.all([
+    const [lt, emps, reqs, bals] = await Promise.all([
       api<LeaveType[]>('/v1/hr/leave-types'),
       api<Employee[]>('/v1/hr/employees'),
       api<LeaveRequest[]>('/v1/hr/leave-requests'),
+      api<LeaveBalance[]>('/v1/hr/leave-balances'),
     ]);
     types.value = lt;
     employees.value = emps;
     requests.value = reqs;
+    balances.value = bals;
     if (!form.value.employee_id && emps[0]) form.value.employee_id = emps[0].id;
     if (!form.value.leave_type_id && lt[0]) form.value.leave_type_id = lt[0].id;
   } catch (err) {
@@ -89,6 +102,26 @@ async function approve(id: string) {
   }
 }
 
+async function runAccrue() {
+  busy.value = true;
+  error.value = null;
+  try {
+    const now = new Date();
+    await api('/v1/hr/leave/accrue', {
+      method: 'POST',
+      body: JSON.stringify({
+        period_year: now.getFullYear(),
+        period_month: now.getMonth() + 1,
+      }),
+    });
+    await load();
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : t('workforce.accrueFailed');
+  } finally {
+    busy.value = false;
+  }
+}
+
 onMounted(() => void load());
 </script>
 
@@ -100,6 +133,32 @@ onMounted(() => void load());
       <p class="lede">{{ t('workforce.leaveLede') }}</p>
     </header>
     <p v-if="error" class="error" role="alert">{{ error }}</p>
+
+    <div class="balances-head">
+      <h2>{{ t('workforce.balances') }}</h2>
+      <BaseButton :disabled="busy" @click="runAccrue">{{ t('workforce.accrue') }}</BaseButton>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>{{ t('workforce.name') }}</th>
+          <th>{{ t('workforce.leaveType') }}</th>
+          <th>{{ t('workforce.accrued') }}</th>
+          <th>{{ t('workforce.taken') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(b, i) in balances" :key="i">
+          <td>{{ b.display_name }}</td>
+          <td>{{ b.leave_type_name ?? b.leave_type_code }}</td>
+          <td>{{ b.accrued_days }}</td>
+          <td>{{ b.taken_days }}</td>
+        </tr>
+        <tr v-if="!balances.length && !loading">
+          <td colspan="4">{{ t('workforce.noBalances') }}</td>
+        </tr>
+      </tbody>
+    </table>
 
     <form class="create" @submit.prevent="createRequest">
       <label class="field">
@@ -176,6 +235,17 @@ onMounted(() => void load());
   color: var(--muted);
   max-width: 42rem;
 }
+.balances-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.balances-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
 .create {
   display: grid;
   gap: 0.75rem;
@@ -199,6 +269,7 @@ onMounted(() => void load());
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 1.25rem;
 }
 th,
 td {

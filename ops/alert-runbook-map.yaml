@@ -41,6 +41,18 @@ alerts:
   - name: SecretRotationOverdue
     severity: P3
     runbook: docs/sdd/runbooks/rb-09-secret-rotation.md
+  - name: PayrollCalculateSlow
+    severity: P2
+    runbook: docs/sdd/runbooks/rb-01-failed-payroll-run.md
+  - name: TenantQuotaExceeded
+    severity: P2
+    runbook: docs/sdd/runbooks/rb-08-scale-event.md
+  - name: ReportQueueDepthHigh
+    severity: P3
+    runbook: docs/sdd/runbooks/rb-02-dlq-drain-and-replay.md
+  - name: ErasureWorkflowFailed
+    severity: P2
+    runbook: docs/sdd/runbooks/rb-07-pii-erasure-request.md
 
 phase1_runbooks:
   - docs/sdd/runbooks/rb-03-database-failover.md
@@ -50,3 +62,16 @@ phase1_runbooks:
   - docs/sdd/runbooks/rb-11-backup-restore-drill.md
   - docs/sdd/runbooks/rb-13-service-down.md
   - docs/sdd/runbooks/rb-14-security-incident.md
+
+phase2_runbooks:
+  - docs/sdd/runbooks/rb-01-failed-payroll-run.md
+  - docs/sdd/runbooks/rb-02-dlq-drain-and-replay.md
+  - docs/sdd/runbooks/rb-04-certificate-rotation.md
+  - docs/sdd/runbooks/rb-06-tenant-offboarding.md
+  - docs/sdd/runbooks/rb-07-pii-erasure-request.md
+  - ops/runbooks/rb-01-failed-payroll-run.md
+  - ops/runbooks/rb-02-dlq-drain-and-replay.md
+  - ops/runbooks/rb-04-certificate-rotation.md
+  - ops/runbooks/rb-06-tenant-offboarding.md
+  - ops/runbooks/rb-07-pii-erasure-request.md
+  - ops/runbooks/rb-10-canary-abort.md

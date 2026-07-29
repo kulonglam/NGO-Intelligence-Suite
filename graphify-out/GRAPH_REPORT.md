@@ -1,13 +1,18 @@
 # Graph Report - NGO Intelligence Suite  (2026-07-29)
 
 ## Corpus Check
-- 287 files · ~308,413 words
+- 315 files · ~322,013 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2844 nodes · 3788 edges · 212 communities (196 shown, 16 thin omitted)
+- 2982 nodes · 3973 edges · 221 communities (205 shown, 16 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `2473c3ba`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - Root Workspace Manifest
@@ -207,39 +212,47 @@
 - drill-phase1.mjs
 - audit-chain.md
 - rb05-onboarding.md
+- LeaveView.vue
+- EmployeesView.vue
+- smoke-phase2-e2e.mjs
+- drill-erasure.mjs
+- canary-analysis-stub.mjs
+- leave-accrual.mjs
+- Retention sweep — prod schedule note
+- RB-10 — Canary abort (local ops index)
 
 ## God Nodes (most connected - your core abstractions)
-1. `scripts` - 49 edges
-2. `compilerOptions` - 20 edges
-3. `compilerOptions` - 19 edges
-4. `05 — Architecture Diagrams` - 19 edges
-5. `computePayroll()` - 17 edges
-6. `23 — Testing Strategy` - 17 edges
-7. `6.3 Service specifications` - 16 edges
-8. `10 — API Design Standards` - 16 edges
-9. `18 — AI and LLM Architecture and Governance` - 15 edges
-10. `19 — Frontend Architecture` - 15 edges
+1. `scripts` - 54 edges
+2. `api()` - 30 edges
+3. `compilerOptions` - 20 edges
+4. `compilerOptions` - 19 edges
+5. `05 — Architecture Diagrams` - 19 edges
+6. `computePayroll()` - 17 edges
+7. `23 — Testing Strategy` - 17 edges
+8. `6.3 Service specifications` - 16 edges
+9. `10 — API Design Standards` - 16 edges
+10. `18 — AI and LLM Architecture and Governance` - 15 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `registerPayrollRoutes()` --indirect_call--> `rulesetHash()`  [INFERRED]
   backend/services/hr-payroll-service/src/payroll-routes.ts → backend/packages/payroll-engine/src/types.ts
+- `refreshFx()` --calls--> `api()`  [EXTRACTED]
+  frontend/src/views/PayrollView.vue → frontend/src/lib/api.ts
 - `load()` --calls--> `api()`  [EXTRACTED]
   frontend/src/views/ReportsView.vue → frontend/src/lib/api.ts
 - `shutdown()` --references--> `embedded-postgres`  [EXTRACTED]
   scripts/start-embedded-db.mjs → package.json
 - `api()` --calls--> `useAuthStore`  [EXTRACTED]
   frontend/src/lib/api.ts → frontend/src/stores/auth.ts
-- `createGrant()` --calls--> `api()`  [EXTRACTED]
-  frontend/src/views/GrantsView.vue → frontend/src/lib/api.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (212 total, 16 thin omitted)
+## Communities (221 total, 16 thin omitted)
 
 ### Community 0 - "Root Workspace Manifest"
 Cohesion: 0.04
-Nodes (49): scripts, build, build:backend, build:frontend, canary:local, check:bundle, check:contrast, ci:local (+41 more)
+Nodes (54): scripts, build, build:backend, build:frontend, canary:analysis-stub, canary:local, check:bundle, check:contrast (+46 more)
 
 ### Community 1 - "File Service Package"
 Cohesion: 0.05
@@ -258,8 +271,8 @@ Cohesion: 0.06
 Nodes (31): dependencies, pinia, vue, vue-i18n, vue-router, devDependencies, typescript, vite (+23 more)
 
 ### Community 5 - "Vue App Shell UI"
-Cohesion: 0.15
-Nodes (14): localeStore, { t }, AppLocale, i18n, isRtlLocale(), loadLocale(), MessageSchema, SUPPORTED_LOCALES (+6 more)
+Cohesion: 0.10
+Nodes (19): connectivity, { t }, { t }, localeStore, { t }, AppLocale, i18n, isRtlLocale() (+11 more)
 
 ### Community 6 - "Grant Service Package"
 Cohesion: 0.07
@@ -290,8 +303,8 @@ Cohesion: 0.10
 Nodes (21): axe-core, c8, @embedded-postgres/windows-x64, eslint, devDependencies, axe-core, c8, @embedded-postgres/windows-x64 (+13 more)
 
 ### Community 13 - "Tenant Service Package"
-Cohesion: 0.08
-Nodes (23): dependencies, @ngois/config, @ngois/db, @ngois/errors, @ngois/service-kit, zod, devDependencies, tsx (+15 more)
+Cohesion: 0.07
+Nodes (27): dependencies, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/service-kit, @ngois/tenant-context, zod (+19 more)
 
 ### Community 14 - "SDD PDF Build Tools"
 Cohesion: 0.16
@@ -314,8 +327,8 @@ Cohesion: 0.10
 Nodes (20): dependencies, pg, devDependencies, tsx, @types/pg, exports, pg, tsx (+12 more)
 
 ### Community 19 - "Grant Detail Vue UI"
-Cohesion: 0.13
-Nodes (19): api(), approveDisbursement(), auth, createDisbursement(), Disbursement, disbursements, error, fileInput (+11 more)
+Cohesion: 0.12
+Nodes (18): approveDisbursement(), auth, createDisbursement(), Disbursement, disbursements, error, fileInput, FileObject (+10 more)
 
 ### Community 20 - "service-kit/src/index.ts"
 Cohesion: 0.13
@@ -326,12 +339,12 @@ Cohesion: 0.11
 Nodes (18): dependencies, jsdom, marked, mermaid, puppeteer-core, description, jsdom, mermaid (+10 more)
 
 ### Community 22 - "finance.ts"
-Cohesion: 0.18
-Nodes (14): assertWithinCeiling(), createBudgetSchema, createDisbursementSchema, disbursedTotal(), ensureInitialBudget(), grantCeiling(), money, registerFinanceRoutes() (+6 more)
+Cohesion: 0.13
+Nodes (18): coaSchema, expenseSchema, registerCoaExpenseRoutes(), ServiceConfig, assertWithinCeiling(), createBudgetSchema, createDisbursementSchema, disbursedTotal() (+10 more)
 
 ### Community 23 - "GrantsView.vue"
-Cohesion: 0.25
-Nodes (8): createGrant(), error, form, Grant, grants, load(), loading, { t, locale }
+Cohesion: 0.17
+Nodes (12): props, { t }, formatMoney(), statusLabel(), createGrant(), error, form, Grant (+4 more)
 
 ### Community 24 - "config/package.json"
 Cohesion: 0.14
@@ -366,8 +379,8 @@ Cohesion: 0.22
 Nodes (8): config, drainBatch(), log, OutboxRow, pool, publish(), streamFor(), ADR-0011
 
 ### Community 32 - "verify-alerts-runbooks.mjs"
-Cohesion: 0.18
-Nodes (9): map, mapPath, mapText, rb05, root, ruleAlerts, ruleRunbooks, rulesPath (+1 more)
+Cohesion: 0.17
+Nodes (10): map, mapPath, mapText, opsPhase2, rb05, root, ruleAlerts, ruleRunbooks (+2 more)
 
 ### Community 34 - "service-kit/tsconfig.json"
 Cohesion: 0.20
@@ -418,12 +431,12 @@ Cohesion: 0.25
 Nodes (8): ALLOWED_TYPES, { app, log }, config, pool, root, safeFilename(), tenantKey(), upload
 
 ### Community 46 - "auth.ts"
-Cohesion: 0.11
-Nodes (14): auth, router, { t }, AuthUser, Envelope, useAuthStore, Employee, employees (+6 more)
+Cohesion: 0.10
+Nodes (16): auth, router, { t }, AuthUser, Envelope, useAuthStore, auth, { t } (+8 more)
 
 ### Community 47 - "LoginView.vue"
-Cohesion: 0.14
-Nodes (11): describedBy, emit, id, props, auth, email, localError, password (+3 more)
+Cohesion: 0.16
+Nodes (18): api(), approveExpense(), busy, Bva, Coa, coaForm, createCoa(), createExpense() (+10 more)
 
 ### Community 48 - "isolation-suite.mjs"
 Cohesion: 0.31
@@ -450,8 +463,8 @@ Cohesion: 0.25
 Nodes (7): compilerOptions, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
 
 ### Community 54 - "api-gateway/src/index.ts"
-Cohesion: 0.29
-Nodes (5): app, config, log, PUBLIC_PATHS, secret
+Cohesion: 0.22
+Nodes (7): app, config, DEFAULT_RPM, log, PUBLIC_PATHS, secret, tenantWindows
 
 ### Community 55 - "auth-service/src/index.ts"
 Cohesion: 0.29
@@ -460,6 +473,10 @@ Nodes (6): { app, log }, config, loginSchema, pool, secret, ADR-0004
 ### Community 56 - "dependencies"
 Cohesion: 0.33
 Nodes (5): dependencies, jsdom, mermaid, jsdom, mermaid
+
+### Community 57 - "sdd/README.md"
+Cohesion: 0.19
+Nodes (6): Backend, Frontend, RB-01 — Failed payroll run (ops stub), RB-02 — DLQ drain / report queue (ops stub), RB-04 — Certificate rotation (ops stub), RB-06 — Tenant offboarding (ops stub)
 
 ### Community 58 - "browser-smoke.mjs"
 Cohesion: 0.22
@@ -474,8 +491,8 @@ Cohesion: 0.33
 Nodes (4): BAD, root, roots, SKIP
 
 ### Community 61 - "tenant-service/src/index.ts"
-Cohesion: 0.40
-Nodes (4): { app, log }, config, createSchema, pool
+Cohesion: 0.29
+Nodes (6): { app, log }, config, createSchema, dsarSchema, erasureSchema, pool
 
 ### Community 62 - "validate.mjs"
 Cohesion: 0.40
@@ -578,16 +595,16 @@ Cohesion: 0.08
 Nodes (24): 25.1 What performance means for these users, 25.2.1 Read endpoints, 25.2.2 Write endpoints, 25.2.3 Perceived performance, 25.2 Latency budgets, 25.3.1 The N+1 rule, 25.3.2 Query rules, 25.3.3 Caching (+16 more)
 
 ### Community 109 - "payroll-routes.ts"
-Cohesion: 0.14
-Nodes (18): createDeptSchema, createEmployeeSchema, registerHrRoutes(), { app, log }, config, pool, createRunSchema, daysInMonth() (+10 more)
+Cohesion: 0.08
+Nodes (31): allowanceSchema, createContractSchema, createDeptSchema, createEmployeeSchema, fxRefreshSchema, registerHrRoutes(), ServiceConfig, { app, log } (+23 more)
 
 ### Community 110 - "4.2 The twelve principles"
 Cohesion: 0.09
 Nodes (23): 04 — Architecture Principles, Assumptions and Constraints, 4.1 Why this chapter exists, 4.2 The twelve principles, 4.3 When principles conflict, 4.4 Design assumptions, 4.5.1 Technical constraints, 4.5.2 Regulatory and contractual constraints, 4.5.3 Organisational and delivery constraints (+15 more)
 
 ### Community 111 - "routes.ts"
-Cohesion: 0.16
-Nodes (18): { app, log }, config, pool, root, quoteIdent(), resolvePayrollSchema(), withPayrollSchema(), buildPayslipCsv() (+10 more)
+Cohesion: 0.11
+Nodes (27): linesToPdf(), rowsToCsv(), rowsToXlsx(), { app, log }, config, pool, root, quoteIdent() (+19 more)
 
 ### Community 112 - "22 — CI/CD, Release Management and Supply Chain Security"
 Cohesion: 0.09
@@ -682,8 +699,8 @@ Cohesion: 0.12
 Nodes (16): 1. When this runs, 2. Who does what, 3. Prerequisites, 4. Do not, 5.1 Record and verify, 5.2 Assess legal holds, 5.3 Approve, 5.4 Execute (+8 more)
 
 ### Community 135 - "ReportsView.vue"
-Cohesion: 0.15
-Nodes (13): props, { t }, formatMoney(), statusLabel(), DisbursementReport, disbursements, error, from (+5 more)
+Cohesion: 0.13
+Nodes (13): describedBy, emit, id, props, DisbursementReport, disbursements, error, from (+5 more)
 
 ### Community 136 - "payroll-engine/package.json"
 Cohesion: 0.13
@@ -726,8 +743,8 @@ Cohesion: 0.14
 Nodes (14): 1. Before you use this runbook, 2. Prerequisites, 3. Do not, 4.1 Authorise and scope, 4.2 Make the change, 4.3 Review and pipeline, 4.4 Staging, 4.5 Production (+6 more)
 
 ### Community 146 - "PayrollView.vue"
-Cohesion: 0.16
-Nodes (11): auth, busy, calculate(), createRun(), error, load(), loading, PayrollRun (+3 more)
+Cohesion: 0.15
+Nodes (14): approveRun(), auth, busy, calculate(), createRun(), error, load(), loading (+6 more)
 
 ### Community 147 - "03 — System Overview and Context"
 Cohesion: 0.15
@@ -770,8 +787,8 @@ Cohesion: 0.22
 Nodes (9): 34.1 The position on extensibility, 34.2.1 Payroll jurisdictions, 34.2.2 Outbound webhooks, 34.2.3 Dynamic form definitions, 34.2 Extension points that exist, 34.3 Designed seams, 34.4 Roadmap horizon beyond Phase 4, 34.5 Rules for extending the platform (+1 more)
 
 ### Community 157 - "App.vue"
-Cohesion: 0.33
-Nodes (5): connectivity, { t }, { t }, useConnectivityLifecycle(), useConnectivityStore
+Cohesion: 0.29
+Nodes (5): Checklist, Data categories, Phase 2 DPIA draft (workforce / payroll) — NOT DPO-approved, Risks & mitigations, RB-07 — PII erasure request (ops stub)
 
 ### Community 158 - "drill-backup-restore.mjs"
 Cohesion: 0.22
@@ -817,6 +834,10 @@ Nodes (6): { ciphertext }, client, evidence, evidenceDir, plain, root
 Cohesion: 0.29
 Nodes (6): app, checklist, evidence, evidenceDir, owner, root
 
+### Community 169 - "smoke-payroll-e2e.mjs"
+Cohesion: 0.31
+Nodes (6): api(), assert(), createUniqueRun(), csvArt, empNum, login()
+
 ### Community 170 - "verify-phase1-gates.mjs"
 Cohesion: 0.29
 Nodes (6): board, boardPath, EVIDENCE, evidenceDir, MUST_BLOCKED, root
@@ -834,8 +855,8 @@ Cohesion: 0.33
 Nodes (4): client, root, template, templatePath
 
 ### Community 174 - "verify-phase2-gates.mjs"
-Cohesion: 0.33
-Nodes (5): board, boardPath, MUST_BLOCKED, MUST_PASS, root
+Cohesion: 0.29
+Nodes (6): board, boardPath, MUST_BLOCKED, MUST_PASS, requiredPaths, root
 
 ### Community 175 - "@ngois/rbac"
 Cohesion: 0.40
@@ -961,24 +982,48 @@ Nodes (3): Files here, Operations baseline (stubs), Phase 1 runbooks (required)
 Cohesion: 0.50
 Nodes (3): c8Bin, packages, root
 
+### Community 212 - "LeaveView.vue"
+Cohesion: 0.13
+Nodes (17): approve(), balances, busy, createRequest(), Employee, employees, error, form (+9 more)
+
+### Community 213 - "EmployeesView.vue"
+Cohesion: 0.17
+Nodes (12): busy, createEmployee(), Department, departments, Employee, employees, error, form (+4 more)
+
+### Community 214 - "smoke-phase2-e2e.mjs"
+Cohesion: 0.38
+Nodes (5): api(), assert(), login(), now, period
+
+### Community 215 - "drill-erasure.mjs"
+Cohesion: 0.33
+Nodes (4): evidence, outDir, pool, root
+
+### Community 216 - "canary-analysis-stub.mjs"
+Cohesion: 0.40
+Nodes (4): evidence, outDir, path, root
+
+### Community 217 - "leave-accrual.mjs"
+Cohesion: 0.40
+Nodes (4): month, now, pool, year
+
 ## Knowledge Gaps
-- **1863 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+1858 more)
+- **1945 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+1940 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `14 — Security Architecture` connect `14 — Security Architecture` to `sdd/README.md`?**
-  _High betweenness centrality (0.019) - this node is a cross-community bridge._
-- **Why does `08 — Database Schema` connect `08 — Database Schema` to `sdd/README.md`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
-- **Why does `06 — Microservice Design` connect `6.3 Service specifications` to `sdd/README.md`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `Appendix I — Algorithms and Worked Examples` connect `Appendix I — Algorithms and Worked Examples` to `sdd/README.md`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Why does `10 — API Design Standards` connect `10 — API Design Standards` to `sdd/README.md`?**
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Why does `03 — System Overview and Context` connect `03 — System Overview and Context` to `sdd/README.md`?**
+  _High betweenness centrality (0.016) - this node is a cross-community bridge._
 - **What connects `name`, `version`, `private` to the rest of the system?**
-  _1863 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1945 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Root Workspace Manifest` be split into smaller, more focused modules?**
-  _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.037037037037037035 - nodes in this community are weakly interconnected._
 - **Should `File Service Package` be split into smaller, more focused modules?**
   _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._
 - **Should `API Gateway Package` be split into smaller, more focused modules?**

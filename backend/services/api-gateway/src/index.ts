@@ -104,10 +104,52 @@ app.use(async (req, res, next) => {
       : [];
     req.headers['x-permissions'] = permissions.join(',');
     req.headers['x-request-start'] = String(Date.now());
+    (req as express.Request & { ctx: { permissions: string[] } }).ctx.permissions = permissions;
     next();
   } catch (err) {
     next(err instanceof Error && err.name === 'JWTExpired' ? unauthorized('Token expired.') : err);
   }
+});
+
+/** In-memory per-tenant RPM quota (SDD §29.5). Defaults 600/min. */
+const tenantWindows = new Map<string, { count: number; resetAt: number }>();
+const DEFAULT_RPM = Number(process.env.GATEWAY_TENANT_RPM ?? 600);
+
+app.use((req, res, next) => {
+  if (PUBLIC_PATHS.has(req.path) || req.path.startsWith('/v1/auth/dev/')) {
+    next();
+    return;
+  }
+  const tenantId = typeof req.headers['x-tenant-id'] === 'string' ? req.headers['x-tenant-id'] : null;
+  if (!tenantId) {
+    next();
+    return;
+  }
+  const now = Date.now();
+  let win = tenantWindows.get(tenantId);
+  if (!win || now >= win.resetAt) {
+    win = { count: 0, resetAt: now + 60_000 };
+    tenantWindows.set(tenantId, win);
+  }
+  win.count += 1;
+  if (win.count > DEFAULT_RPM) {
+    const retry = Math.ceil((win.resetAt - now) / 1000);
+    res.setHeader('Retry-After', String(Math.max(1, retry)));
+    res.status(429).json({
+      success: false,
+      data: null,
+      meta: { timestamp: new Date().toISOString(), api_version: '1' },
+      errors: [
+        {
+          code: 'NGOIS-API-0429',
+          message: 'Tenant API quota exceeded.',
+          detail: `limit=${DEFAULT_RPM}/min`,
+        },
+      ],
+    });
+    return;
+  }
+  next();
 });
 
 function mount(prefix: string, target: string): void {

@@ -1,0 +1,36 @@
+# Phase 2 alerts (stubs) — payroll, quotas, report queue
+groups:
+  - name: ngois-phase2
+    rules:
+      - alert: PayrollCalculateSlow
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{path=~"/v1/hr/payroll-runs/.*/calculate"}[5m])) > 30
+        for: 10m
+        labels:
+          severity: P2
+        annotations:
+          summary: Payroll calculate p95 high
+          runbook: docs/sdd/runbooks/rb-01-failed-payroll-run.md
+      - alert: TenantQuotaExceeded
+        expr: increase(ngois_gateway_quota_exceeded_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: P2
+        annotations:
+          summary: Tenant API quota saturating
+          runbook: docs/sdd/runbooks/rb-08-scale-event.md
+      - alert: ReportQueueDepthHigh
+        expr: ngois_report_jobs_queued > 50
+        for: 15m
+        labels:
+          severity: P3
+        annotations:
+          summary: Report queue backed up
+          runbook: docs/sdd/runbooks/rb-02-dlq-drain-and-replay.md
+      - alert: ErasureWorkflowFailed
+        expr: increase(ngois_erasure_failed_total[1h]) > 0
+        for: 1m
+        labels:
+          severity: P2
+        annotations:
+          summary: Erasure execution failed
+          runbook: docs/sdd/runbooks/rb-07-pii-erasure-request.md

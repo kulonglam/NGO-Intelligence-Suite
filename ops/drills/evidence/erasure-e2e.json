@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-07-29T20:12:37.654Z",
+  "erasure_request_id": "f0fe0723-af13-4748-add4-01517908b661",
+  "subject_id": "a4814a25-76e1-4824-aaef-424b9ab2cb26",
+  "tombstone": {
+    "display_name": "REDACTED",
+    "is_deleted": true,
+    "status": "terminated"
+  },
+  "erasure_log_rows": 1,
+  "audit_preserved": true,
+  "restore_replay_note": "Backups retain pre-erasure snapshots until retention age-out (disclosed; not rewritten).",
+  "pass": true
+}

@@ -5,6 +5,7 @@ import { baseServiceSchema, loadConfig } from '@ngois/config';
 import { createPool } from '@ngois/db';
 import { createApp, errorHandler, listen } from '@ngois/service-kit';
 import { registerReportingRoutes } from './routes.js';
+import { registerQueueRoutes } from './queue-routes.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../../../../');
 
@@ -20,6 +21,7 @@ const pool = createPool(config.DATABASE_URL);
 const { app, log } = createApp({ serviceName: config.SERVICE_NAME });
 
 registerReportingRoutes(app, pool, config);
+registerQueueRoutes(app, pool, config);
 
 app.use(errorHandler(log));
 

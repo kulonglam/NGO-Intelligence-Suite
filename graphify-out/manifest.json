@@ -35,8 +35,8 @@
     "semantic_hash": "365c1bd00b4ebe3af98d28b4f6713a1a"
   },
   "backend/packages/db/src/seed.ts": {
-    "mtime": 1785342628.4226604,
-    "ast_hash": "327723020fc3d63c6ed4c683c4123a19",
+    "mtime": 1785354385.6927378,
+    "ast_hash": "5c91ec28141362dc3b87a453b92735e1",
     "semantic_hash": ""
   },
   "backend/packages/db/tsconfig.json": {
@@ -110,8 +110,8 @@
     "semantic_hash": "3021eda21b95c6c878c3ab2aa3981353"
   },
   "backend/services/api-gateway/src/index.ts": {
-    "mtime": 1785341962.7451177,
-    "ast_hash": "68e9063984632aa1de49648e70fd8215",
+    "mtime": 1785354163.7127135,
+    "ast_hash": "d50a9de3c3fb424129d600db7a51307f",
     "semantic_hash": ""
   },
   "backend/services/api-gateway/tsconfig.json": {
@@ -140,8 +140,8 @@
     "semantic_hash": ""
   },
   "backend/services/grant-service/src/index.ts": {
-    "mtime": 1785221053.7217016,
-    "ast_hash": "d0b744896a782946e4b549027ffed329",
+    "mtime": 1785354047.9711938,
+    "ast_hash": "c410e5a2be5c005eb0d4e522b11b3183",
     "semantic_hash": ""
   },
   "backend/services/grant-service/tsconfig.json": {
@@ -150,13 +150,13 @@
     "semantic_hash": "6e37c028173697304b7ca113945811a0"
   },
   "backend/services/tenant-service/package.json": {
-    "mtime": 1785186876.6176062,
-    "ast_hash": "bab62d2509e51f2b4650220a946313d9",
-    "semantic_hash": "bab62d2509e51f2b4650220a946313d9"
+    "mtime": 1785354218.3471732,
+    "ast_hash": "c70859bfa498b257c8e1832e711ce8b8",
+    "semantic_hash": ""
   },
   "backend/services/tenant-service/src/index.ts": {
-    "mtime": 1785216848.2647698,
-    "ast_hash": "9dff511949081880b84876e92719971d",
+    "mtime": 1785354208.270161,
+    "ast_hash": "254e059196161f52ade970f8fbfcc831",
     "semantic_hash": ""
   },
   "backend/services/tenant-service/tsconfig.json": {
@@ -255,8 +255,8 @@
     "semantic_hash": ""
   },
   "frontend/src/layouts/AppShell.vue": {
-    "mtime": 1785341444.785205,
-    "ast_hash": "225f35b6cae7392ebc646e3692400466",
+    "mtime": 1785354626.0627944,
+    "ast_hash": "f60f15f938fed7bc74c9e7fd9eaf9688",
     "semantic_hash": ""
   },
   "frontend/src/lib/api.ts": {
@@ -270,8 +270,8 @@
     "semantic_hash": ""
   },
   "frontend/src/router.ts": {
-    "mtime": 1785341444.7762175,
-    "ast_hash": "357b2deec078294513a82fd24ec3f444",
+    "mtime": 1785354618.838748,
+    "ast_hash": "55ecbc7f962147f409d0c853ab81f261",
     "semantic_hash": ""
   },
   "frontend/src/stores/auth.ts": {
@@ -315,8 +315,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1785342736.3218968,
-    "ast_hash": "a1c605087b25acf7025705607d14df59",
+    "mtime": 1785354688.3711982,
+    "ast_hash": "641c90b89b05cf470895df9285a6e1b5",
     "semantic_hash": ""
   },
   "scripts/browser-smoke.mjs": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1785343082.355643,
-    "ast_hash": "4242a27497b33ad31f74424e9f4e61f5",
+    "mtime": 1785354703.9309595,
+    "ast_hash": "84228a59fc4f4d3736902db2c162d6a5",
     "semantic_hash": ""
   },
   "backend/README.md": {
@@ -835,8 +835,8 @@
     "semantic_hash": ""
   },
   "backend/packages/audit/src/index.ts": {
-    "mtime": 1785221453.7612984,
-    "ast_hash": "42b18c232107db614026042948f20209",
+    "mtime": 1785344336.1001604,
+    "ast_hash": "cc353af5074f8617a1808a21b495809c",
     "semantic_hash": ""
   },
   "backend/packages/audit/src/verify-chain.ts": {
@@ -990,18 +990,18 @@
     "semantic_hash": ""
   },
   "backend/services/hr-payroll-service/src/hr-routes.ts": {
-    "mtime": 1785341426.9689293,
-    "ast_hash": "b0af2ccc98e99a812c7351f1ae212c4f",
+    "mtime": 1785343650.1268036,
+    "ast_hash": "cff095ea54f13281e549d0f6aa2a20da",
     "semantic_hash": ""
   },
   "backend/services/hr-payroll-service/src/index.ts": {
-    "mtime": 1785341395.2068264,
-    "ast_hash": "7a71cfee6d7ccd00029bdd163b73e84e",
+    "mtime": 1785354021.709075,
+    "ast_hash": "a187567c22f2ff66fe7e5a771dfc15cd",
     "semantic_hash": ""
   },
   "backend/services/hr-payroll-service/src/payroll-routes.ts": {
-    "mtime": 1785343026.9257238,
-    "ast_hash": "22dd1f130cc141ec94b02f7c3ee2702f",
+    "mtime": 1785354278.315873,
+    "ast_hash": "b68bac560640e17bcf70e7311f536675",
     "semantic_hash": ""
   },
   "backend/services/hr-payroll-service/src/payroll-schema.ts": {
@@ -1035,8 +1035,8 @@
     "semantic_hash": ""
   },
   "backend/services/reporting-service/src/index.ts": {
-    "mtime": 1785341935.116685,
-    "ast_hash": "09c3969dc936c5ebd328af6c79495bc9",
+    "mtime": 1785354152.2082205,
+    "ast_hash": "1ac02d1c76771796bd66375b29cc2f2a",
     "semantic_hash": ""
   },
   "backend/services/reporting-service/src/payroll-schema.ts": {
@@ -1050,8 +1050,8 @@
     "semantic_hash": ""
   },
   "backend/services/reporting-service/src/routes.ts": {
-    "mtime": 1785341946.232668,
-    "ast_hash": "b62085d57ef1f69e76158267efb764c7",
+    "mtime": 1785343936.2491424,
+    "ast_hash": "64f7b5c58c044bf0a1ca8182923a0f93",
     "semantic_hash": ""
   },
   "backend/services/reporting-service/tsconfig.json": {
@@ -1105,13 +1105,13 @@
     "semantic_hash": ""
   },
   "frontend/src/locales/ar.json": {
-    "mtime": 1785341977.7677455,
-    "ast_hash": "afc2bbbd899f06960e263ddd43cde92e",
+    "mtime": 1785343829.385333,
+    "ast_hash": "e59087fce4238700cd7f7e8551d009eb",
     "semantic_hash": ""
   },
   "frontend/src/locales/en.json": {
-    "mtime": 1785341971.739588,
-    "ast_hash": "682d86accf3743325fbf8732aefea5d2",
+    "mtime": 1785354727.9806283,
+    "ast_hash": "715eb9704689a7570c29615d6d6c650e",
     "semantic_hash": ""
   },
   "frontend/src/stores/connectivity.ts": {
@@ -1125,8 +1125,8 @@
     "semantic_hash": ""
   },
   "frontend/src/views/EmployeesView.vue": {
-    "mtime": 1785341439.7331877,
-    "ast_hash": "bdb322ede0e2bce759db467c5990bffb",
+    "mtime": 1785343700.9584801,
+    "ast_hash": "d2b94fade0b6a96582ef425d4519579a",
     "semantic_hash": ""
   },
   "frontend/src/views/GrantDetailView.vue": {
@@ -1135,8 +1135,8 @@
     "semantic_hash": ""
   },
   "frontend/src/views/PayrollView.vue": {
-    "mtime": 1785341992.0340483,
-    "ast_hash": "2f68d6ccccb7fb382e4c25d5fc0a9fc1",
+    "mtime": 1785343795.869956,
+    "ast_hash": "a2b2b5b11ded9b82d39f616b4916d18c",
     "semantic_hash": ""
   },
   "frontend/src/views/ReportsView.vue": {
@@ -1345,8 +1345,8 @@
     "semantic_hash": ""
   },
   "scripts/smoke-payroll-e2e.mjs": {
-    "mtime": 1785342566.388415,
-    "ast_hash": "bbfbed690fd3a2935a3e2d73274a5b62",
+    "mtime": 1785344336.0951066,
+    "ast_hash": "746665b8c3f3f25a6206c7017e248642",
     "semantic_hash": ""
   },
   "scripts/test-coverage.mjs": {
@@ -1355,8 +1355,8 @@
     "semantic_hash": ""
   },
   "scripts/verify-alerts-runbooks.mjs": {
-    "mtime": 1785219207.5113018,
-    "ast_hash": "b6ad92b62deb28c6891bc0cafd10a040",
+    "mtime": 1785354366.888566,
+    "ast_hash": "d2c75095430ec92a7d436bb463c2da62",
     "semantic_hash": ""
   },
   "scripts/verify-phase1-gates.mjs": {
@@ -1365,8 +1365,8 @@
     "semantic_hash": ""
   },
   "scripts/verify-phase2-gates.mjs": {
-    "mtime": 1785341971.7367814,
-    "ast_hash": "b2a5ac8a2a6b9cd2f7d25a6f50fc757f",
+    "mtime": 1785354702.0122528,
+    "ast_hash": "555fc9c9a0ec50937bc5d76dc9872962",
     "semantic_hash": ""
   },
   "scripts/verify-platform.mjs": {
@@ -1480,8 +1480,8 @@
     "semantic_hash": ""
   },
   "infra/kubernetes/canary/rollout-stub.yaml": {
-    "mtime": 1785221162.845759,
-    "ast_hash": "c586101f352fd0a6e623d60f75e16c37",
+    "mtime": 1785354704.0460181,
+    "ast_hash": "3f22b4a07667c335f49646192a2023b4",
     "semantic_hash": ""
   },
   "infra/observability/loki/loki-config.yaml": {
@@ -1520,8 +1520,8 @@
     "semantic_hash": ""
   },
   "ops/alert-runbook-map.yaml": {
-    "mtime": 1785219192.0245404,
-    "ast_hash": "fdc268e240280e1a323a8db44d24a712",
+    "mtime": 1785354375.5411224,
+    "ast_hash": "ad6c5211c22835f7a9638d35434b4a06",
     "semantic_hash": ""
   },
   "ops/drills/backup-restore.md": {
@@ -1560,13 +1560,163 @@
     "semantic_hash": ""
   },
   "ops/phase2-gate-status.md": {
-    "mtime": 1785341971.7367814,
-    "ast_hash": "764ef8e105db48c9a57894b9623245ae",
+    "mtime": 1785354694.9883022,
+    "ast_hash": "6e8a966d41c8c1221f53682694dfb98a",
     "semantic_hash": ""
   },
   "frontend/public/favicon.svg": {
     "mtime": 1785218852.9527526,
     "ast_hash": "33f7739c8c7f9a4fa8d015ba1c4cd953",
+    "semantic_hash": ""
+  },
+  "backend/db/migrations/009_fx_rate_grants.sql": {
+    "mtime": 1785343845.6935976,
+    "ast_hash": "97cb0095c52dc64d88ecbb2b4707c4d5",
+    "semantic_hash": ""
+  },
+  "backend/services/hr-payroll-service/src/leave-routes.ts": {
+    "mtime": 1785354014.2814968,
+    "ast_hash": "45dd150ccd9e1ccd106d9380d16a96fc",
+    "semantic_hash": ""
+  },
+  "frontend/src/views/LeaveView.vue": {
+    "mtime": 1785354616.0420582,
+    "ast_hash": "1b98b8e9abfd6df118c679c8c2958762",
+    "semantic_hash": ""
+  },
+  "backend/db/migrations/010_hr_accrual_onboarding.sql": {
+    "mtime": 1785353977.4592783,
+    "ast_hash": "82a85ee0a3032079fe8c77c6a581f8a5",
+    "semantic_hash": ""
+  },
+  "backend/db/migrations/011_finance_coa.sql": {
+    "mtime": 1785353984.6461692,
+    "ast_hash": "01b8434792bc36ac00fcbb4fd9bd27f2",
+    "semantic_hash": ""
+  },
+  "backend/db/migrations/012_quotas_compliance.sql": {
+    "mtime": 1785353984.8180313,
+    "ast_hash": "029f2bc7c8a84324f08af5227d33ff8e",
+    "semantic_hash": ""
+  },
+  "backend/db/migrations/013_reporting_fairness.sql": {
+    "mtime": 1785354149.577916,
+    "ast_hash": "202a73de1f8b7cadfab43be84aeadecd",
+    "semantic_hash": ""
+  },
+  "backend/services/grant-service/src/coa-expenses.ts": {
+    "mtime": 1785354047.7267716,
+    "ast_hash": "125e1213e59cca21a76b1ebd77228caa",
+    "semantic_hash": ""
+  },
+  "backend/services/hr-payroll-service/src/onboarding-routes.ts": {
+    "mtime": 1785354016.6479123,
+    "ast_hash": "30ef5eeedc0f81fe6aeb2bde507b4035",
+    "semantic_hash": ""
+  },
+  "backend/services/reporting-service/src/exporters.ts": {
+    "mtime": 1785354069.5500226,
+    "ast_hash": "8490aa46915e20dfe11f18ae7e0826df",
+    "semantic_hash": ""
+  },
+  "backend/services/reporting-service/src/queue-routes.ts": {
+    "mtime": 1785355918.8937,
+    "ast_hash": "7739484647af8acd499e4b56e3750267",
+    "semantic_hash": ""
+  },
+  "frontend/src/views/FinanceView.vue": {
+    "mtime": 1785354584.7667341,
+    "ast_hash": "919b9d7e2ac6d017c118502fd000de0c",
+    "semantic_hash": ""
+  },
+  "infra/observability/grafana/dashboards/d14-quotas-reports.json": {
+    "mtime": 1785354223.4206104,
+    "ast_hash": "fdab2fb1300fd8f7cda67c63eb23aa70",
+    "semantic_hash": ""
+  },
+  "ops/drills/evidence/canary-analysis.json": {
+    "mtime": 1785354736.9510007,
+    "ast_hash": "0529236563f7a1bc8ca2fae880668c71",
+    "semantic_hash": ""
+  },
+  "ops/drills/evidence/erasure-e2e.json": {
+    "mtime": 1785355957.657861,
+    "ast_hash": "5337263a1c537ae53370148f38b64967",
+    "semantic_hash": ""
+  },
+  "scripts/canary-analysis-stub.mjs": {
+    "mtime": 1785354221.3535984,
+    "ast_hash": "2d9b1e147166b28ff765b3898eb501de",
+    "semantic_hash": ""
+  },
+  "scripts/drill-erasure.mjs": {
+    "mtime": 1785354242.9934669,
+    "ast_hash": "782964eaab5484f927996cf2e90d68df",
+    "semantic_hash": ""
+  },
+  "scripts/leave-accrual.mjs": {
+    "mtime": 1785354022.2254057,
+    "ast_hash": "dde2758dd9b11d08cfc0d9944a2e42c5",
+    "semantic_hash": ""
+  },
+  "scripts/reporting-worker.mjs": {
+    "mtime": 1785354132.6461246,
+    "ast_hash": "8ec9e9d1c448dffcaac6561ca6ee2e48",
+    "semantic_hash": ""
+  },
+  "scripts/smoke-phase2-e2e.mjs": {
+    "mtime": 1785355949.1782362,
+    "ast_hash": "59a8e953d9827c9a217f3d7f9bf38b5d",
+    "semantic_hash": ""
+  },
+  "infra/kubernetes/canary/analysis-template.yaml": {
+    "mtime": 1785354348.0539713,
+    "ast_hash": "f5454f709adf0d27c8892141ab9d4d46",
+    "semantic_hash": ""
+  },
+  "infra/observability/prometheus/rules/phase2-alerts.yaml": {
+    "mtime": 1785354223.4206104,
+    "ast_hash": "0b56d3e4669210015ffb0055040542b8",
+    "semantic_hash": ""
+  },
+  "ops/compliance/dpia-phase2-draft.md": {
+    "mtime": 1785354242.547055,
+    "ast_hash": "5f6ba35f3cbddd66d66654dc310b7c3b",
+    "semantic_hash": ""
+  },
+  "ops/compliance/retention-schedule.md": {
+    "mtime": 1785354354.904821,
+    "ast_hash": "6cb10462bcad85bf2f51e6cfebda060a",
+    "semantic_hash": ""
+  },
+  "ops/runbooks/rb-01-failed-payroll-run.md": {
+    "mtime": 1785354341.3615704,
+    "ast_hash": "2ca8f1bd8f6ff3d4b630c57acf1d479b",
+    "semantic_hash": ""
+  },
+  "ops/runbooks/rb-02-dlq-drain-and-replay.md": {
+    "mtime": 1785354341.9648812,
+    "ast_hash": "ca3248c13620c717a5b458bf7b23eab7",
+    "semantic_hash": ""
+  },
+  "ops/runbooks/rb-04-certificate-rotation.md": {
+    "mtime": 1785354342.6662443,
+    "ast_hash": "295a5e05d0573aab5e2dc10d06dd384a",
+    "semantic_hash": ""
+  },
+  "ops/runbooks/rb-06-tenant-offboarding.md": {
+    "mtime": 1785354344.074463,
+    "ast_hash": "7ba394eaf0129375c4235cb81cc0241e",
+    "semantic_hash": ""
+  },
+  "ops/runbooks/rb-07-pii-erasure-request.md": {
+    "mtime": 1785354346.2714944,
+    "ast_hash": "56e84f7544c5ebe20211d4509ecbce51",
+    "semantic_hash": ""
+  },
+  "ops/runbooks/rb-10-canary-abort.md": {
+    "mtime": 1785354235.3747172,
+    "ast_hash": "03996d1b0d43df30043684def1de7f5c",
     "semantic_hash": ""
   }
 }

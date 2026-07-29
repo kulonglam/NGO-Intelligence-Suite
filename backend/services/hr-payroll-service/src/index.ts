@@ -4,6 +4,7 @@ import { createPool } from '@ngois/db';
 import { createApp, errorHandler, listen } from '@ngois/service-kit';
 import { registerHrRoutes } from './hr-routes.js';
 import { registerLeaveRoutes } from './leave-routes.js';
+import { registerOnboardingRoutes } from './onboarding-routes.js';
 import { registerPayrollRoutes } from './payroll-routes.js';
 
 const config = loadConfig(
@@ -18,6 +19,7 @@ const { app, log } = createApp({ serviceName: config.SERVICE_NAME });
 
 registerHrRoutes(app, pool, config);
 registerLeaveRoutes(app, pool, config);
+registerOnboardingRoutes(app, pool, config);
 registerPayrollRoutes(app, pool, config);
 
 app.use(errorHandler(log));

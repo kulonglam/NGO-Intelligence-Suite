@@ -14,6 +14,7 @@ import {
 } from '@ngois/service-kit';
 import { requireTenantId, withTenant } from '@ngois/tenant-context';
 import { ensureInitialBudget, registerFinanceRoutes } from './finance.js';
+import { registerCoaExpenseRoutes } from './coa-expenses.js';
 import { registerReportRoutes } from './reports.js';
 
 const config = loadConfig(
@@ -27,6 +28,7 @@ const pool = createPool(config.DATABASE_URL);
 const { app, log } = createApp({ serviceName: config.SERVICE_NAME });
 
 registerFinanceRoutes(app, pool, config);
+registerCoaExpenseRoutes(app, pool, config);
 registerReportRoutes(app, pool);
 
 const createGrantSchema = z.object({

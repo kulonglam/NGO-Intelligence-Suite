@@ -1,0 +1,10 @@
+{
+  "title": "D-14 Tenant quotas & report queue (Phase 2 stub)",
+  "uid": "ngois-d14-quotas",
+  "panels": [
+    { "title": "Quota exceeded rate", "type": "timeseries", "targets": [{ "expr": "rate(ngois_gateway_quota_exceeded_total[5m])" }] },
+    { "title": "Report jobs queued", "type": "stat", "targets": [{ "expr": "ngois_report_jobs_queued" }] },
+    { "title": "Payroll calculate p95", "type": "timeseries", "targets": [{ "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{service=\"hr-payroll-service\"}[5m]))" }] }
+  ],
+  "tags": ["ngois", "phase2"]
+}

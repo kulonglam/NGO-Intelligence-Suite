@@ -210,5 +210,14 @@
   "208": "drill-phase1.mjs",
   "209": "audit-chain.md",
   "210": "rb05-onboarding.md",
-  "211": "l1-steady.js"
+  "211": "l1-steady.js",
+  "212": "LeaveView.vue",
+  "213": "EmployeesView.vue",
+  "214": "smoke-phase2-e2e.mjs",
+  "215": "drill-erasure.mjs",
+  "216": "canary-analysis-stub.mjs",
+  "217": "leave-accrual.mjs",
+  "218": "Retention sweep — prod schedule note",
+  "219": "RB-10 — Canary abort (local ops index)",
+  "220": "reporting-worker.mjs"
 }

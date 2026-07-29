@@ -40,6 +40,12 @@ export const router = createRouter({
           meta: { titleKey: 'reports.title' },
         },
         {
+          path: 'finance',
+          name: 'finance',
+          component: () => import('./views/FinanceView.vue'),
+          meta: { titleKey: 'finance.title' },
+        },
+        {
           path: 'employees',
           name: 'employees',
           component: () => import('./views/EmployeesView.vue'),

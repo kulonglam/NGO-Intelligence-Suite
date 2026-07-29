@@ -9,21 +9,31 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(fileURLToPath(import.meta.url), '..', '..');
 const mapPath = join(root, 'ops', 'alert-runbook-map.yaml');
-const rulesPath = join(
-  root,
-  'infra',
-  'observability',
-  'prometheus',
-  'rules',
-  'phase1-alerts.yaml',
-);
+const rulesPaths = [
+  join(root, 'infra', 'observability', 'prometheus', 'rules', 'phase1-alerts.yaml'),
+  join(root, 'infra', 'observability', 'prometheus', 'rules', 'phase2-alerts.yaml'),
+];
 
 function parseSimpleYamlAlerts(text) {
   /** Minimal parser for our constrained YAML shape (name:/runbook: lists). */
   const alerts = [];
   let current = null;
+  const phase1 = [];
+  const phase2 = [];
+  let section = null;
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trimEnd();
+    if (/^phase1_runbooks:\s*$/.test(line)) {
+      section = 'phase1';
+      continue;
+    }
+    if (/^phase2_runbooks:\s*$/.test(line)) {
+      section = 'phase2';
+      continue;
+    }
+    if (/^[a-zA-Z_][\w-]*:\s*$/.test(line) && !line.startsWith(' ')) {
+      section = null;
+    }
     const name = line.match(/^\s+-\s+name:\s+(\S+)\s*$/);
     if (name) {
       current = { name: name[1] };
@@ -32,19 +42,21 @@ function parseSimpleYamlAlerts(text) {
     }
     const rb = line.match(/^\s+runbook:\s+(\S+)\s*$/);
     if (rb && current) current.runbook = rb[1];
-    const phase = line.match(/^\s+-\s+(docs\/sdd\/runbooks\/\S+)\s*$/);
+    const phase = line.match(/^\s+-\s+((?:docs\/sdd\/runbooks|ops\/runbooks)\/\S+)\s*$/);
     if (phase) {
-      if (!parseSimpleYamlAlerts._phase) parseSimpleYamlAlerts._phase = [];
-      parseSimpleYamlAlerts._phase.push(phase[1]);
+      if (section === 'phase2') phase2.push(phase[1]);
+      else phase1.push(phase[1]);
     }
   }
-  return { alerts, phase1: parseSimpleYamlAlerts._phase ?? [] };
+  return { alerts, phase1, phase2 };
 }
 
 const mapText = readFileSync(mapPath, 'utf8');
-parseSimpleYamlAlerts._phase = [];
 const map = parseSimpleYamlAlerts(mapText);
-const rulesText = readFileSync(rulesPath, 'utf8');
+const rulesText = rulesPaths
+  .filter((p) => existsSync(p))
+  .map((p) => readFileSync(p, 'utf8'))
+  .join('\n');
 
 const ruleAlerts = [...rulesText.matchAll(/^\s+- alert:\s+(\S+)/gm)].map((m) => m[1]);
 const ruleRunbooks = Object.fromEntries(
@@ -76,7 +88,7 @@ for (const a of map.alerts) {
     console.log(`OK   map ${a.name} → ${a.runbook}`);
   }
   if (!ruleAlerts.includes(a.name)) {
-    console.error(`FAIL ${a.name}: not defined in phase1-alerts.yaml`);
+    console.error(`FAIL ${a.name}: not defined in phase1/phase2 Prometheus rules`);
     failed = true;
   } else if (ruleRunbooks[a.name] && ruleRunbooks[a.name] !== a.runbook) {
     console.error(
@@ -103,6 +115,16 @@ for (const rb of map.phase1) {
   }
 }
 
+for (const rb of map.phase2) {
+  const abs = join(root, ...rb.split('/'));
+  if (!existsSync(abs)) {
+    console.error(`FAIL phase2 runbook missing: ${rb}`);
+    failed = true;
+  } else {
+    console.log(`OK   phase2 runbook ${rb}`);
+  }
+}
+
 // RB-05 is ops baseline but may not be alert-linked — still must exist
 const rb05 = join(root, 'docs', 'sdd', 'runbooks', 'rb-05-tenant-onboarding.md');
 if (!existsSync(rb05)) {
@@ -110,10 +132,25 @@ if (!existsSync(rb05)) {
   failed = true;
 }
 
+const opsPhase2 = [
+  'ops/runbooks/rb-01-failed-payroll-run.md',
+  'ops/runbooks/rb-02-dlq-drain-and-replay.md',
+  'ops/runbooks/rb-04-certificate-rotation.md',
+  'ops/runbooks/rb-06-tenant-offboarding.md',
+  'ops/runbooks/rb-07-pii-erasure-request.md',
+  'ops/runbooks/rb-10-canary-abort.md',
+];
+for (const rb of opsPhase2) {
+  if (!existsSync(join(root, ...rb.split('/')))) {
+    console.error(`FAIL ops Phase 2 stub missing: ${rb}`);
+    failed = true;
+  }
+}
+
 if (failed) {
   console.error('verify-alerts-runbooks: FAIL');
   process.exit(1);
 }
 console.log(
-  `verify-alerts-runbooks: OK (${map.alerts.length} alerts, ${map.phase1.length} phase1 runbooks)`,
+  `verify-alerts-runbooks: OK (${map.alerts.length} alerts, ${map.phase1.length} phase1 + ${map.phase2.length} phase2 runbooks)`,
 );

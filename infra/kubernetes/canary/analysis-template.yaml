@@ -1,0 +1,30 @@
+# Argo Rollouts AnalysisTemplate stub — local / CI reference only.
+# Gate #10 remains BLOCKED until applied in a live cluster with real metrics.
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: ngois-error-rate
+  namespace: ngois
+  labels:
+    app.kubernetes.io/part-of: ngois
+    ngois.io/canary: "true"
+spec:
+  args:
+    - name: service-name
+  metrics:
+    - name: error-rate
+      interval: 1m
+      count: 5
+      successCondition: result[0] < 2
+      failureLimit: 1
+      provider:
+        prometheus:
+          address: http://prometheus.observability.svc:9090
+          query: |
+            sum(rate(http_requests_total{service="{{args.service-name}}",status=~"5.."}[2m]))
+            /
+            sum(rate(http_requests_total{service="{{args.service-name}}"}[2m])) * 100
+---
+# Local decision harness (no cluster required):
+#   node scripts/canary-analysis-stub.mjs
+#   $env:CANARY_INJECT_REGRESSION='1'; node scripts/canary-analysis-stub.mjs
