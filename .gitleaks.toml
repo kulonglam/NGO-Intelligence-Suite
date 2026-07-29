@@ -1,0 +1,7 @@
+title = "NGO Intelligence Suite"
+[allowlist]
+description = "Allowlisted paths"
+paths = [
+  '''docs/sdd/tools/.*''',
+  '''.*package-lock\.json$''',
+]

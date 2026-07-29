@@ -1,0 +1,5 @@
+{
+  "mode": "code-ast",
+  "semantic": false,
+  "reason": "GEMINI_API_KEY unset; docs/images skipped for semantic pass"
+}

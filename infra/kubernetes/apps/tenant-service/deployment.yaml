@@ -1,0 +1,79 @@
+# STUB Deployment template values — replace image digests via CD.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tenant-service
+  namespace: ngois
+  labels:
+    app: tenant-service
+    ngois.io/stub: "true"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tenant-service
+  template:
+    metadata:
+      labels:
+        app: tenant-service
+      annotations:
+        # STUB: prometheus.io/scrape: "true"
+        # STUB: prometheus.io/port: "3014"
+    spec:
+      serviceAccountName: tenant-service
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: tenant-service
+          image: europe-west1-docker.pkg.dev/ngois-stub/ngois/tenant-service:digest-replace-me
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3014
+              name: http
+          env:
+            - name: tenant-service
+              value: tenant-service
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ngois-db
+                  key: url
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tenant-service
+  namespace: ngois
+spec:
+  selector:
+    app: tenant-service
+  ports:
+    - name: http
+      port: 3014
+      targetPort: http

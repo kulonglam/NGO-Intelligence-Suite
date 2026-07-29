@@ -1,0 +1,14 @@
+{
+  "uid": "d-04-database",
+  "title": "D-04 Database",
+  "tags": ["ngois", "phase1", "stub"],
+  "description": "STUB — Connections, pool wait, replication lag (SDD §24.6)",
+  "panels": [
+    {
+      "id": 1,
+      "type": "gauge",
+      "title": "Pool utilisation",
+      "targets": [{ "expr": "ngois_db_pool_utilization", "refId": "A" }]
+    }
+  ]
+}

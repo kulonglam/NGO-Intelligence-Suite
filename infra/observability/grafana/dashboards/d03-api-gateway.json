@@ -1,0 +1,14 @@
+{
+  "uid": "d-03-gateway",
+  "title": "D-03 API gateway",
+  "tags": ["ngois", "phase1", "stub"],
+  "description": "STUB — Traffic shape and edge behaviour (SDD §24.6)",
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Auth failures",
+      "targets": [{ "expr": "sum(rate(ngois_auth_failures_total[5m]))", "refId": "A" }]
+    }
+  ]
+}

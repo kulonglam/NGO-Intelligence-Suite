@@ -1,0 +1,8 @@
+{
+  "gate": 2,
+  "status": "BLOCKED",
+  "at": "2026-07-28T06:52:10.200Z",
+  "stubPresent": true,
+  "healthOk": true,
+  "note": "Local check only — production 14-day canary remains BLOCKED"
+}

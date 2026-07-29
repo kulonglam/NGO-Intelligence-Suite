@@ -1,0 +1,24 @@
+{
+  "gate": 17,
+  "at": "2026-07-28T06:52:07.534Z",
+  "ok": true,
+  "tenants": [
+    {
+      "id": "11111111-1111-4111-8111-111111111111",
+      "slug": "design-partner"
+    },
+    {
+      "id": "66666666-6666-4666-8666-666666666666",
+      "slug": "design-partner-b"
+    }
+  ],
+  "checklist": {
+    "partnerAProvisioned": true,
+    "partnerBProvisioned": true,
+    "adminA": true,
+    "adminB": true,
+    "isolationApi": true,
+    "isolationRls": true
+  },
+  "runbook": "RB-05"
+}

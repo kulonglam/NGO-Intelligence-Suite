@@ -1,0 +1,26 @@
+{
+  "name": "@ngois/hr-payroll-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@ngois/audit": "*",
+    "@ngois/config": "*",
+    "@ngois/crypto": "*",
+    "@ngois/db": "*",
+    "@ngois/errors": "*",
+    "@ngois/payroll-engine": "*",
+    "@ngois/service-kit": "*",
+    "@ngois/tenant-context": "*",
+    "zod": "^3.25.28"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4"
+  }
+}

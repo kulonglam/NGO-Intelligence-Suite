@@ -1,0 +1,360 @@
+# Non-negotiable CI gates (SDD §22.3 / §23.9)
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast:
+    name: Fast gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Secret scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: SET LOCAL gate
+        run: npm run verify:set-local
+
+      - name: Platform stubs + alert→runbook gate
+        run: npm run verify:platform
+
+      - name: Phase 1 gate board (skips missing evidence without REQUIRE)
+        run: npm run verify:phase1-gates
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Coverage floors (rbac/crypto/audit)
+        run: npm run test:coverage
+
+      - name: Payroll fixture corpus (Phase 2)
+        run: npm run test:payroll-fixtures
+
+      - name: Phase 2 gate board
+        run: npm run verify:phase2-gates
+
+      - name: Build backend
+        run: npm run build:backend
+
+      - name: Dependency audit (critical)
+        run: npm audit --audit-level=critical
+
+      - name: Contrast tokens
+        run: npm run check:contrast
+
+      - name: Build frontend + bundle budget
+        run: npm run verify:frontend
+
+  isolation:
+    name: Tenant isolation suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [fast]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ngois
+          POSTGRES_PASSWORD: ngois_dev
+          POSTGRES_DB: ngois
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ngois -d ngois"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://ngois:ngois_dev@127.0.0.1:5432/ngois
+      DATABASE_APP_URL: postgres://ngois_app:ngois_app_dev@127.0.0.1:5432/ngois
+      JWT_SECRET: ci-only-change-me-ngois-jwt-secret!!
+      ISOLATION_API_BASE: http://127.0.0.1:3000
+      ISOLATION_REQUIRE_API: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build packages + services
+        run: npm run build:backend
+
+      - name: Migrate + seed + app role
+        run: |
+          npm run db:migrate
+          node scripts/fix-app-role.mjs
+          node scripts/fix-app-grants.mjs
+          npm run db:seed
+
+      - name: Verify RLS
+        run: npm run verify:rls
+
+      - name: Semgrep isolation rules
+        run: |
+          python3 -m pip install --user semgrep
+          semgrep --config .semgrep.yml --error backend/packages backend/services scripts
+
+      - name: Start services
+        env:
+          DATABASE_URL: postgres://ngois_app:ngois_app_dev@127.0.0.1:5432/ngois
+        run: |
+          npm run start -w @ngois/auth-service &
+          npm run start -w @ngois/grant-service &
+          npm run start -w @ngois/file-service &
+          npm run start -w @ngois/api-gateway &
+          for i in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:3000/v1/health >/dev/null; then
+              echo "gateway ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "gateway failed to become ready"
+          exit 1
+
+      - name: Isolation suite (15/15)
+        env:
+          DATABASE_URL: postgres://ngois:ngois_dev@127.0.0.1:5432/ngois
+          DATABASE_APP_URL: postgres://ngois_app:ngois_app_dev@127.0.0.1:5432/ngois
+        run: npm run test:isolation
+
+  drills:
+    name: Phase 1 local drills
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [fast]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ngois
+          POSTGRES_PASSWORD: ngois_dev
+          POSTGRES_DB: ngois
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ngois -d ngois"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://ngois:ngois_dev@127.0.0.1:5432/ngois
+      DATABASE_APP_URL: postgres://ngois_app:ngois_app_dev@127.0.0.1:5432/ngois
+      JWT_SECRET: ci-only-change-me-ngois-jwt-secret!!
+      ISOLATION_API_BASE: http://127.0.0.1:3000
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build backend
+        run: npm run build:backend
+
+      - name: Migrate + seed + app role
+        run: |
+          npm run db:migrate
+          node scripts/fix-app-role.mjs
+          node scripts/fix-app-grants.mjs
+          npm run db:seed
+
+      - name: Start auth + grant + gateway
+        env:
+          DATABASE_URL: postgres://ngois_app:ngois_app_dev@127.0.0.1:5432/ngois
+        run: |
+          npm run start -w @ngois/auth-service &
+          npm run start -w @ngois/grant-service &
+          npm run start -w @ngois/api-gateway &
+          for i in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:3000/v1/health >/dev/null; then
+              echo "gateway ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          exit 1
+
+      - name: Phase 1 drills + evidence
+        run: npm run drill:phase1
+
+      - name: Retention sweep dry-run
+        run: npm run retention:sweep
+
+      - name: Canary local stub check
+        run: npm run canary:local
+
+      - name: Gate board with evidence required
+        env:
+          PHASE1_REQUIRE_EVIDENCE: '1'
+        run: npm run verify:phase1-gates
+
+  load:
+    name: Load L1/L2 (scaled)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [fast]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ngois
+          POSTGRES_PASSWORD: ngois_dev
+          POSTGRES_DB: ngois
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ngois -d ngois"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://ngois:ngois_dev@127.0.0.1:5432/ngois
+      DATABASE_APP_URL: postgres://ngois_app:ngois_app_dev@127.0.0.1:5432/ngois
+      JWT_SECRET: ci-only-change-me-ngois-jwt-secret!!
+      LOAD_REQUIRE: '1'
+      GATEWAY_URL: http://127.0.0.1:3000
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Install
+        run: npm ci
+
+      - name: Build + migrate + seed
+        run: |
+          npm run build:backend
+          npm run db:migrate
+          node scripts/fix-app-role.mjs
+          node scripts/fix-app-grants.mjs
+          npm run db:seed
+
+      - name: Start services
+        env:
+          DATABASE_URL: postgres://ngois_app:ngois_app_dev@127.0.0.1:5432/ngois
+        run: |
+          npm run start -w @ngois/auth-service &
+          npm run start -w @ngois/grant-service &
+          npm run start -w @ngois/api-gateway &
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:3000/v1/health && exit 0
+            sleep 1
+          done
+          exit 1
+
+      - name: Scaled load L1 + L2
+        run: npm run test:load
+
+  frontend-a11y:
+    name: Browser a11y + RTL
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [fast]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ngois
+          POSTGRES_PASSWORD: ngois_dev
+          POSTGRES_DB: ngois
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ngois -d ngois"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://ngois:ngois_dev@127.0.0.1:5432/ngois
+      DATABASE_APP_URL: postgres://ngois_app:ngois_app_dev@127.0.0.1:5432/ngois
+      JWT_SECRET: ci-only-change-me-ngois-jwt-secret!!
+      APP_URL: http://127.0.0.1:5173
+      BROWSER_HEADLESS: '1'
+      CHROME_PATH: /usr/bin/google-chrome
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable || sudo apt-get install -y chromium-browser
+          which google-chrome || which chromium-browser
+          echo "CHROME_PATH=$(which google-chrome || which chromium-browser)" >> $GITHUB_ENV
+
+      - name: Install
+        run: npm ci
+
+      - name: Build + migrate + seed
+        run: |
+          npm run build:backend
+          npm run db:migrate
+          node scripts/fix-app-role.mjs
+          node scripts/fix-app-grants.mjs
+          npm run db:seed
+
+      - name: Build frontend + start stack
+        env:
+          DATABASE_URL: postgres://ngois_app:ngois_app_dev@127.0.0.1:5432/ngois
+        run: |
+          npm run build:frontend
+          npm run start -w @ngois/auth-service &
+          npm run start -w @ngois/grant-service &
+          npm run start -w @ngois/file-service &
+          npm run start -w @ngois/api-gateway &
+          npm run preview -w @ngois/web -- --host 127.0.0.1 --port 5173 &
+          for i in $(seq 1 90); do
+            if curl -sf http://127.0.0.1:3000/v1/health >/dev/null && curl -sf http://127.0.0.1:5173 >/dev/null; then
+              echo "stack ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          exit 1
+
+      - name: Browser smoke (axe + RTL)
+        run: npm run test:browser

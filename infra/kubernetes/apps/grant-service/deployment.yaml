@@ -1,0 +1,79 @@
+# STUB Deployment template values — replace image digests via CD.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grant-service
+  namespace: ngois
+  labels:
+    app: grant-service
+    ngois.io/stub: "true"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: grant-service
+  template:
+    metadata:
+      labels:
+        app: grant-service
+      annotations:
+        # STUB: prometheus.io/scrape: "true"
+        # STUB: prometheus.io/port: "3002"
+    spec:
+      serviceAccountName: grant-service
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: grant-service
+          image: europe-west1-docker.pkg.dev/ngois-stub/ngois/grant-service:digest-replace-me
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3002
+              name: http
+          env:
+            - name: grant-service
+              value: grant-service
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ngois-db
+                  key: url
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grant-service
+  namespace: ngois
+spec:
+  selector:
+    app: grant-service
+  ports:
+    - name: http
+      port: 3002
+      targetPort: http

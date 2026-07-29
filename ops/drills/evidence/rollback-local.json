@@ -1,0 +1,19 @@
+{
+  "gate": 16,
+  "mode": "local-analogue",
+  "at": "2026-07-28T06:52:07.706Z",
+  "ok": true,
+  "notes": [
+    "gateway healthy before local check",
+    "dist present; production rollback still BLOCKED on gate board"
+  ],
+  "healthBefore": {
+    "status": "ok",
+    "service": "api-gateway"
+  },
+  "healthAfter": {
+    "status": "ok",
+    "service": "api-gateway"
+  },
+  "elapsedMs": 137
+}

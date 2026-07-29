@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ngois-postgres
+    environment:
+      POSTGRES_USER: ngois
+      POSTGRES_PASSWORD: ngois_dev
+      POSTGRES_DB: ngois
+    ports:
+      - "5432:5432"
+    volumes:
+      - ngois_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ngois -d ngois"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: ngois-redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ngois_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Optional transaction pooling (local). Point DATABASE_URL at :6432 when using.
+  pgbouncer:
+    image: edoburu/pgbouncer:1.22.1-p1
+    container_name: ngois-pgbouncer
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "6432:6432"
+    environment:
+      DATABASE_URL: postgres://ngois:ngois_dev@postgres:5432/ngois
+      AUTH_TYPE: md5
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 200
+      DEFAULT_POOL_SIZE: 20
+      LISTEN_PORT: 6432
+    # Also mount explicit config for operators who prefer file-based setup
+    volumes:
+      - ./infra/pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini.example:ro
+      - ./infra/pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt.example:ro
+
+volumes:
+  ngois_pg_data:
+  ngois_redis_data:

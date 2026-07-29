@@ -1,0 +1,29 @@
+{
+  "name": "@ngois/file-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@ngois/audit": "*",
+    "@ngois/config": "*",
+    "@ngois/db": "*",
+    "@ngois/errors": "*",
+    "@ngois/logging": "*",
+    "@ngois/service-kit": "*",
+    "@ngois/tenant-context": "*",
+    "express": "^4.21.2",
+    "multer": "^2.0.1",
+    "zod": "^3.25.28"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.22",
+    "@types/multer": "^1.4.12",
+    "tsx": "^4.19.4"
+  }
+}

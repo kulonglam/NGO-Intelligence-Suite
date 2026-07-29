@@ -1,0 +1,2 @@
+"ngois" "ngois_dev"
+"ngois_app" "ngois_app_dev"

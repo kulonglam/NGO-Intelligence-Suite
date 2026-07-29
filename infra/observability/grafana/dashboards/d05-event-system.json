@@ -1,0 +1,14 @@
+{
+  "uid": "d-05-events",
+  "title": "D-05 Event system",
+  "tags": ["ngois", "phase1", "stub"],
+  "description": "STUB — Outbox pending, consumer lag, DLQ (SDD §24.6)",
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Outbox relay lag",
+      "targets": [{ "expr": "ngois_outbox_relay_lag_seconds", "refId": "A" }]
+    }
+  ]
+}

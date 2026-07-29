@@ -1,0 +1,14 @@
+{
+  "uid": "d-06-redis",
+  "title": "D-06 Redis",
+  "tags": ["ngois", "phase1", "stub"],
+  "description": "STUB — Memory, hit ratio, stream lengths (SDD §24.6)",
+  "panels": [
+    {
+      "id": 1,
+      "type": "gauge",
+      "title": "Memory used ratio",
+      "targets": [{ "expr": "redis_memory_used_bytes / redis_memory_max_bytes", "refId": "A" }]
+    }
+  ]
+}

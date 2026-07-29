@@ -1,0 +1,52 @@
+# Phase 1 alert → runbook map (CI gate #11 — SDD §31.3.3).
+# Keep in sync with infra/observability/prometheus/rules/phase1-alerts.yaml
+version: 1
+alerts:
+  - name: PlatformDown
+    severity: P1
+    runbook: docs/sdd/runbooks/rb-13-service-down.md
+  - name: DatabaseUnavailable
+    severity: P1
+    runbook: docs/sdd/runbooks/rb-03-database-failover.md
+  - name: CrossTenantAccessDetected
+    severity: P1
+    runbook: docs/sdd/runbooks/rb-14-security-incident.md
+  - name: AuditChainBroken
+    severity: P1
+    runbook: docs/sdd/runbooks/rb-14-security-incident.md
+  - name: DataLossSuspected
+    severity: P1
+    runbook: docs/sdd/runbooks/rb-11-backup-restore-drill.md
+  - name: Tier1ServiceDown
+    severity: P1
+    runbook: docs/sdd/runbooks/rb-13-service-down.md
+  - name: Tier1ErrorRateHigh
+    severity: P2
+    runbook: docs/sdd/runbooks/rb-13-service-down.md
+  - name: LatencyHigh
+    severity: P2
+    runbook: docs/sdd/runbooks/rb-08-scale-event.md
+  - name: OutboxRelayStalled
+    severity: P2
+    runbook: docs/sdd/runbooks/rb-02-dlq-drain-and-replay.md
+  - name: DatabaseConnectionsHigh
+    severity: P2
+    runbook: docs/sdd/runbooks/rb-08-scale-event.md
+  - name: AuthFailureSpike
+    severity: P2
+    runbook: docs/sdd/runbooks/rb-14-security-incident.md
+  - name: BackupVerificationFailed
+    severity: P2
+    runbook: docs/sdd/runbooks/rb-11-backup-restore-drill.md
+  - name: SecretRotationOverdue
+    severity: P3
+    runbook: docs/sdd/runbooks/rb-09-secret-rotation.md
+
+phase1_runbooks:
+  - docs/sdd/runbooks/rb-03-database-failover.md
+  - docs/sdd/runbooks/rb-05-tenant-onboarding.md
+  - docs/sdd/runbooks/rb-08-scale-event.md
+  - docs/sdd/runbooks/rb-09-secret-rotation.md
+  - docs/sdd/runbooks/rb-11-backup-restore-drill.md
+  - docs/sdd/runbooks/rb-13-service-down.md
+  - docs/sdd/runbooks/rb-14-security-incident.md

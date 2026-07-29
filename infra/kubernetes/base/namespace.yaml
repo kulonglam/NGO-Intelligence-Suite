@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ngois
+  labels:
+    app.kubernetes.io/part-of: ngo-intelligence-suite
+    ngois.io/stub: "true"
+---
+# STUB NetworkPolicy — default deny ingress except gateway mesh paths.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: ngois
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress

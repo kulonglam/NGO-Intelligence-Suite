@@ -1,0 +1,25 @@
+{
+  "uid": "d-01-platform",
+  "title": "D-01 Platform overview",
+  "tags": ["ngois", "phase1", "stub"],
+  "description": "STUB — Is the platform healthy right now? (SDD §24.6)",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Request rate (stub)",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "targets": [{ "expr": "sum(rate(http_requests_total[5m]))", "refId": "A" }]
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Error rate (stub)",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "targets": [{ "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m]))", "refId": "A" }]
+    }
+  ]
+}

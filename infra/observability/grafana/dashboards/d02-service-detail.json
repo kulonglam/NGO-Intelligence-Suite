@@ -1,0 +1,24 @@
+{
+  "uid": "d-02-service",
+  "title": "D-02 Service detail",
+  "tags": ["ngois", "phase1", "stub"],
+  "description": "STUB — Templated per service RED + saturation (SDD §24.6)",
+  "templating": {
+    "list": [
+      {
+        "name": "service",
+        "type": "custom",
+        "query": "api-gateway,auth-service,grant-service,file-service,tenant-service,outbox-relay",
+        "current": { "text": "api-gateway", "value": "api-gateway" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Requests by status",
+      "targets": [{ "expr": "sum by (status) (rate(http_requests_total{service=\"$service\"}[5m]))", "refId": "A" }]
+    }
+  ]
+}

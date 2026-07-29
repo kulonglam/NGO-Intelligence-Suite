@@ -1,0 +1,121 @@
+# Phase 1 — first twelve alerts (SDD §24.7 / §31.3.1).
+# Each alert MUST name a runbook (gate #11). Source map: ops/alert-runbook-map.yaml
+groups:
+  - name: ngois-phase1
+    rules:
+      - alert: PlatformDown
+        expr: avg_over_time(up{job="ngois-services",service="api-gateway"}[2m]) < 0.5
+        for: 2m
+        labels:
+          severity: P1
+        annotations:
+          summary: Gateway availability below 50%
+          runbook: docs/sdd/runbooks/rb-13-service-down.md
+
+      - alert: DatabaseUnavailable
+        expr: ngois_db_up == 0
+        for: 1m
+        labels:
+          severity: P1
+        annotations:
+          summary: Database unreachable from services
+          runbook: docs/sdd/runbooks/rb-03-database-failover.md
+
+      - alert: CrossTenantAccessDetected
+        expr: increase(ngois_db_rls_context_missing_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: P1
+        annotations:
+          summary: RLS context missing or isolation canary failed
+          runbook: docs/sdd/runbooks/rb-14-security-incident.md
+
+      - alert: AuditChainBroken
+        expr: ngois_audit_chain_valid == 0
+        for: 0m
+        labels:
+          severity: P1
+        annotations:
+          summary: Audit hash chain verification failed
+          runbook: docs/sdd/runbooks/rb-14-security-incident.md
+
+      - alert: DataLossSuspected
+        expr: ngois_backup_verification_ok == 0 or ngois_replication_lag_seconds > 300
+        for: 5m
+        labels:
+          severity: P1
+        annotations:
+          summary: Backup verification failed or replication gap beyond RPO
+          runbook: docs/sdd/runbooks/rb-11-backup-restore-drill.md
+
+      - alert: Tier1ServiceDown
+        expr: kube_deployment_status_replicas_ready{namespace="ngois"} == 0
+        for: 1m
+        labels:
+          severity: P1
+        annotations:
+          summary: Zero ready replicas for a Tier-1 service
+          runbook: docs/sdd/runbooks/rb-13-service-down.md
+
+      - alert: Tier1ErrorRateHigh
+        expr: sum(rate(http_requests_total{status=~"5.."}[5m])) / sum(rate(http_requests_total[5m])) > 0.05
+        for: 5m
+        labels:
+          severity: P2
+        annotations:
+          summary: 5xx rate above 5%
+          runbook: docs/sdd/runbooks/rb-13-service-down.md
+
+      - alert: LatencyHigh
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[10m])) by (le)) > 0.8
+        for: 10m
+        labels:
+          severity: P2
+        annotations:
+          summary: p95 latency exceeds 2x SLO target (stub threshold)
+          runbook: docs/sdd/runbooks/rb-08-scale-event.md
+
+      - alert: OutboxRelayStalled
+        expr: ngois_outbox_relay_lag_seconds > 300
+        for: 5m
+        labels:
+          severity: P2
+        annotations:
+          summary: Outbox relay lag above 5 minutes
+          runbook: docs/sdd/runbooks/rb-02-dlq-drain-and-replay.md
+
+      - alert: DatabaseConnectionsHigh
+        expr: ngois_db_pool_utilization > 0.85
+        for: 5m
+        labels:
+          severity: P2
+        annotations:
+          summary: Database pool utilisation above 85%
+          runbook: docs/sdd/runbooks/rb-08-scale-event.md
+
+      - alert: AuthFailureSpike
+        expr: rate(ngois_auth_failures_total[10m]) > 10 * rate(ngois_auth_failures_total[1d])
+        for: 10m
+        labels:
+          severity: P2
+        annotations:
+          summary: Failed logins spiked above baseline
+          runbook: docs/sdd/runbooks/rb-14-security-incident.md
+
+      - alert: BackupVerificationFailed
+        expr: ngois_backup_verification_ok == 0
+        for: 0m
+        labels:
+          severity: P2
+        annotations:
+          summary: Weekly restore test failed
+          runbook: docs/sdd/runbooks/rb-11-backup-restore-drill.md
+
+      - alert: SecretRotationOverdue
+        expr: ngois_secret_rotation_overdue == 1
+        for: 1h
+        labels:
+          severity: P3
+        annotations:
+          summary: Secret past rotation schedule
+          runbook: docs/sdd/runbooks/rb-09-secret-rotation.md

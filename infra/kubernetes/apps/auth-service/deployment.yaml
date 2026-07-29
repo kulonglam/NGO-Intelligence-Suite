@@ -1,0 +1,79 @@
+# STUB Deployment template values — replace image digests via CD.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: ngois
+  labels:
+    app: auth-service
+    ngois.io/stub: "true"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+      annotations:
+        # STUB: prometheus.io/scrape: "true"
+        # STUB: prometheus.io/port: "3001"
+    spec:
+      serviceAccountName: auth-service
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: auth-service
+          image: europe-west1-docker.pkg.dev/ngois-stub/ngois/auth-service:digest-replace-me
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3001
+              name: http
+          env:
+            - name: auth-service
+              value: auth-service
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ngois-db
+                  key: url
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: ngois
+spec:
+  selector:
+    app: auth-service
+  ports:
+    - name: http
+      port: 3001
+      targetPort: http

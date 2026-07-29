@@ -1,0 +1,39 @@
+# STUB Argo CD ApplicationSet / root app — points at kubernetes/apps.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ngois-root
+  namespace: argocd
+  labels:
+    ngois.io/stub: "true"
+spec:
+  project: ngois
+  source:
+    repoURL: https://github.com/example/ngo-intelligence-suite.git
+    targetRevision: main
+    path: infra/kubernetes/apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ngois
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ngois
+  namespace: argocd
+spec:
+  description: NGO Intelligence Suite (stub)
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: ngois
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace

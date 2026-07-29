@@ -1,0 +1,10 @@
+# Minimal Semgrep rules for non-negotiable isolation gates (SDD §23.13).
+rules:
+  - id: ngois-tenant-set-not-local
+    message: "Tenant context must use SET LOCAL / set_config(..., true), never session SET."
+    languages: [typescript, javascript]
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: set_config('app.tenant_id', $V, false)
+          - pattern: set_config("app.tenant_id", $V, false)

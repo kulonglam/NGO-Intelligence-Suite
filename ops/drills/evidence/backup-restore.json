@@ -1,0 +1,24 @@
+{
+  "gate": 9,
+  "at": "2026-07-28T06:52:01.999Z",
+  "ok": true,
+  "mode": "pg_dump",
+  "dumpPath": "C:\\Users\\USER\\Desktop\\NGO Intelligence Suite\\.data\\drills\\backup-1785221521867.sql",
+  "restoreDb": "ngois_drill_1785221521867",
+  "rowCounts": {
+    "before": {
+      "tenants": 3,
+      "grants": 6,
+      "audit_events": 1
+    },
+    "after": {
+      "tenants": 3,
+      "grants": 6,
+      "audit_events": 1
+    }
+  },
+  "auditOk": true,
+  "notes": [
+    "pg_dump succeeded"
+  ]
+}
