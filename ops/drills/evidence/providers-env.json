@@ -1,0 +1,40 @@
+{
+  "at": "2026-08-01T16:20:56.940Z",
+  "providers": [
+    {
+      "id": "auth",
+      "modeVar": "AUTH_MODE",
+      "mode": "default",
+      "live": false,
+      "stub": true,
+      "documented_in_env_example": true
+    },
+    {
+      "id": "notify",
+      "modeVar": "NOTIFY_PROVIDER",
+      "mode": "default",
+      "live": false,
+      "stub": true,
+      "documented_in_env_example": true
+    },
+    {
+      "id": "ai_llm",
+      "modeVar": "AI_LLM_PROVIDER",
+      "mode": "default",
+      "live": false,
+      "stub": true,
+      "documented_in_env_example": true
+    },
+    {
+      "id": "iati",
+      "modeVar": "IATI_REGISTRY_MODE",
+      "mode": "default",
+      "live": false,
+      "stub": true,
+      "documented_in_env_example": true
+    }
+  ],
+  "all_documented": true,
+  "any_live": false,
+  "note": "Inventory only — does not call external APIs"
+}

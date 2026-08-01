@@ -108,7 +108,13 @@
     "submit": "تسجيل الدخول",
     "submitting": "جارٍ تسجيل الدخول…",
     "hint": "تجربة محلية: admin{'@'}design-partner.example / changeme",
-    "failed": "فشل تسجيل الدخول"
+    "failed": "فشل تسجيل الدخول",
+    "oidcSubmit": "تسجيل الدخول عبر SSO",
+    "oidcStarting": "جارٍ التحويل…",
+    "oidcCompleting": "جارٍ إتمام تسجيل الدخول…",
+    "oidcFailed": "فشل تسجيل الدخول عبر SSO",
+    "oidcMissingState": "استجابة تسجيل دخول غير صالحة. ابدأ من صفحة تسجيل الدخول.",
+    "orDivider": "أو"
   },
   "home": {
     "eyebrow": "صفحة المشغّل",

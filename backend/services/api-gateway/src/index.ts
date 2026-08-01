@@ -38,7 +38,18 @@ app.disable('x-powered-by');
 
 const secret = new TextEncoder().encode(config.JWT_SECRET);
 
-const PUBLIC_PATHS = new Set(['/v1/health', '/v1/version', '/v1/auth/dev/login']);
+const PUBLIC_PATHS = new Set([
+  '/v1/health',
+  '/v1/version',
+  '/v1/auth/dev/login',
+  '/v1/auth/config',
+  '/v1/auth/oidc/start',
+  '/v1/auth/oidc/callback',
+]);
+
+function isPublicAuthPath(path: string): boolean {
+  return PUBLIC_PATHS.has(path) || path.startsWith('/v1/auth/dev/');
+}
 
 app.use((req, res, next) => {
   // Strip inbound identity headers — clients must not forge tenant context (SDD 6.3.1).
@@ -81,7 +92,7 @@ app.get('/v1/version', (req, res) => {
 
 app.use(async (req, res, next) => {
   try {
-    if (PUBLIC_PATHS.has(req.path) || req.path.startsWith('/v1/auth/dev/')) {
+    if (isPublicAuthPath(req.path)) {
       next();
       return;
     }
@@ -140,7 +151,7 @@ const tenantWindows = new Map<string, { count: number; resetAt: number }>();
 const DEFAULT_RPM = Number(process.env.GATEWAY_TENANT_RPM ?? 600);
 
 app.use((req, res, next) => {
-  if (PUBLIC_PATHS.has(req.path) || req.path.startsWith('/v1/auth/dev/')) {
+  if (isPublicAuthPath(req.path)) {
     next();
     return;
   }

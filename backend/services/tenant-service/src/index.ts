@@ -13,6 +13,7 @@ import {
 } from '@ngois/service-kit';
 import { requireTenantId, withTenant } from '@ngois/tenant-context';
 import { mountWebhookRoutes } from './webhooks.js';
+import { loadSessionBootstrap } from './runtime-config.js';
 
 const config = loadConfig(
   baseServiceSchema.extend({
@@ -23,6 +24,17 @@ const config = loadConfig(
 
 const pool = createPool(config.DATABASE_URL);
 const { app, log } = createApp({ serviceName: config.SERVICE_NAME });
+
+/** Session bootstrap for frontend guards (SDD §20.5.3 — server-resolved flags). */
+app.get('/v1/tenant/session-bootstrap', async (req, res, next) => {
+  try {
+    const tenantId = requireTenantId(req.ctx.tenantId);
+    const bootstrap = await loadSessionBootstrap(pool, tenantId);
+    ok(res, req, bootstrap);
+  } catch (err) {
+    next(err);
+  }
+});
 
 const createSchema = z.object({
   slug: z

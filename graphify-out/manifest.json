@@ -35,8 +35,8 @@
     "semantic_hash": "365c1bd00b4ebe3af98d28b4f6713a1a"
   },
   "backend/packages/db/src/seed.ts": {
-    "mtime": 1785442194.8762672,
-    "ast_hash": "67ffe5d4a65009573ec18f8329ef3018",
+    "mtime": 1785600497.2348356,
+    "ast_hash": "d214183f7fe901eece2bcbf6afb8d742",
     "semantic_hash": ""
   },
   "backend/packages/db/tsconfig.json": {
@@ -110,8 +110,8 @@
     "semantic_hash": "3021eda21b95c6c878c3ab2aa3981353"
   },
   "backend/services/api-gateway/src/index.ts": {
-    "mtime": 1785571683.0671353,
-    "ast_hash": "2fe836cded10233dea14805e60d31120",
+    "mtime": 1785601112.6662302,
+    "ast_hash": "e39faa04c056c4e4064966e2eea8ec50",
     "semantic_hash": ""
   },
   "backend/services/api-gateway/tsconfig.json": {
@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "backend/services/auth-service/src/index.ts": {
-    "mtime": 1785569191.6337225,
-    "ast_hash": "291f5594549327d6ca89981136e6225d",
+    "mtime": 1785601149.616178,
+    "ast_hash": "dc821ad838750514cfc7b777c8e34406",
     "semantic_hash": ""
   },
   "backend/services/auth-service/tsconfig.json": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "backend/services/tenant-service/src/index.ts": {
-    "mtime": 1785568127.534809,
-    "ast_hash": "eb5286c621dc4998535cee71626c7b07",
+    "mtime": 1785600479.1832132,
+    "ast_hash": "e2d8f564bc62694f2de226a6643104ac",
     "semantic_hash": ""
   },
   "backend/services/tenant-service/tsconfig.json": {
@@ -255,8 +255,8 @@
     "semantic_hash": ""
   },
   "frontend/src/layouts/AppShell.vue": {
-    "mtime": 1785584801.232774,
-    "ast_hash": "59f33f7f04b70fff318ab1c972ebada3",
+    "mtime": 1785593730.5629797,
+    "ast_hash": "fa478dc7b6355a524cb9a8219d0a954d",
     "semantic_hash": ""
   },
   "frontend/src/lib/api.ts": {
@@ -270,13 +270,13 @@
     "semantic_hash": ""
   },
   "frontend/src/router.ts": {
-    "mtime": 1785580782.1806817,
-    "ast_hash": "26b0742beffd38d686aa497e0ee882da",
+    "mtime": 1785601138.80759,
+    "ast_hash": "6645b2b38453591d53c75f8d083ab144",
     "semantic_hash": ""
   },
   "frontend/src/stores/auth.ts": {
-    "mtime": 1785574109.0908387,
-    "ast_hash": "33c8102954530e5243e23fa131036f47",
+    "mtime": 1785600989.2324107,
+    "ast_hash": "f1edc5c7197188c817288c5a0c1a292e",
     "semantic_hash": ""
   },
   "frontend/src/views/GrantsView.vue": {
@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "frontend/src/views/LoginView.vue": {
-    "mtime": 1785581232.8723094,
-    "ast_hash": "296d0de0d77b60fa6707ce34de839777",
+    "mtime": 1785600989.8677409,
+    "ast_hash": "7e0ede0789aec58e744d760b69457c77",
     "semantic_hash": ""
   },
   "frontend/src/vite-env.d.ts": {
@@ -315,8 +315,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1785581135.510141,
-    "ast_hash": "dd194dd26c7613382b35ebe098b0f50d",
+    "mtime": 1785601143.0908859,
+    "ast_hash": "09193bf38aacec3c12437db4f7c1b1c0",
     "semantic_hash": ""
   },
   "scripts/browser-smoke.mjs": {
@@ -1105,13 +1105,13 @@
     "semantic_hash": ""
   },
   "frontend/src/locales/ar.json": {
-    "mtime": 1785580896.6648464,
-    "ast_hash": "3b2ce1f9dcd643740eb996cacec05432",
+    "mtime": 1785601066.2420957,
+    "ast_hash": "51d3ca3beffa53420067b020cfc1e536",
     "semantic_hash": ""
   },
   "frontend/src/locales/en.json": {
-    "mtime": 1785580878.9299102,
-    "ast_hash": "e450974189d97c41f73c3fa513b55eb4",
+    "mtime": 1785601064.8469396,
+    "ast_hash": "b6bbb2c1f6cbeae95c5b828f9601eb29",
     "semantic_hash": ""
   },
   "frontend/src/stores/connectivity.ts": {
@@ -1240,8 +1240,8 @@
     "semantic_hash": ""
   },
   "ops/drills/evidence/canary-local.json": {
-    "mtime": 1785573246.1354365,
-    "ast_hash": "e2fa8d8ba9dc14b07e15a6ab5c73bad6",
+    "mtime": 1785601257.2824326,
+    "ast_hash": "9718fbfaee0e615700ee6a4dd5626986",
     "semantic_hash": ""
   },
   "ops/drills/evidence/dr-stub-inventory.json": {
@@ -2285,8 +2285,8 @@
     "semantic_hash": ""
   },
   "ops/drills/evidence/pen-test-selfcheck.json": {
-    "mtime": 1785573247.9876447,
-    "ast_hash": "51718ca492a69cc24bc9fe6e0edbef7d",
+    "mtime": 1785601257.536,
+    "ast_hash": "b073822705e63e3fd79a85533045c931",
     "semantic_hash": ""
   },
   "ops/drills/evidence/prod-shaped-stack.json": {
@@ -2355,8 +2355,8 @@
     "semantic_hash": ""
   },
   "scripts/verify-staging-ready.mjs": {
-    "mtime": 1785571083.0485356,
-    "ast_hash": "7c55e35ac74b0e4921a9c88d5159727c",
+    "mtime": 1785601242.313556,
+    "ast_hash": "7f0cab8870510619dfd7bf2fe2cb2a78",
     "semantic_hash": ""
   },
   "infra/kubernetes/canary/api-gateway-rollout.yaml": {
@@ -2550,8 +2550,8 @@
     "semantic_hash": ""
   },
   "frontend/src/components/layout/AppSidebar.vue": {
-    "mtime": 1785584795.6067994,
-    "ast_hash": "78e20abf9d12f52c52b5092060413bad",
+    "mtime": 1785593717.0549893,
+    "ast_hash": "b8f065f7105920232db5c97be5b5a188",
     "semantic_hash": ""
   },
   "frontend/src/components/layout/SplitPane.vue": {
@@ -2745,8 +2745,8 @@
     "semantic_hash": ""
   },
   "frontend/src/stores/tenant.ts": {
-    "mtime": 1785580676.316184,
-    "ast_hash": "f110a369a6c0113d1ee518895a3897af",
+    "mtime": 1785601231.2766318,
+    "ast_hash": "b64e4495d265116f2ff2db56e3e57f4c",
     "semantic_hash": ""
   },
   "frontend/src/views/ForbiddenView.vue": {
@@ -2772,6 +2772,41 @@
   "scripts/check-lighthouse.mjs": {
     "mtime": 1785580918.6399045,
     "ast_hash": "dc9c55b1140eb6de5030398b08ffced1",
+    "semantic_hash": ""
+  },
+  "backend/db/migrations/019_tenant_runtime_config.sql": {
+    "mtime": 1785600460.7202067,
+    "ast_hash": "ca0e851b65486f1107d2f5a0ff227473",
+    "semantic_hash": ""
+  },
+  "backend/services/tenant-service/src/runtime-config.ts": {
+    "mtime": 1785600460.9850426,
+    "ast_hash": "c122f5e031727365bcdd125dbdd20747",
+    "semantic_hash": ""
+  },
+  "frontend/src/views/AuthCallbackView.vue": {
+    "mtime": 1785600989.2394135,
+    "ast_hash": "642ec51a2f593e68a53e43acde822f20",
+    "semantic_hash": ""
+  },
+  "ops/drills/evidence/go-live-prep.json": {
+    "mtime": 1785601257.582556,
+    "ast_hash": "533f6fd6a2e43a0a0451f88fa0784a14",
+    "semantic_hash": ""
+  },
+  "ops/drills/evidence/providers-env.json": {
+    "mtime": 1785601256.9448304,
+    "ast_hash": "fe4d747210453466b7974eb29b822f75",
+    "semantic_hash": ""
+  },
+  "scripts/check-providers-env.mjs": {
+    "mtime": 1785601143.0868704,
+    "ast_hash": "a62dcdd94b47759695143ff6d819845a",
+    "semantic_hash": ""
+  },
+  "scripts/verify-go-live-prep.mjs": {
+    "mtime": 1785601143.0928838,
+    "ast_hash": "dc5f2c2ab605cc83b1047b2ef2e1d8d2",
     "semantic_hash": ""
   }
 }

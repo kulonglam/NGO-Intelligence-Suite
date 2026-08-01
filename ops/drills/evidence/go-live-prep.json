@@ -1,0 +1,35 @@
+{
+  "at": "2026-08-01T16:20:57.579Z",
+  "bundle": "verify-go-live-prep",
+  "production_gates_still_blocked": [
+    "2",
+    "12"
+  ],
+  "results": [
+    {
+      "id": "verify:staging-ready",
+      "ok": true,
+      "status": 0,
+      "stderr": ""
+    },
+    {
+      "id": "check:providers-env",
+      "ok": true,
+      "status": 0,
+      "stderr": ""
+    },
+    {
+      "id": "canary:local",
+      "ok": true,
+      "status": 0,
+      "stderr": ""
+    },
+    {
+      "id": "pen-test:selfcheck",
+      "ok": true,
+      "status": 0,
+      "stderr": ""
+    }
+  ],
+  "pass": true
+}

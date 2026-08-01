@@ -31,6 +31,8 @@
     "verify:phase4-gates": "node scripts/verify-phase4-gates.mjs",
     "verify:webhooks-gates": "node scripts/verify-webhooks-gates.mjs",
     "verify:staging-ready": "node scripts/verify-staging-ready.mjs",
+    "check:providers-env": "node scripts/check-providers-env.mjs",
+    "verify:go-live-prep": "node scripts/verify-go-live-prep.mjs",
     "smoke:staging-checklist": "node scripts/smoke-staging-checklist.mjs",
     "dev:gateway": "npm run dev -w @ngois/api-gateway",
     "dev:auth": "npm run dev -w @ngois/auth-service",

@@ -104,7 +104,13 @@
     "submit": "Sign in",
     "submitting": "Signing in…",
     "hint": "Local demo: admin{'@'}design-partner.example / changeme",
-    "failed": "Login failed"
+    "failed": "Login failed",
+    "oidcSubmit": "Sign in with SSO",
+    "oidcStarting": "Redirecting…",
+    "oidcCompleting": "Completing sign-in…",
+    "oidcFailed": "SSO sign-in failed",
+    "oidcMissingState": "Invalid sign-in response. Start again from login.",
+    "orDivider": "or"
   },
   "home": {
     "eyebrow": "Operator home",

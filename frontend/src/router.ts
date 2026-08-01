@@ -38,6 +38,18 @@ export const router = createRouter({
       meta: { public: true, titleKey: 'login.heading' },
     },
     {
+      path: '/auth/callback',
+      name: 'auth-callback',
+      component: () => import('./views/AuthCallbackView.vue'),
+      meta: { public: true, titleKey: 'login.heading' },
+    },
+    {
+      path: '/auth/callback',
+      name: 'auth-callback',
+      component: () => import('./views/AuthCallbackView.vue'),
+      meta: { public: true, titleKey: 'login.oidcCompleting' },
+    },
+    {
       path: '/',
       component: () => import('./layouts/AppShell.vue'),
       children: [
@@ -245,7 +257,7 @@ export const router = createRouter({
   },
 });
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   const auth = useAuthStore();
   const tenant = useTenantStore();
 
@@ -256,6 +268,10 @@ router.beforeEach((to) => {
     return { name: 'home' };
   }
   if (to.meta.public) return true;
+
+  if (!tenant.bootstrapLoaded) {
+    await tenant.loadBootstrap();
+  }
 
   if (!to.meta.skipTenantGuard && !tenant.isActive) {
     if (to.name !== 'tenant-suspended') return { name: 'tenant-suspended' };

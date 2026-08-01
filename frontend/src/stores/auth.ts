@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { useTenantStore } from './tenant';
 
 export type AuthUser = {
   id: string;
@@ -10,11 +11,27 @@ export type AuthUser = {
   permissions?: string[];
 };
 
+export type AuthConfig = {
+  auth_mode: 'dev' | 'oidc';
+  dev_login_enabled: boolean;
+  oidc_enabled: boolean;
+  oidc_stub: boolean;
+  redirect_uri: string;
+};
+
 type Envelope<T> = {
   success: boolean;
   data: T;
   errors: Array<{ message: string }> | null;
 };
+
+type SessionPayload = {
+  access_token: string;
+  expires_in?: number;
+  user: AuthUser & { permissions?: string[] };
+};
+
+const OIDC_TENANT_KEY = 'ngois_oidc_tenant';
 
 function readJson<T>(key: string): T | null {
   const raw = localStorage.getItem(key);
@@ -39,6 +56,10 @@ function expFromJwt(token: string): number | null {
   }
 }
 
+async function readEnvelope<T>(res: Response): Promise<Envelope<T>> {
+  return (await res.json()) as Envelope<T>;
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorage.getItem('ngois_token'));
   const user = ref<AuthUser | null>(readJson<AuthUser>('ngois_user'));
@@ -51,6 +72,7 @@ export const useAuthStore = defineStore('auth', () => {
   );
   const error = ref<string | null>(null);
   const loading = ref(false);
+  const authConfig = ref<AuthConfig | null>(null);
 
   const isAuthenticated = computed(() => Boolean(token.value));
 
@@ -85,6 +107,31 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function afterSessionEstablished(body: SessionPayload) {
+    const perms = body.user.permissions ?? [];
+    persistSession(body.access_token, body.user, perms, body.expires_in);
+    const tenant = useTenantStore();
+    await tenant.loadBootstrap();
+  }
+
+  async function fetchAuthConfig() {
+    try {
+      const res = await fetch('/v1/auth/config');
+      const body = await readEnvelope<AuthConfig>(res);
+      if (res.ok && body.success) {
+        authConfig.value = body.data;
+      }
+    } catch {
+      authConfig.value = {
+        auth_mode: 'dev',
+        dev_login_enabled: true,
+        oidc_enabled: false,
+        oidc_stub: false,
+        redirect_uri: '/auth/callback',
+      };
+    }
+  }
+
   async function login(email: string, password: string, tenantSlug = 'design-partner') {
     loading.value = true;
     error.value = null;
@@ -94,18 +141,66 @@ export const useAuthStore = defineStore('auth', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, tenant_slug: tenantSlug }),
       });
-      const body = (await res.json()) as Envelope<{
-        access_token: string;
-        expires_in?: number;
-        user: AuthUser & { permissions?: string[] };
-      }>;
+      const body = await readEnvelope<SessionPayload>(res);
       if (!res.ok || !body.success) {
         throw new Error(body.errors?.[0]?.message ?? 'Login failed');
       }
-      const perms = body.data.user.permissions ?? [];
-      persistSession(body.data.access_token, body.data.user, perms, body.data.expires_in);
+      await afterSessionEstablished(body.data);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Login failed';
+      throw err;
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function startOidc(tenantSlug = 'design-partner') {
+    loading.value = true;
+    error.value = null;
+    try {
+      const res = await fetch('/v1/auth/oidc/start');
+      const body = await readEnvelope<{
+        mode: 'oidc' | 'oidc_stub';
+        authorize_url?: string;
+        state: string;
+      }>(res);
+      if (!res.ok || !body.success) {
+        throw new Error(body.errors?.[0]?.message ?? 'SSO start failed');
+      }
+      sessionStorage.setItem(OIDC_TENANT_KEY, tenantSlug);
+      if (body.data.mode === 'oidc' && body.data.authorize_url) {
+        window.location.assign(body.data.authorize_url);
+        return;
+      }
+      const params = new URLSearchParams({ state: body.data.state });
+      window.location.assign(`/auth/callback?${params.toString()}`);
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'SSO start failed';
+      throw err;
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function completeOidc(state: string, code?: string, tenantSlug?: string) {
+    loading.value = true;
+    error.value = null;
+    const slug =
+      tenantSlug ?? sessionStorage.getItem(OIDC_TENANT_KEY) ?? 'design-partner';
+    sessionStorage.removeItem(OIDC_TENANT_KEY);
+    try {
+      const res = await fetch('/v1/auth/oidc/callback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ state, code, tenant_slug: slug }),
+      });
+      const body = await readEnvelope<SessionPayload>(res);
+      if (!res.ok || !body.success) {
+        throw new Error(body.errors?.[0]?.message ?? 'SSO sign-in failed');
+      }
+      await afterSessionEstablished(body.data);
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'SSO sign-in failed';
       throw err;
     } finally {
       loading.value = false;
@@ -121,6 +216,8 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('ngois_user');
     localStorage.removeItem('ngois_permissions');
     localStorage.removeItem('ngois_session_exp');
+    sessionStorage.removeItem(OIDC_TENANT_KEY);
+    useTenantStore().reset();
   }
 
   return {
@@ -130,10 +227,14 @@ export const useAuthStore = defineStore('auth', () => {
     sessionExpiresAt,
     error,
     loading,
+    authConfig,
     isAuthenticated,
     can,
     canAny,
+    fetchAuthConfig,
     login,
+    startOidc,
+    completeOidc,
     logout,
   };
 });

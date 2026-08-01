@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth';
@@ -17,6 +17,16 @@ const email = ref('');
 const password = ref('');
 const localError = ref<string | null>(null);
 
+const showDevLogin = computed(
+  () => auth.authConfig?.dev_login_enabled ?? true,
+);
+const showOidc = computed(() => auth.authConfig?.oidc_enabled ?? false);
+const showDivider = computed(() => showDevLogin.value && showOidc.value);
+
+onMounted(() => {
+  void auth.fetchAuthConfig();
+});
+
 async function submit() {
   localError.value = null;
   try {
@@ -25,6 +35,15 @@ async function submit() {
     await router.push(redirect);
   } catch (err) {
     localError.value = err instanceof Error ? err.message : t('login.failed');
+  }
+}
+
+async function signInWithSso() {
+  localError.value = null;
+  try {
+    await auth.startOidc();
+  } catch (err) {
+    localError.value = err instanceof Error ? err.message : t('login.oidcFailed');
   }
 }
 </script>
@@ -36,37 +55,53 @@ async function submit() {
       <LocaleSwitcher />
     </div>
     <main id="main-content" class="main" tabindex="-1">
-    <section class="hero" aria-labelledby="login-hero">
-      <p class="brand">{{ t('app.name') }}</p>
-      <p class="eyebrow">{{ t('login.eyebrow') }}</p>
-      <h1 id="login-hero">{{ t('login.title') }}</h1>
-      <p class="lede">{{ t('login.lede') }}</p>
-    </section>
+      <section class="hero" aria-labelledby="login-hero">
+        <p class="brand">{{ t('app.name') }}</p>
+        <p class="eyebrow">{{ t('login.eyebrow') }}</p>
+        <h1 id="login-hero">{{ t('login.title') }}</h1>
+        <p class="lede">{{ t('login.lede') }}</p>
+      </section>
 
-    <form class="card" @submit.prevent="submit" aria-labelledby="login-heading">
-      <h2 id="login-heading">{{ t('login.heading') }}</h2>
-      <BaseInput
-        v-model="email"
-        :label="t('login.email')"
-        type="email"
-        autocomplete="username"
-        required
-        ltr
-      />
-      <BaseInput
-        v-model="password"
-        :label="t('login.password')"
-        type="password"
-        autocomplete="current-password"
-        required
-        ltr
-      />
-      <p v-if="localError" class="error" role="alert">{{ localError }}</p>
-      <BaseButton type="submit" :disabled="auth.loading">
-        {{ auth.loading ? t('login.submitting') : t('login.submit') }}
-      </BaseButton>
-      <p class="hint">{{ t('login.hint') }}</p>
-    </form>
+      <div class="card" aria-labelledby="login-heading">
+        <h2 id="login-heading">{{ t('login.heading') }}</h2>
+
+        <BaseButton
+          v-if="showOidc"
+          type="button"
+          variant="secondary"
+          :disabled="auth.loading"
+          @click="signInWithSso"
+        >
+          {{ auth.loading ? t('login.oidcStarting') : t('login.oidcSubmit') }}
+        </BaseButton>
+
+        <p v-if="showDivider" class="divider">{{ t('login.orDivider') }}</p>
+
+        <form v-if="showDevLogin" class="form" @submit.prevent="submit">
+          <BaseInput
+            v-model="email"
+            :label="t('login.email')"
+            type="email"
+            autocomplete="username"
+            required
+            ltr
+          />
+          <BaseInput
+            v-model="password"
+            :label="t('login.password')"
+            type="password"
+            autocomplete="current-password"
+            required
+            ltr
+          />
+          <p v-if="localError" class="error" role="alert">{{ localError }}</p>
+          <BaseButton type="submit" :disabled="auth.loading">
+            {{ auth.loading ? t('login.submitting') : t('login.submit') }}
+          </BaseButton>
+          <p class="hint">{{ t('login.hint') }}</p>
+        </form>
+        <p v-else-if="localError" class="error" role="alert">{{ localError }}</p>
+      </div>
     </main>
   </div>
 </template>
@@ -137,6 +172,16 @@ h1 {
   box-shadow: var(--shadow);
   display: grid;
   gap: 0.9rem;
+}
+.form {
+  display: grid;
+  gap: 0.9rem;
+}
+.divider {
+  margin: 0;
+  text-align: center;
+  color: var(--ink-muted);
+  font-size: 0.85rem;
 }
 .error {
   color: var(--danger);

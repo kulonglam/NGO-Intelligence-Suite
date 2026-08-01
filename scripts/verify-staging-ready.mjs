@@ -54,7 +54,8 @@ mustContain('backend/services/notification-service/src/adapters.ts', 'SENDGRID_A
 mustContain('backend/services/auth-service/src/index.ts', '/v1/auth/oidc/start');
 mustContain('backend/services/integration-service/src/index.ts', 'IATI_REGISTRY_MODE');
 mustContain('ops/staging-ready.md', 'ENABLE_RESOURCES_APPLY');
-mustContain('frontend/src/layouts/AppShell.vue', 'nav.programmes');
+mustContain('frontend/src/lib/nav.ts', 'nav.programmes');
+mustContain('frontend/src/layouts/AppShell.vue', 'NAV_GROUPS');
 
 if (failed) {
   console.error('verify:staging-ready FAIL');

@@ -13,6 +13,41 @@ async function main(): Promise<void> {
   const grantId = '33333333-3333-4333-8333-333333333333';
   const passwordHash = createHash('sha256').update('changeme').digest('hex');
 
+  const MODULE_IDS = [
+    'grants',
+    'reports',
+    'finance',
+    'hr',
+    'payroll',
+    'field',
+    'lms',
+    'notifications',
+    'intelligence',
+    'ai',
+    'compliance',
+    'integrations',
+  ];
+  const FEATURE_FLAGS = ['ai_insights', 'webhooks'];
+
+  async function seedRuntimeConfig(tid: string) {
+    for (const moduleId of MODULE_IDS) {
+      await client.query(
+        `INSERT INTO tenant_module_entitlements (tenant_id, module_id, enabled)
+         VALUES ($1, $2, true)
+         ON CONFLICT (tenant_id, module_id) DO NOTHING`,
+        [tid, moduleId],
+      );
+    }
+    for (const flag of FEATURE_FLAGS) {
+      await client.query(
+        `INSERT INTO tenant_feature_flags (tenant_id, flag_key, enabled)
+         VALUES ($1, $2, true)
+         ON CONFLICT (tenant_id, flag_key) DO NOTHING`,
+        [tid, flag],
+      );
+    }
+  }
+
   await client.query(
     `INSERT INTO tenants (id, slug, name, status, primary_country, created_at, updated_at)
      VALUES ($1, 'design-partner', 'Design Partner NGO', 'active', 'SS', now(), now())
@@ -23,6 +58,7 @@ async function main(): Promise<void> {
   await client.query('BEGIN');
   try {
     await client.query(`SELECT set_config('app.tenant_id', $1, true)`, [tenantId]);
+    await seedRuntimeConfig(tenantId);
     await client.query(
       `INSERT INTO users (id, tenant_id, email, display_name, role, password_hash, status, created_at, updated_at)
        VALUES ($1, $2, 'admin@design-partner.example', 'Design Partner Admin', 'org_admin', $3, 'active', now(), now())
@@ -473,6 +509,7 @@ async function main(): Promise<void> {
     await client.query('BEGIN');
     try {
       await client.query(`SELECT set_config('app.tenant_id', $1, true)`, [id]);
+      await seedRuntimeConfig(id);
       await client.query(
         `INSERT INTO users (id, tenant_id, email, display_name, role, password_hash, status, created_at, updated_at)
          VALUES ($1, $2, $3, $4, 'org_admin', $5, 'active', now(), now())
