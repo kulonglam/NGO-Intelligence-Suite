@@ -89,10 +89,24 @@ function onToggle(id: string) {
   padding: var(--space-5) var(--space-4);
   background: linear-gradient(180deg, var(--brand-deep), var(--color-primary));
   color: var(--color-on-primary);
-  min-height: 100%;
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
+  height: 100vh;
+  height: 100dvh;
   min-width: 0;
-  max-width: 100%;
   box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 20;
+}
+@media (max-width: 960px) {
+  .sidebar {
+    width: min(var(--sidebar-width), 88vw);
+    max-width: min(var(--sidebar-width), 88vw);
+  }
 }
 nav {
   display: grid;

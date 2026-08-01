@@ -149,7 +149,6 @@ onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
     <AppSidebar
       ref="sidebarRef"
       id="app-nav"
-      class="nav-shell"
       :brand-eyebrow="t('app.name')"
       :brand-title="t('app.shortName')"
       :groups="visibleGroups"
@@ -222,24 +221,11 @@ onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
 
 <style scoped>
 .shell {
-  display: grid;
-  grid-template-columns: minmax(0, var(--sidebar-width)) minmax(0, 1fr);
+  display: block;
   min-height: 100vh;
 }
 .scrim {
   display: none;
-}
-.nav-shell {
-  background: linear-gradient(180deg, var(--brand-deep), var(--brand));
-  color: var(--on-brand);
-  position: sticky;
-  inset-block-start: 0;
-  max-height: 100vh;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 .footer {
   display: grid;
@@ -266,6 +252,9 @@ onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin-inline-start: var(--sidebar-width);
 }
 .context {
   margin: 0;
@@ -321,8 +310,8 @@ onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
   cursor: pointer;
 }
 @media (max-width: 960px) {
-  .shell {
-    grid-template-columns: 1fr;
+  .content {
+    margin-inline-start: 0;
   }
   .menu-btn {
     display: inline-flex;
@@ -333,20 +322,16 @@ onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
   .search-btn kbd {
     display: none;
   }
-  .nav-shell {
-    position: fixed;
-    inset-block: 0;
-    inset-inline-start: 0;
-    width: min(var(--sidebar-width), 88vw);
+  :deep(.sidebar) {
     z-index: 40;
     transform: translateX(-105%);
     transition: transform var(--duration-base) var(--ease-standard);
-    max-height: none;
   }
-  [dir='rtl'] .nav-shell {
+  :global(html[dir='rtl']) .shell :deep(.sidebar) {
     transform: translateX(105%);
   }
-  .shell.drawer-open .nav-shell {
+  .shell.drawer-open :deep(.sidebar),
+  :global(html[dir='rtl']) .shell.drawer-open :deep(.sidebar) {
     transform: translateX(0);
   }
   .scrim {
