@@ -1105,13 +1105,13 @@
     "semantic_hash": ""
   },
   "frontend/src/locales/ar.json": {
-    "mtime": 1785579461.959308,
-    "ast_hash": "7b6e0fcfeafe8fe8b92bdb5425d4f107",
+    "mtime": 1785579520.731163,
+    "ast_hash": "bb066944b7bea746fd2456cd7f2c3e9d",
     "semantic_hash": ""
   },
   "frontend/src/locales/en.json": {
-    "mtime": 1785579460.771871,
-    "ast_hash": "65040b9c318513e456d04b6a0159e759",
+    "mtime": 1785579518.3555927,
+    "ast_hash": "5fd824e2247def6b47de0d1215d940da",
     "semantic_hash": ""
   },
   "frontend/src/stores/connectivity.ts": {
@@ -2650,8 +2650,8 @@
     "semantic_hash": ""
   },
   "frontend/src/views/DesignSystemView.vue": {
-    "mtime": 1785578333.3139246,
-    "ast_hash": "469b70d387b75927d8b8ca85581df4d0",
+    "mtime": 1785579500.3470538,
+    "ast_hash": "4a60bd92d55ff4939572eed8c627dd0d",
     "semantic_hash": ""
   },
   "frontend/src/components/ai/AiApprovalDialog.vue": {

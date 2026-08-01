@@ -3,7 +3,9 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { RouterView, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth';
+import { useTenantStore } from '../stores/tenant';
 import { NAV_GROUPS, paletteItemsFromNav } from '../lib/nav';
+import { prefetchRoute } from '../lib/prefetch';
 import LocaleSwitcher from '../components/layout/LocaleSwitcher.vue';
 import ThemeSwitcher from '../components/layout/ThemeSwitcher.vue';
 import AppBreadcrumbs from '../components/layout/AppBreadcrumbs.vue';
@@ -16,6 +18,7 @@ import SessionBanner from '../components/feedback/SessionBanner.vue';
 
 const { t } = useI18n();
 const auth = useAuthStore();
+const tenant = useTenantStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -31,7 +34,12 @@ const visibleGroups = computed(() =>
     id: g.id,
     label: t(g.labelKey),
     items: g.items
-      .filter((item) => auth.canAny(item.anyOf))
+      .filter(
+        (item) =>
+          auth.canAny(item.anyOf) &&
+          tenant.moduleEnabled(item.module) &&
+          tenant.featureEnabled(item.featureFlag),
+      )
       .map((item) => ({
         to: item.to,
         label: t(item.labelKey),
@@ -39,6 +47,10 @@ const visibleGroups = computed(() =>
       })),
   })).filter((g) => g.items.length > 0),
 );
+
+function onPrefetch(to: string) {
+  prefetchRoute(router, to);
+}
 
 const paletteItems = computed(() => paletteItemsFromNav());
 
@@ -138,11 +150,12 @@ onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
       ref="sidebarRef"
       id="app-nav"
       class="nav-shell"
-      :brand-eyebrow="t('app.shortName')"
-      :brand-title="t('app.name')"
+      :brand-eyebrow="t('app.name')"
+      :brand-title="t('app.shortName')"
       :groups="visibleGroups"
       :open-groups="openGroups"
       @toggle-group="toggleGroup"
+      @prefetch="onPrefetch"
     >
       <template #footer>
         <div class="footer desktop-only">
@@ -210,7 +223,7 @@ onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
 <style scoped>
 .shell {
   display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-columns: minmax(0, var(--sidebar-width)) minmax(0, 1fr);
   min-height: 100vh;
 }
 .scrim {
@@ -222,7 +235,11 @@ onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
   position: sticky;
   inset-block-start: 0;
   max-height: 100vh;
-  overflow: auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .footer {
   display: grid;
@@ -289,7 +306,9 @@ onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
 }
 .main {
   padding: 1.5rem 1.75rem 2rem;
+  width: 100%;
   max-width: var(--content-max-width);
+  box-sizing: border-box;
 }
 .menu-btn {
   display: none;

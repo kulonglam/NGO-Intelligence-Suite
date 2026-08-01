@@ -1,11 +1,11 @@
 # Graph Report - NGO Intelligence Suite  (2026-08-01)
 
 ## Corpus Check
-- 514 files · ~389,117 words
+- 514 files · ~389,472 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4416 nodes · 5659 edges · 321 communities (301 shown, 20 thin omitted)
+- 4420 nodes · 5677 edges · 318 communities (300 shown, 18 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.61)
 - Token cost: 0 input · 0 output
 
@@ -313,8 +313,6 @@
 - AiApprovalDialog.vue
 - BaseTextarea.vue
 - Pagination.vue
-- AuditTrailList.vue
-- PayslipView.vue
 - PercentInput.vue
 - PhoneInput.vue
 - Modal.vue
@@ -347,7 +345,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (321 total, 20 thin omitted)
+## Communities (318 total, 18 thin omitted)
 
 ### Community 0 - "Root Workspace Manifest"
 Cohesion: 0.02
@@ -442,8 +440,8 @@ Cohesion: 0.13
 Nodes (18): coaSchema, expenseSchema, registerCoaExpenseRoutes(), ServiceConfig, assertWithinCeiling(), createBudgetSchema, createDisbursementSchema, disbursedTotal() (+10 more)
 
 ### Community 23 - "GrantsView.vue"
-Cohesion: 0.14
-Nodes (12): columns, createGrant(), error, filterQuery, form, Grant, grants, load() (+4 more)
+Cohesion: 0.07
+Nodes (24): auth, minutesLeft, now, remainingMs, router, show, { t }, toast (+16 more)
 
 ### Community 24 - "config/package.json"
 Cohesion: 0.14
@@ -1139,7 +1137,7 @@ Nodes (5): Accountant review checklist — SS & UG, Attestation, Fixture corpus,
 
 ### Community 225 - "FieldView.vue"
 Cohesion: 0.08
-Nodes (46): connectivity, { t }, { t }, CachedForm, clearSessionKey(), decryptJson(), encryptJson(), enqueueSubmission() (+38 more)
+Nodes (47): connectivity, { t }, { t }, { t }, CachedForm, clearSessionKey(), decryptJson(), encryptJson() (+39 more)
 
 ### Community 226 - "dependencies"
 Cohesion: 0.06
@@ -1202,8 +1200,8 @@ Cohesion: 0.13
 Nodes (14): devDependencies, tsx, exports, tsx, main, name, private, scripts (+6 more)
 
 ### Community 242 - "api.ts"
-Cohesion: 0.08
-Nodes (20): emit, { t }, emit, columns, Delivery, error, filterQuery, loading (+12 more)
+Cohesion: 0.06
+Nodes (28): emit, { t }, emit, busy, error, load(), publishIati(), pubs (+20 more)
 
 ### Community 243 - "dpia-attest-phase3.mjs"
 Cohesion: 0.18
@@ -1374,8 +1372,8 @@ Cohesion: 0.50
 Nodes (3): board, required, root
 
 ### Community 287 - "start-embedded-db.mjs"
-Cohesion: 0.07
-Nodes (26): auth, minutesLeft, now, remainingMs, router, show, { t }, toast (+18 more)
+Cohesion: 0.13
+Nodes (12): AuthUser, Envelope, useAuthStore, auth, expenseCount, grantCount, kpiCount, loading (+4 more)
 
 ### Community 289 - "DataTable.vue"
 Cohesion: 0.17
@@ -1394,8 +1392,8 @@ Cohesion: 0.24
 Nodes (8): localeStore, { t }, AppLocale, isRtlLocale(), loadLocale(), MessageSchema, SUPPORTED_LOCALES, useLocaleStore
 
 ### Community 293 - "main.ts"
-Cohesion: 0.25
-Nodes (7): i18n, installRouteFocus(), app, localeStore, pinia, themeStore, router
+Cohesion: 0.21
+Nodes (9): i18n, installRouteFocus(), app, localeStore, pinia, themeStore, RouteMeta, router (+1 more)
 
 ### Community 294 - "BaseButton.vue"
 Cohesion: 0.20
@@ -1446,8 +1444,8 @@ Cohesion: 0.40
 Nodes (4): describedBy, emit, id, props
 
 ### Community 308 - "CurrencyInput.vue"
-Cohesion: 0.13
-Nodes (14): c, clamped, offset, props, r, tone, busy, error (+6 more)
+Cohesion: 0.29
+Nodes (6): c, clamped, offset, props, r, tone
 
 ### Community 309 - "BaseProgress.vue"
 Cohesion: 0.50
@@ -1482,25 +1480,25 @@ Cohesion: 0.38
 Nodes (6): close(), emit, onKey(), panel, previouslyFocused, props
 
 ### Community 321 - "SyncStatusPanel.vue"
-Cohesion: 0.06
-Nodes (25): { t }, address, amount, check, currency, date, drawerOpen, dyn (+17 more)
+Cohesion: 0.05
+Nodes (30): AuditItem, PayslipLine, address, aiDialog, amount, attest, check, currency (+22 more)
 
 ## Knowledge Gaps
-- **2841 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+2836 more)
+- **2845 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+2840 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **20 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **18 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `10 — API Design Standards` connect `10 — API Design Standards` to `sdd/README.md`?**
   _High betweenness centrality (0.016) - this node is a cross-community bridge._
-- **Why does `23 — Testing Strategy` connect `23 — Testing Strategy` to `sdd/README.md`?**
+- **Why does `04 — Architecture Principles, Assumptions and Constraints` connect `4.2 The twelve principles` to `sdd/README.md`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Why does `24 — Observability` connect `24 — Observability` to `sdd/README.md`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+- **Why does `16 — Threat Model (STRIDE)` connect `16.5 STRIDE enumeration` to `sdd/README.md`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `name`, `version`, `private` to the rest of the system?**
-  _2841 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _2845 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Root Workspace Manifest` be split into smaller, more focused modules?**
   _Cohesion score 0.02197802197802198 - nodes in this community are weakly interconnected._
 - **Should `File Service Package` be split into smaller, more focused modules?**

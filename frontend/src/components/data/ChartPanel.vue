@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import EmptyState from '../feedback/EmptyState.vue';
+import ErrorState from '../feedback/ErrorState.vue';
 import SkeletonLoader from './SkeletonLoader.vue';
 
 export type ChartSeries = { label: string; values: number[] };
@@ -11,8 +13,17 @@ const props = defineProps<{
   series: ChartSeries[];
   categories: string[];
   loading?: boolean;
+  error?: string | null;
   emptyTitle?: string;
+  /** Show accessible companion data table (SDD §19.7). Default true. */
+  showDataTable?: boolean;
 }>();
+
+const emit = defineEmits<{
+  retry: [];
+}>();
+
+const { t } = useI18n();
 
 const W = 480;
 const H = 220;
@@ -66,29 +77,39 @@ const linePaths = computed(() =>
     return pts;
   }),
 );
+
+const tableId = computed(
+  () => `chart-table-${props.title.replace(/\s+/g, '-').toLowerCase().slice(0, 40)}`,
+);
 </script>
 
 <template>
   <section class="panel">
     <h3 class="title">{{ title }}</h3>
     <SkeletonLoader v-if="loading" :rows="4" height="2.5rem" />
-    <EmptyState v-else-if="!hasData" :title="emptyTitle ?? 'No chart data'" />
+    <ErrorState
+      v-else-if="error"
+      :title="t('app.error')"
+      :body="error"
+      @retry="emit('retry')"
+    />
+    <EmptyState v-else-if="!hasData" :title="emptyTitle ?? t('chart.empty')" />
     <div v-else class="chart-wrap">
       <svg
         class="chart"
         :viewBox="`0 0 ${W} ${H}`"
         role="img"
         :aria-label="title"
+        :aria-describedby="showDataTable !== false ? tableId : undefined"
       >
-        <!-- y grid -->
         <g class="grid" aria-hidden="true">
           <line
-            v-for="t in 4"
-            :key="t"
+            v-for="tTick in 4"
+            :key="tTick"
             :x1="PAD.l"
             :x2="W - PAD.r"
-            :y1="PAD.t + (plotH * (t - 1)) / 3"
-            :y2="PAD.t + (plotH * (t - 1)) / 3"
+            :y1="PAD.t + (plotH * (tTick - 1)) / 3"
+            :y2="PAD.t + (plotH * (tTick - 1)) / 3"
           />
         </g>
         <g v-if="type === 'bar'">
@@ -135,7 +156,11 @@ const linePaths = computed(() =>
           <text
             v-for="(c, i) in categories"
             :key="c"
-            :x="type === 'bar' ? PAD.l + (i + 0.5) * (plotW / categories.length) : xAt(i, categories.length)"
+            :x="
+              type === 'bar'
+                ? PAD.l + (i + 0.5) * (plotW / categories.length)
+                : xAt(i, categories.length)
+            "
             :y="H - 10"
             text-anchor="middle"
           >
@@ -143,12 +168,39 @@ const linePaths = computed(() =>
           </text>
         </g>
       </svg>
-      <ul class="legend">
+      <ul class="legend" aria-hidden="true">
         <li v-for="(s, si) in series" :key="s.label">
           <span class="swatch" :style="{ background: COLORS[si % COLORS.length] }" />
           {{ s.label }}
         </li>
       </ul>
+
+      <div v-if="showDataTable !== false" class="data-table-wrap">
+        <table :id="tableId" class="data-table">
+          <caption>
+            {{ t('chart.dataTableCaption', { title }) }}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">{{ t('chart.category') }}</th>
+              <th v-for="s in series" :key="s.label" scope="col">{{ s.label }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(cat, i) in categories" :key="cat">
+              <th scope="row">{{ cat }}</th>
+              <td
+                v-for="s in series"
+                :key="`${s.label}-${cat}`"
+                class="numeric"
+                dir="ltr"
+              >
+                {{ s.values[i] ?? '—' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 </template>
@@ -204,5 +256,33 @@ const linePaths = computed(() =>
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 2px;
+}
+.data-table-wrap {
+  overflow-x: auto;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+.data-table caption {
+  caption-side: top;
+  text-align: start;
+  padding-block-end: var(--space-2);
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+.data-table th,
+.data-table td {
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 0.55rem;
+  text-align: start;
+}
+.data-table th[scope='col'] {
+  background: color-mix(in srgb, var(--color-surface-2, var(--color-border)) 35%, transparent);
+}
+.data-table .numeric {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
 }
 </style>

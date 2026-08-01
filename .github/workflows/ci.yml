@@ -358,3 +358,9 @@ jobs:
 
       - name: Browser smoke (axe + RTL)
         run: npm run test:browser
+
+      - name: Lighthouse CI (login, mobile)
+        env:
+          LHCI_URL: http://127.0.0.1:5173
+          CHROME_PATH: ${{ env.CHROME_PATH }}
+        run: npm run check:lighthouse

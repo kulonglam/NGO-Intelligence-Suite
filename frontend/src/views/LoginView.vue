@@ -35,6 +35,7 @@ async function submit() {
       <ThemeSwitcher />
       <LocaleSwitcher />
     </div>
+    <main id="main-content" class="main" tabindex="-1">
     <section class="hero" aria-labelledby="login-hero">
       <p class="brand">{{ t('app.name') }}</p>
       <p class="eyebrow">{{ t('login.eyebrow') }}</p>
@@ -66,22 +67,26 @@ async function submit() {
       </BaseButton>
       <p class="hint">{{ t('login.hint') }}</p>
     </form>
+    </main>
   </div>
 </template>
 
 <style scoped>
 .page {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 2.5rem;
   padding: 3rem;
-  align-items: center;
   position: relative;
   background:
     radial-gradient(circle at 12% 18%, rgba(31, 78, 95, 0.16), transparent 36%),
     radial-gradient(circle at 88% 72%, rgba(168, 74, 26, 0.1), transparent 30%),
     linear-gradient(165deg, #f7faf8 0%, var(--paper) 55%, #e8f0ec 100%);
+}
+.main {
+  min-height: calc(100vh - 6rem);
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2.5rem;
+  align-items: center;
 }
 .locale-wrap {
   position: absolute;
@@ -144,8 +149,10 @@ h1 {
 }
 @media (max-width: 900px) {
   .page {
-    grid-template-columns: 1fr;
     padding: 1.75rem;
+  }
+  .main {
+    grid-template-columns: 1fr;
   }
 }
 </style>

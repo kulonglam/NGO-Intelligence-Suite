@@ -8,6 +8,7 @@ import {
 } from '../i18n';
 
 const STORAGE_KEY = 'ngois_locale';
+const HIJRI_KEY = 'ngois_show_hijri';
 
 function initialLocale(): AppLocale {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -19,8 +20,16 @@ function initialLocale(): AppLocale {
   return 'en';
 }
 
+function initialShowHijri(): boolean {
+  const saved = localStorage.getItem(HIJRI_KEY);
+  if (saved === '0') return false;
+  if (saved === '1') return true;
+  return initialLocale() === 'ar';
+}
+
 export const useLocaleStore = defineStore('locale', () => {
   const locale = ref<AppLocale>(initialLocale());
+  const showHijri = ref(initialShowHijri());
   const direction = computed(() => (isRtlLocale(locale.value) ? 'rtl' : 'ltr'));
 
   async function setLocale(next: AppLocale) {
@@ -29,6 +38,14 @@ export const useLocaleStore = defineStore('locale', () => {
     localStorage.setItem(STORAGE_KEY, next);
     document.documentElement.lang = next;
     document.documentElement.dir = isRtlLocale(next) ? 'rtl' : 'ltr';
+    if (next === 'ar' && localStorage.getItem(HIJRI_KEY) == null) {
+      showHijri.value = true;
+    }
+  }
+
+  function setShowHijri(next: boolean) {
+    showHijri.value = next;
+    localStorage.setItem(HIJRI_KEY, next ? '1' : '0');
   }
 
   async function init() {
@@ -44,5 +61,13 @@ export const useLocaleStore = defineStore('locale', () => {
     { immediate: true },
   );
 
-  return { locale, direction, setLocale, init, supported: SUPPORTED_LOCALES };
+  return {
+    locale,
+    direction,
+    showHijri,
+    setLocale,
+    setShowHijri,
+    init,
+    supported: SUPPORTED_LOCALES,
+  };
 });

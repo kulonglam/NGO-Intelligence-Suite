@@ -29,7 +29,28 @@
     "confirm": "تأكيد",
     "saved": "تم الحفظ",
     "emptyTitle": "لا يوجد محتوى بعد",
-    "retry": "إعادة المحاولة"
+    "retry": "إعادة المحاولة",
+    "hijri": "عرض التاريخ الهجري"
+  },
+  "chart": {
+    "empty": "لا بيانات للرسم",
+    "category": "الفئة",
+    "dataTableCaption": "جدول بيانات لـ {title}"
+  },
+  "guards": {
+    "forbiddenTitle": "يلزم إذن",
+    "forbiddenLede": "دورك لا يسمح بفتح هذه الصفحة.",
+    "forbiddenPermission": "اطلب من المسؤول منح: {permission}",
+    "suspendedTitle": "المستأجر معلّق",
+    "suspendedLede": "لا يمكن لهذه المنظمة استخدام المنصة الآن.",
+    "suspendedBody": "تواصل مع مسؤول NGOIS أو الدعم لاستعادة الوصول.",
+    "moduleTitle": "الوحدة غير متاحة",
+    "moduleLede": "هذه القدرة غير مفعّلة لمنظمتك.",
+    "moduleBody": "الوحدة «{module}» معطّلة لهذا المستأجر.",
+    "featureBody": "علم الميزة «{flag}» معطّل لهذا المستأجر.",
+    "offlineTitle": "غير متاح دون اتصال",
+    "offlineLede": "هذه الصفحة غير مخزّنة على هذا الجهاز.",
+    "offlineBody": "أعد الاتصال، أو افتح صفحة زرتها مسبقاً وأنت متصل."
   },
   "nav": {
     "overview": "نظرة عامة",
@@ -109,7 +130,8 @@
     "goFinance": "فتح المالية",
     "goPayroll": "فتح الرواتب",
     "goIntelligence": "فتح الاستخبارات",
-    "statsEmpty": "ستظهر الأعداد عند استجابة الخدمات."
+    "statsEmpty": "ستظهر الأعداد عند استجابة الخدمات.",
+    "today": "اليوم"
   },
   "grants": {
     "eyebrow": "خدمة المنح",

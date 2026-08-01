@@ -19117,8 +19117,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_data_timeline",
-      "community": 314,
-      "community_name": "AuditTrailList.vue",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
       "norm_label": "timeline.vue"
     },
     {
@@ -19128,8 +19128,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_domain_attendancesheet",
-      "community": 316,
-      "community_name": "AttendanceSheet.vue",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
       "norm_label": "attendancesheet.vue"
     },
     {
@@ -19139,8 +19139,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_domain_audittraillist",
-      "community": 314,
-      "community_name": "AuditTrailList.vue",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
       "norm_label": "audittraillist.vue"
     },
     {
@@ -19150,8 +19150,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "frontend_src_components_domain_audittraillist_audititem",
-      "community": 314,
-      "community_name": "AuditTrailList.vue",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
       "norm_label": "audititem"
     },
     {
@@ -19326,8 +19326,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_domain_payslipview",
-      "community": 315,
-      "community_name": "PayslipView.vue",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
       "norm_label": "payslipview.vue"
     },
     {
@@ -19337,8 +19337,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "frontend_src_components_domain_payslipview_payslipline",
-      "community": 315,
-      "community_name": "PayslipView.vue",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
       "norm_label": "payslipline"
     },
     {
@@ -19722,8 +19722,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "sessionbanner.vue"
     },
     {
@@ -19733,8 +19733,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner_t",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "{ t }"
     },
     {
@@ -19744,8 +19744,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner_auth",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "auth"
     },
     {
@@ -19755,8 +19755,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner_toast",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "toast"
     },
     {
@@ -19766,8 +19766,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner_router",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "router"
     },
     {
@@ -19777,8 +19777,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner_now",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "now"
     },
     {
@@ -19788,8 +19788,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner_remainingms",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "remainingms"
     },
     {
@@ -19799,8 +19799,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner_show",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "show"
     },
     {
@@ -19810,8 +19810,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner_minutesleft",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "minutesleft"
     },
     {
@@ -19821,8 +19821,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_sessionbanner_extendsession",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "extendsession()"
     },
     {
@@ -19865,8 +19865,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_syncstatuspanel",
-      "community": 321,
-      "community_name": "SyncStatusPanel.vue",
+      "community": 225,
+      "community_name": "FieldView.vue",
       "norm_label": "syncstatuspanel.vue"
     },
     {
@@ -19876,8 +19876,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_syncstatuspanel_t",
-      "community": 321,
-      "community_name": "SyncStatusPanel.vue",
+      "community": 225,
+      "community_name": "FieldView.vue",
       "norm_label": "{ t }"
     },
     {
@@ -19887,8 +19887,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_toastcontainer",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "toastcontainer.vue"
     },
     {
@@ -19898,8 +19898,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_toasthost",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "toasthost.vue"
     },
     {
@@ -19909,8 +19909,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "frontend_src_components_feedback_toasthost_toast",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "toast"
     },
     {
@@ -21757,8 +21757,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_router",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 293,
+      "community_name": "main.ts",
       "norm_label": "router.ts"
     },
     {
@@ -21768,8 +21768,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_src_router_vue_router",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 293,
+      "community_name": "main.ts",
       "norm_label": "vue-router"
     },
     {
@@ -21779,8 +21779,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "frontend_src_router_routemeta",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 293,
+      "community_name": "main.ts",
       "norm_label": "routemeta"
     },
     {
@@ -21999,8 +21999,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_stores_toast",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "toast.ts"
     },
     {
@@ -22010,8 +22010,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "frontend_src_stores_toast_toastkind",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "toastkind"
     },
     {
@@ -22021,8 +22021,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_src_stores_toast_toastitem",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "toastitem"
     },
     {
@@ -22032,8 +22032,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "frontend_src_stores_toast_usetoaststore",
-      "community": 287,
-      "community_name": "start-embedded-db.mjs",
+      "community": 23,
+      "community_name": "GrantsView.vue",
       "norm_label": "usetoaststore"
     },
     {
@@ -22219,8 +22219,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_views_complianceview",
-      "community": 308,
-      "community_name": "CurrencyInput.vue",
+      "community": 242,
+      "community_name": "api.ts",
       "norm_label": "complianceview.vue"
     },
     {
@@ -22230,8 +22230,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "frontend_src_views_complianceview_t",
-      "community": 308,
-      "community_name": "CurrencyInput.vue",
+      "community": 242,
+      "community_name": "api.ts",
       "norm_label": "{ t }"
     },
     {
@@ -22241,8 +22241,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "frontend_src_views_complianceview_score",
-      "community": 308,
-      "community_name": "CurrencyInput.vue",
+      "community": 242,
+      "community_name": "api.ts",
       "norm_label": "score"
     },
     {
@@ -22252,8 +22252,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "frontend_src_views_complianceview_pubs",
-      "community": 308,
-      "community_name": "CurrencyInput.vue",
+      "community": 242,
+      "community_name": "api.ts",
       "norm_label": "pubs"
     },
     {
@@ -22263,8 +22263,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "frontend_src_views_complianceview_error",
-      "community": 308,
-      "community_name": "CurrencyInput.vue",
+      "community": 242,
+      "community_name": "api.ts",
       "norm_label": "error"
     },
     {
@@ -22274,8 +22274,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "frontend_src_views_complianceview_status",
-      "community": 308,
-      "community_name": "CurrencyInput.vue",
+      "community": 242,
+      "community_name": "api.ts",
       "norm_label": "status"
     },
     {
@@ -22285,8 +22285,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "frontend_src_views_complianceview_busy",
-      "community": 308,
-      "community_name": "CurrencyInput.vue",
+      "community": 242,
+      "community_name": "api.ts",
       "norm_label": "busy"
     },
     {
@@ -22296,8 +22296,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "frontend_src_views_complianceview_load",
-      "community": 308,
-      "community_name": "CurrencyInput.vue",
+      "community": 242,
+      "community_name": "api.ts",
       "norm_label": "load()"
     },
     {
@@ -22307,8 +22307,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "frontend_src_views_complianceview_publishiati",
-      "community": 308,
-      "community_name": "CurrencyInput.vue",
+      "community": 242,
+      "community_name": "api.ts",
       "norm_label": "publishiati()"
     },
     {
@@ -22326,7 +22326,7 @@
       "label": "{ t }",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L44",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_t",
       "community": 321,
@@ -22337,7 +22337,7 @@
       "label": "tab",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L45",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_tab",
       "community": 321,
@@ -22348,7 +22348,7 @@
       "label": "text",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L46",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_text",
       "community": 321,
@@ -22359,7 +22359,7 @@
       "label": "select",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L47",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_select",
       "community": 321,
@@ -22370,7 +22370,7 @@
       "label": "check",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L48",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_check",
       "community": 321,
@@ -22381,7 +22381,7 @@
       "label": "radio",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L49",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_radio",
       "community": 321,
@@ -22392,7 +22392,7 @@
       "label": "sw",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L50",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_sw",
       "community": 321,
@@ -22403,7 +22403,7 @@
       "label": "date",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L51",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_date",
       "community": 321,
@@ -22414,7 +22414,7 @@
       "label": "fileName",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L52",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_filename",
       "community": 321,
@@ -22425,7 +22425,7 @@
       "label": "amount",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L53",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_amount",
       "community": 321,
@@ -22436,7 +22436,7 @@
       "label": "currency",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L54",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_currency",
       "community": 321,
@@ -22447,7 +22447,7 @@
       "label": "pct",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L55",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_pct",
       "community": 321,
@@ -22458,7 +22458,7 @@
       "label": "phone",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L56",
+      "source_location": "L70",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_phone",
       "community": 321,
@@ -22469,7 +22469,7 @@
       "label": "address",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L57",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_address",
       "community": 321,
@@ -22480,7 +22480,7 @@
       "label": "dyn",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L58",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_dyn",
       "community": 321,
@@ -22491,7 +22491,7 @@
       "label": "filter",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L59",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_filter",
       "community": 321,
@@ -22502,7 +22502,7 @@
       "label": "page",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L60",
+      "source_location": "L74",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_page",
       "community": 321,
@@ -22513,7 +22513,7 @@
       "label": "pageSize",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L61",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_pagesize",
       "community": 321,
@@ -22524,7 +22524,7 @@
       "label": "selected",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L62",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_selected",
       "community": 321,
@@ -22535,7 +22535,7 @@
       "label": "modalOpen",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L63",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_modalopen",
       "community": 321,
@@ -22546,7 +22546,7 @@
       "label": "drawerOpen",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L64",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_draweropen",
       "community": 321,
@@ -22557,7 +22557,7 @@
       "label": "progress",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L65",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_progress",
       "community": 321,
@@ -22568,7 +22568,7 @@
       "label": "tabs",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L67",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_tabs",
       "community": 321,
@@ -22579,12 +22579,56 @@
       "label": "tableRows",
       "file_type": "code",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L75",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "frontend_src_views_designsystemview_tablerows",
       "community": 321,
       "community_name": "SyncStatusPanel.vue",
       "norm_label": "tablerows"
+    },
+    {
+      "label": "virtualRows",
+      "file_type": "code",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L98",
+      "_origin": "ast",
+      "id": "frontend_src_views_designsystemview_virtualrows",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
+      "norm_label": "virtualrows"
+    },
+    {
+      "label": "draftText",
+      "file_type": "code",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L104",
+      "_origin": "ast",
+      "id": "frontend_src_views_designsystemview_drafttext",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
+      "norm_label": "drafttext"
+    },
+    {
+      "label": "attest",
+      "file_type": "code",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L105",
+      "_origin": "ast",
+      "id": "frontend_src_views_designsystemview_attest",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
+      "norm_label": "attest"
+    },
+    {
+      "label": "aiDialog",
+      "file_type": "code",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L106",
+      "_origin": "ast",
+      "id": "frontend_src_views_designsystemview_aidialog",
+      "community": 321,
+      "community_name": "SyncStatusPanel.vue",
+      "norm_label": "aidialog"
     },
     {
       "label": "EmployeesView.vue",
@@ -68890,6 +68934,18 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_ai_aiapprovaldialog",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -68952,11 +69008,35 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_ai_aidraftpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/src/views/AiInsightsView.vue",
       "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_src_views_aiinsightsview",
+      "target": "frontend_src_components_ai_citationchip",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
       "target": "frontend_src_components_ai_citationchip",
       "confidence_score": 1.0
     },
@@ -68969,6 +69049,18 @@
       "_origin": "ast",
       "source": "frontend_src_components_ai_machinegeneratedlabel",
       "target": "frontend_src_components_ai_machinegeneratedlabel_t",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L53",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_ai_machinegeneratedlabel",
       "confidence_score": 1.0
     },
     {
@@ -70501,6 +70593,18 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_data_chartpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/src/views/IntelligenceView.vue",
       "source_location": "L7",
       "weight": 1.0,
@@ -71353,6 +71457,18 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_domain_attendancesheet",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/components/domain/AuditTrailList.vue",
@@ -71361,6 +71477,18 @@
       "_origin": "ast",
       "source": "frontend_src_components_domain_audittraillist",
       "target": "frontend_src_components_domain_audittraillist_audititem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_domain_audittraillist",
       "confidence_score": 1.0
     },
     {
@@ -71385,6 +71513,18 @@
       "_origin": "ast",
       "source": "frontend_src_components_domain_beneficiarycard",
       "target": "frontend_src_components_domain_vulnerabilitybadge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_domain_beneficiarycard",
       "confidence_score": 1.0
     },
     {
@@ -71424,6 +71564,18 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_domain_burnratechart",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/src/views/FinanceView.vue",
       "source_location": "L19",
       "weight": 1.0,
@@ -71442,6 +71594,18 @@
       "_origin": "ast",
       "source": "frontend_src_views_grantdetailview",
       "target": "frontend_src_components_domain_burnratechart",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_domain_certificateview",
       "confidence_score": 1.0
     },
     {
@@ -71538,11 +71702,35 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_domain_compliancescoregauge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/src/components/domain/PayrollRunSummary.vue",
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_src_components_domain_payrollrunsummary",
+      "target": "frontend_src_components_domain_grantstatusbadge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
       "target": "frontend_src_components_domain_grantstatusbadge",
       "confidence_score": 1.0
     },
@@ -71574,6 +71762,18 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_domain_payrollrunsummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/src/views/PayrollView.vue",
       "source_location": "L15",
       "weight": 1.0,
@@ -71591,6 +71791,18 @@
       "_origin": "ast",
       "source": "frontend_src_components_domain_payslipview",
       "target": "frontend_src_components_domain_payslipview_payslipline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_components_domain_payslipview",
       "confidence_score": 1.0
     },
     {
@@ -77522,7 +77734,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L57",
+      "source_location": "L71",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_src_views_designsystemview",
@@ -77533,231 +77745,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L53",
+      "source_location": "L106",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_amount",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L48",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_check",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L54",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_currency",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L51",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_date",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L64",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_draweropen",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L58",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_dyn",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L52",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_filename",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L59",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_filter",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L63",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_modalopen",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L60",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_page",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_pagesize",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L55",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_pct",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L56",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_phone",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L65",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_progress",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L49",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_radio",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_select",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L62",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_selected",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L50",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_sw",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L44",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_t",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L45",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_tab",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L75",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "frontend_src_views_designsystemview",
-      "target": "frontend_src_views_designsystemview_tablerows",
+      "target": "frontend_src_views_designsystemview_aidialog",
       "confidence_score": 1.0
     },
     {
@@ -77768,6 +77760,259 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_amount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L105",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_attest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_check",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_currency",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_date",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L104",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_drafttext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_draweropen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L72",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_dyn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_filename",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_filter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_modalopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_page",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_pagesize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_pct",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_phone",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_progress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L63",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_radio",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L61",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_select",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L76",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_selected",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_sw",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_t",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_tab",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_tablerows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
       "target": "frontend_src_views_designsystemview_tabs",
       "confidence_score": 1.0
     },
@@ -77775,11 +78020,22 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/views/DesignSystemView.vue",
-      "source_location": "L46",
+      "source_location": "L60",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_src_views_designsystemview",
       "target": "frontend_src_views_designsystemview_text",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/views/DesignSystemView.vue",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_views_designsystemview",
+      "target": "frontend_src_views_designsystemview_virtualrows",
       "confidence_score": 1.0
     },
     {

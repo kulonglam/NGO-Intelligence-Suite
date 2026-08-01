@@ -1,16 +1,16 @@
 # Graph Report - NGO Intelligence Suite  (2026-08-01)
 
 ## Corpus Check
-- 514 files · ~389,472 words
+- 523 files · ~392,404 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4420 nodes · 5677 edges · 318 communities (300 shown, 18 thin omitted)
+- 4489 nodes · 5772 edges · 322 communities (304 shown, 18 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.61)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8cdffc45`
+- Built from commit: `38b651aa`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -313,13 +313,17 @@
 - AiApprovalDialog.vue
 - BaseTextarea.vue
 - Pagination.vue
+- check-lighthouse.mjs
+- start-embedded-db.mjs
+- prefetch.ts
+- tenant.ts
 - PercentInput.vue
 - PhoneInput.vue
 - Modal.vue
 - SyncStatusPanel.vue
 
 ## God Nodes (most connected - your core abstractions)
-1. `scripts` - 91 edges
+1. `scripts` - 92 edges
 2. `api()` - 43 edges
 3. `compilerOptions` - 20 edges
 4. `compilerOptions` - 19 edges
@@ -345,11 +349,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (318 total, 18 thin omitted)
+## Communities (322 total, 18 thin omitted)
 
 ### Community 0 - "Root Workspace Manifest"
 Cohesion: 0.02
-Nodes (91): scripts, accountant:review-pack, build, build:backend, build:frontend, canary:analysis-stub, canary:local, chaos:catalogue (+83 more)
+Nodes (92): scripts, accountant:review-pack, build, build:backend, build:frontend, canary:analysis-stub, canary:local, chaos:catalogue (+84 more)
 
 ### Community 1 - "File Service Package"
 Cohesion: 0.05
@@ -369,7 +373,7 @@ Nodes (33): dependencies, pinia, @tanstack/vue-virtual, vue, vue-i18n, vue-route
 
 ### Community 5 - "Vue App Shell UI"
 Cohesion: 0.09
-Nodes (19): auth, closeDrawer(), drawerOpen, drawerRoot(), groupContainsPath(), menuBtn, onGlobalKey(), openGroups (+11 more)
+Nodes (20): auth, closeDrawer(), drawerOpen, drawerRoot(), groupContainsPath(), menuBtn, onGlobalKey(), openGroups (+12 more)
 
 ### Community 6 - "Grant Service Package"
 Cohesion: 0.07
@@ -396,8 +400,8 @@ Cohesion: 0.07
 Nodes (26): dependencies, express, @ngois/errors, @ngois/logging, uuid, zod, devDependencies, @types/express (+18 more)
 
 ### Community 12 - "Dev Tooling Dependencies"
-Cohesion: 0.07
-Nodes (28): axe-core, c8, embedded-postgres, @embedded-postgres/windows-x64, eslint, devDependencies, axe-core, c8 (+20 more)
+Cohesion: 0.08
+Nodes (25): axe-core, c8, chrome-launcher, @embedded-postgres/windows-x64, eslint, lighthouse, devDependencies, axe-core (+17 more)
 
 ### Community 13 - "Tenant Service Package"
 Cohesion: 0.07
@@ -440,8 +444,8 @@ Cohesion: 0.13
 Nodes (18): coaSchema, expenseSchema, registerCoaExpenseRoutes(), ServiceConfig, assertWithinCeiling(), createBudgetSchema, createDisbursementSchema, disbursedTotal() (+10 more)
 
 ### Community 23 - "GrantsView.vue"
-Cohesion: 0.07
-Nodes (24): auth, minutesLeft, now, remainingMs, router, show, { t }, toast (+16 more)
+Cohesion: 0.12
+Nodes (16): toast, ToastItem, ToastKind, useToastStore, columns, createGrant(), error, filterQuery (+8 more)
 
 ### Community 24 - "config/package.json"
 Cohesion: 0.14
@@ -528,8 +532,8 @@ Cohesion: 0.25
 Nodes (8): ALLOWED_TYPES, { app, log }, config, pool, root, safeFilename(), tenantKey(), upload
 
 ### Community 46 - "auth.ts"
-Cohesion: 0.22
-Nodes (8): DynamicField, DynamicFieldOption, DynamicFormValue, emit, props, setBool(), setString(), values
+Cohesion: 0.13
+Nodes (13): describedBy, emit, id, props, SelectOption, DynamicField, DynamicFieldOption, DynamicFormValue (+5 more)
 
 ### Community 47 - "LoginView.vue"
 Cohesion: 0.07
@@ -1096,8 +1100,8 @@ Cohesion: 0.09
 Nodes (25): approve(), balanceColumns, balanceFilter, balanceRows, balances, busy, createRequest(), Employee (+17 more)
 
 ### Community 213 - "EmployeesView.vue"
-Cohesion: 0.07
-Nodes (25): describedBy, emit, id, props, describedBy, emit, id, props (+17 more)
+Cohesion: 0.10
+Nodes (20): describedBy, emit, id, props, busy, columns, countryOptions, createEmployee() (+12 more)
 
 ### Community 214 - "smoke-phase2-e2e.mjs"
 Cohesion: 0.38
@@ -1201,7 +1205,7 @@ Nodes (14): devDependencies, tsx, exports, tsx, main, name, private, scripts (+6
 
 ### Community 242 - "api.ts"
 Cohesion: 0.06
-Nodes (28): emit, { t }, emit, busy, error, load(), publishIati(), pubs (+20 more)
+Nodes (29): emit, { t }, emit, permission, route, { t }, flag, moduleId (+21 more)
 
 ### Community 243 - "dpia-attest-phase3.mjs"
 Cohesion: 0.18
@@ -1277,7 +1281,7 @@ Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**
 
 ### Community 262 - "ComplianceView.vue"
 Cohesion: 0.11
-Nodes (18): props, { t }, formatMoney(), statusLabel(), awardColumns, awardFilter, awardRows, DisbursementReport (+10 more)
+Nodes (15): { t }, awardColumns, awardFilter, awardRows, DisbursementReport, disbursements, error, from (+7 more)
 
 ### Community 263 - "ai-insights-service/tsconfig.json"
 Cohesion: 0.25
@@ -1305,7 +1309,7 @@ Nodes (4): aggregateSchema, { app, log }, config, pool
 
 ### Community 269 - "SessionBanner.vue"
 Cohesion: 0.07
-Nodes (21): ChartSeries, COLORS, hasData, linePaths, maxVal, PAD, props, props (+13 more)
+Nodes (24): ChartSeries, COLORS, emit, hasData, linePaths, maxVal, PAD, props (+16 more)
 
 ### Community 270 - "eval-ai-injection.mjs"
 Cohesion: 0.33
@@ -1372,12 +1376,12 @@ Cohesion: 0.50
 Nodes (3): board, required, root
 
 ### Community 287 - "start-embedded-db.mjs"
-Cohesion: 0.13
-Nodes (12): AuthUser, Envelope, useAuthStore, auth, expenseCount, grantCount, kpiCount, loading (+4 more)
+Cohesion: 0.08
+Nodes (22): auth, minutesLeft, now, remainingMs, router, show, { t }, toast (+14 more)
 
 ### Community 289 - "DataTable.vue"
-Cohesion: 0.17
-Nodes (14): active, auth, close(), emit, filtered, go(), input, onKey() (+6 more)
+Cohesion: 0.16
+Nodes (15): active, auth, close(), emit, filtered, go(), input, onKey() (+7 more)
 
 ### Community 290 - "smoke-staging-checklist.mjs"
 Cohesion: 0.25
@@ -1388,16 +1392,16 @@ Cohesion: 0.40
 Nodes (5): AddressValue, emit, patch(), props, value
 
 ### Community 292 - "i18n/index.ts"
-Cohesion: 0.24
-Nodes (8): localeStore, { t }, AppLocale, isRtlLocale(), loadLocale(), MessageSchema, SUPPORTED_LOCALES, useLocaleStore
+Cohesion: 0.21
+Nodes (10): localeStore, { t }, AppLocale, isRtlLocale(), loadLocale(), MessageSchema, SUPPORTED_LOCALES, initialLocale() (+2 more)
 
 ### Community 293 - "main.ts"
-Cohesion: 0.21
+Cohesion: 0.19
 Nodes (9): i18n, installRouteFocus(), app, localeStore, pinia, themeStore, RouteMeta, router (+1 more)
 
 ### Community 294 - "BaseButton.vue"
-Cohesion: 0.20
-Nodes (7): emit, onKey(), panel, previouslyFocused, props, error, { t }
+Cohesion: 0.11
+Nodes (15): emit, next(), onPageSizeChange(), prev(), props, { t }, emit, onKey() (+7 more)
 
 ### Community 295 - "nav.ts"
 Cohesion: 0.33
@@ -1444,8 +1448,8 @@ Cohesion: 0.40
 Nodes (4): describedBy, emit, id, props
 
 ### Community 308 - "CurrencyInput.vue"
-Cohesion: 0.29
-Nodes (6): c, clamped, offset, props, r, tone
+Cohesion: 0.13
+Nodes (14): c, clamped, offset, props, r, tone, busy, error (+6 more)
 
 ### Community 309 - "BaseProgress.vue"
 Cohesion: 0.50
@@ -1464,8 +1468,24 @@ Cohesion: 0.22
 Nodes (6): emit, { t }, describedBy, emit, id, props
 
 ### Community 313 - "Pagination.vue"
-Cohesion: 0.43
-Nodes (6): emit, next(), onPageSizeChange(), prev(), props, { t }
+Cohesion: 0.16
+Nodes (14): gregorian, hijri, iso, { locale }, localeStore, props, withHijri, props (+6 more)
+
+### Community 314 - "check-lighthouse.mjs"
+Cohesion: 0.19
+Nodes (12): A11Y_MIN, CLS_MAX, dist, ensureLighthouse(), findChrome(), LCP_MS, main(), PERF_MIN (+4 more)
+
+### Community 315 - "start-embedded-db.mjs"
+Cohesion: 0.25
+Nodes (7): embedded-postgres, embedded-postgres, alreadyInitialised, databaseDir, pg, root, shutdown()
+
+### Community 316 - "prefetch.ts"
+Cohesion: 0.38
+Nodes (6): onPrefetch(), connectionAllowsPrefetch(), isLazy(), LazyComponent, NetworkInformationLike, prefetchRoute()
+
+### Community 317 - "tenant.ts"
+Cohesion: 0.33
+Nodes (4): DEFAULTS, TenantConfig, TenantStatus, useTenantStore
 
 ### Community 318 - "PercentInput.vue"
 Cohesion: 0.33
@@ -1484,23 +1504,23 @@ Cohesion: 0.05
 Nodes (30): AuditItem, PayslipLine, address, aiDialog, amount, attest, check, currency (+22 more)
 
 ## Knowledge Gaps
-- **2845 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+2840 more)
+- **2887 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+2882 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **18 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `10 — API Design Standards` connect `10 — API Design Standards` to `sdd/README.md`?**
-  _High betweenness centrality (0.016) - this node is a cross-community bridge._
-- **Why does `04 — Architecture Principles, Assumptions and Constraints` connect `4.2 The twelve principles` to `sdd/README.md`?**
+- **Why does `08 — Database Schema` connect `08 — Database Schema` to `sdd/README.md`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Why does `16 — Threat Model (STRIDE)` connect `16.5 STRIDE enumeration` to `sdd/README.md`?**
+- **Why does `07 — Domain Model and Entity-Relationship Design` connect `7.3 Entity-relationship diagrams` to `sdd/README.md`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **Why does `Document Control` connect `Document Control` to `sdd/README.md`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `name`, `version`, `private` to the rest of the system?**
-  _2845 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _2887 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Root Workspace Manifest` be split into smaller, more focused modules?**
-  _Cohesion score 0.02197802197802198 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.021739130434782608 - nodes in this community are weakly interconnected._
 - **Should `File Service Package` be split into smaller, more focused modules?**
   _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._
 - **Should `API Gateway Package` be split into smaller, more focused modules?**

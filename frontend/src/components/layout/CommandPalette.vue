@@ -3,6 +3,7 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../stores/auth';
+import { useTenantStore } from '../../stores/tenant';
 
 export type PaletteItem = {
   id: string;
@@ -10,6 +11,8 @@ export type PaletteItem = {
   labelKey: string;
   groupKey: string;
   anyOf?: string[];
+  module?: string;
+  featureFlag?: string;
 };
 
 const props = defineProps<{
@@ -21,6 +24,7 @@ const emit = defineEmits<{ close: []; 'update:open': [boolean] }>();
 
 const { t } = useI18n();
 const auth = useAuthStore();
+const tenant = useTenantStore();
 const router = useRouter();
 const query = ref('');
 const active = ref(0);
@@ -31,7 +35,12 @@ const previouslyFocused = ref<HTMLElement | null>(null);
 const filtered = computed(() => {
   const q = query.value.trim().toLowerCase();
   return props.items
-    .filter((item) => auth.canAny(item.anyOf))
+    .filter(
+      (item) =>
+        auth.canAny(item.anyOf) &&
+        tenant.moduleEnabled(item.module) &&
+        tenant.featureEnabled(item.featureFlag),
+    )
     .filter((item) => {
       if (!q) return true;
       const label = t(item.labelKey).toLowerCase();

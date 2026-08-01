@@ -12,17 +12,25 @@ const { t } = useI18n();
 .skip {
   position: absolute;
   inset-inline-start: 1rem;
-  top: -100px;
+  inset-block-start: 0;
   z-index: 1000;
   padding: 0.75rem 1rem;
   background: var(--brand-deep);
   color: #fff;
   border-radius: var(--radius-md);
   font-weight: 600;
+  transform: translateY(-120%);
+  transition: transform 0.15s ease;
 }
-.skip:focus {
-  top: 1rem;
+.skip:focus,
+.skip:focus-visible {
+  transform: translateY(1rem);
   outline: 3px solid var(--focus);
   outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .skip {
+    transition: none;
+  }
 }
 </style>

@@ -29,7 +29,28 @@
     "confirm": "Confirm",
     "saved": "Saved",
     "emptyTitle": "Nothing here yet",
-    "retry": "Try again"
+    "retry": "Try again",
+    "hijri": "Show Hijri dates"
+  },
+  "chart": {
+    "empty": "No chart data",
+    "category": "Category",
+    "dataTableCaption": "Data table for {title}"
+  },
+  "guards": {
+    "forbiddenTitle": "Permission required",
+    "forbiddenLede": "Your role cannot open this page.",
+    "forbiddenPermission": "Ask an administrator to grant: {permission}",
+    "suspendedTitle": "Tenant suspended",
+    "suspendedLede": "This organisation cannot use the suite right now.",
+    "suspendedBody": "Contact your NGOIS administrator or support to restore access.",
+    "moduleTitle": "Module unavailable",
+    "moduleLede": "This capability is not enabled for your organisation.",
+    "moduleBody": "Module “{module}” is disabled for this tenant.",
+    "featureBody": "Feature flag “{flag}” is off for this tenant.",
+    "offlineTitle": "Unavailable offline",
+    "offlineLede": "This page is not cached on this device.",
+    "offlineBody": "Reconnect, or open a page you have already visited while online."
   },
   "nav": {
     "overview": "Overview",
@@ -105,7 +126,8 @@
     "goFinance": "Open finance",
     "goPayroll": "Open payroll",
     "goIntelligence": "Open intelligence",
-    "statsEmpty": "Live counts will appear once services respond."
+    "statsEmpty": "Live counts will appear once services respond.",
+    "today": "Today"
   },
   "grants": {
     "eyebrow": "Grant service",

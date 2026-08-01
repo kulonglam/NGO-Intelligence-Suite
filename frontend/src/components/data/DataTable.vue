@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { useVirtualizer } from '@tanstack/vue-virtual';
 import { useI18n } from 'vue-i18n';
 import EmptyState from '../feedback/EmptyState.vue';
+import ErrorState from '../feedback/ErrorState.vue';
 import SkeletonBlock from '../feedback/SkeletonBlock.vue';
 import Pagination from './Pagination.vue';
 
@@ -22,6 +23,7 @@ const props = withDefaults(
     rows: Array<Record<string, unknown>>;
     caption: string;
     loading?: boolean;
+    error?: string | null;
     emptyTitle?: string;
     emptyBody?: string;
     rowKey?: string;
@@ -44,6 +46,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   'update:selected': [string[]];
+  retry: [];
 }>();
 
 const { t } = useI18n();
@@ -174,6 +177,11 @@ function onPageSize(n: number) {
   <div class="wrap">
     <div v-if="loading" class="pad">
       <SkeletonBlock :rows="4" height="1.25rem" />
+    </div>
+    <div v-else-if="error" class="pad">
+      <ErrorState :body="error" @retry="emit('retry')">
+        <slot name="error" />
+      </ErrorState>
     </div>
     <div v-else-if="!filtered.length" class="pad">
       <EmptyState :title="emptyTitle ?? t('table.empty')" :body="emptyBody">

@@ -3,14 +3,16 @@ import { computed, onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth';
+import { useTenantStore } from '../stores/tenant';
 import { api } from '../lib/api';
 import PageHeader from '../components/layout/PageHeader.vue';
 import SectionCard from '../components/layout/SectionCard.vue';
 import StatCard from '../components/data/StatCard.vue';
-import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
+import DateDisplay from '../components/base/DateDisplay.vue';
 
 const { t } = useI18n();
 const auth = useAuthStore();
+const tenant = useTenantStore();
 
 const welcome = computed(() =>
   auth.user ? t('home.welcomeNamed', { name: auth.user.display_name }) : t('home.welcome'),
@@ -21,26 +23,37 @@ const grantCount = ref<number | null>(null);
 const expenseCount = ref<number | null>(null);
 const payrollCount = ref<number | null>(null);
 const kpiCount = ref<number | null>(null);
+const today = new Date();
 
 const quickLinks = computed(() =>
   [
     {
       to: '/grants',
       labelKey: 'home.goGrants',
+      module: 'grants',
       anyOf: ['grant:award:list', 'grant:award:read'],
     },
     {
       to: '/finance',
       labelKey: 'home.goFinance',
+      module: 'finance',
       anyOf: ['grant:expenditure:read', 'grant:budget:read'],
     },
-    { to: '/payroll', labelKey: 'home.goPayroll', anyOf: ['payroll:run:read'] },
+    {
+      to: '/payroll',
+      labelKey: 'home.goPayroll',
+      module: 'payroll',
+      anyOf: ['payroll:run:read'],
+    },
     {
       to: '/intelligence',
       labelKey: 'home.goIntelligence',
+      module: 'intelligence',
       anyOf: ['reporting:dashboard:read', 'grant:report:read'],
     },
-  ].filter((link) => auth.canAny(link.anyOf)),
+  ].filter(
+    (link) => auth.canAny(link.anyOf) && tenant.moduleEnabled(link.module),
+  ),
 );
 
 onMounted(async () => {
@@ -69,28 +82,40 @@ onMounted(async () => {
       :title="welcome"
       :lede="t('home.lede')"
       heading-id="home-heading"
-    />
+    >
+      <template #actions>
+        <p class="today">
+          <span class="sr-only">{{ t('home.today') }}</span>
+          <DateDisplay :value="today" />
+        </p>
+      </template>
+    </PageHeader>
 
-    <div v-if="loading" class="stats">
-      <SkeletonBlock :rows="2" height="3.5rem" />
-    </div>
-    <div v-else class="stats">
+    <div class="stats">
       <StatCard
         :label="t('home.statGrants')"
-        :value="grantCount == null ? '—' : String(grantCount)"
+        :loading="loading"
+        :value="grantCount == null ? null : String(grantCount)"
+        :empty="!loading && grantCount == null"
       />
       <StatCard
         :label="t('home.statExpenses')"
-        :value="expenseCount == null ? '—' : String(expenseCount)"
+        :loading="loading"
+        :value="expenseCount == null ? null : String(expenseCount)"
+        :empty="!loading && expenseCount == null"
       />
       <StatCard
         :label="t('home.statPayroll')"
-        :value="payrollCount == null ? '—' : String(payrollCount)"
+        :loading="loading"
+        :value="payrollCount == null ? null : String(payrollCount)"
+        :empty="!loading && payrollCount == null"
       />
       <StatCard
         :label="t('home.statKpis')"
-        :value="kpiCount == null ? '—' : String(kpiCount)"
-        :hint="grantCount == null ? t('home.statsEmpty') : undefined"
+        :loading="loading"
+        :value="kpiCount == null ? null : String(kpiCount)"
+        :empty="!loading && kpiCount == null"
+        :hint="grantCount == null && !loading ? t('home.statsEmpty') : undefined"
       />
     </div>
 
@@ -120,6 +145,11 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.today {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
 .stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -150,8 +180,8 @@ onMounted(async () => {
   gap: 1rem;
 }
 article {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid var(--line);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 1.1rem;
 }

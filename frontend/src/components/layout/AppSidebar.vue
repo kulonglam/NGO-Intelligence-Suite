@@ -24,6 +24,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   toggleGroup: [id: string];
   'update:openGroups': [Record<string, boolean>];
+  prefetch: [to: string];
 }>();
 
 function onToggle(id: string) {
@@ -65,6 +66,8 @@ function onToggle(id: string) {
             :to="item.to"
             :active-class="item.exact ? '' : 'active'"
             exact-active-class="active"
+            @mouseenter="emit('prefetch', item.to)"
+            @focusin="emit('prefetch', item.to)"
           >
             {{ item.label }}
           </RouterLink>
@@ -82,19 +85,31 @@ function onToggle(id: string) {
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-4);
   padding: var(--space-5) var(--space-4);
   background: linear-gradient(180deg, var(--brand-deep), var(--color-primary));
   color: var(--color-on-primary);
   min-height: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+nav {
+  display: grid;
+  gap: var(--space-2);
+}
+.brand {
+  min-width: 0;
 }
 .brand-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   font-weight: 700;
   color: #fff;
   line-height: 1.25;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 .eyebrow {
   margin: 0 0 var(--space-1);
@@ -146,8 +161,19 @@ nav a.active {
   color: #fff;
 }
 .footer {
-  margin-block-start: auto;
   display: grid;
   gap: var(--space-3);
+  min-width: 0;
+  max-width: 100%;
+  margin-block-start: var(--space-3);
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid rgba(255, 255, 255, 0.14);
+}
+.footer :deep(.locale-block),
+.footer :deep(.theme) {
+  max-width: 100%;
+}
+.footer :deep(select) {
+  max-width: 100%;
 }
 </style>
