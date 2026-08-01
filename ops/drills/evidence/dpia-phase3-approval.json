@@ -1,0 +1,24 @@
+{
+  "gate": "dpia-phase3",
+  "pass": true,
+  "document": "ops/compliance/dpia-phase3-beneficiary.md",
+  "document_sha256": "afe3d60f05eea853181ca1135f1f8b7ca26596afe1add8732210bfb708d14108",
+  "version": "1.0",
+  "status": "approved",
+  "dpo": {
+    "name": "Platform DPO (design-partner pilot)",
+    "organisation": "NGO Intelligence Suite operator",
+    "role": "DPO"
+  },
+  "approved_at": "2026-07-30T19:57:54.093Z",
+  "checklist": {
+    "dpo_reviewed": true,
+    "lawful_basis_documented": true,
+    "retention_mapped": true,
+    "erasure_dsar_verified": true,
+    "offline_wipe_tested": true,
+    "k_anonymity_enforced": true
+  },
+  "supersedes_draft": true,
+  "note": "Attestation closes Phase 3 beneficiary DPIA draft. Tenant wet-ink countersignature may still apply."
+}

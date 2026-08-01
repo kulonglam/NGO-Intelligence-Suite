@@ -1,0 +1,66 @@
+{
+  "gate": 10,
+  "generated_at": "2026-07-30T04:33:51.354Z",
+  "checks": {
+    "analysis_template_present": true,
+    "rollout_stub_present": true,
+    "template_has_failure_limit": true,
+    "template_has_success_condition": true,
+    "rollout_references_analysis": true
+  },
+  "promote": {
+    "status": 0,
+    "decision": {
+      "action": "promote",
+      "reason": "within_budget"
+    }
+  },
+  "abort": {
+    "status": 0,
+    "decision": {
+      "action": "abort",
+      "reason": "error_rate_regression"
+    }
+  },
+  "analysis_run_abort": {
+    "apiVersion": "argoproj.io/v1alpha1",
+    "kind": "AnalysisRun",
+    "metadata": {
+      "name": "ngois-canary-injected-regression",
+      "namespace": "ngois"
+    },
+    "spec": {
+      "args": [
+        {
+          "name": "service-name",
+          "value": "api-gateway"
+        }
+      ],
+      "metrics": [
+        {
+          "name": "error-rate",
+          "successCondition": "result[0] < 2",
+          "failureLimit": 1
+        }
+      ]
+    },
+    "status": {
+      "phase": "Failed",
+      "message": "metric error-rate failed (injected regression)",
+      "metricResults": [
+        {
+          "name": "error-rate",
+          "phase": "Failed",
+          "measurements": [
+            {
+              "value": "8.5",
+              "phase": "Failed"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "pass": true,
+  "note": "Local Argo-compatible abort drill. Apply manifests on a live cluster for prod ops."
+}

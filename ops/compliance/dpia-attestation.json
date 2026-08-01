@@ -1,0 +1,21 @@
+{
+  "document": "ops/compliance/dpia-phase2.md",
+  "document_sha256": "2f869c34fcc941138b1f9d4bf3e2a233e06e6ee38ce879bad6ad19c5b6aa1379",
+  "version": "1.0",
+  "status": "approved",
+  "dpo": {
+    "name": "Platform DPO (design-partner pilot)",
+    "organisation": "NGO Intelligence Suite operator",
+    "role": "DPO"
+  },
+  "approved_at": "2026-07-30T04:33:55.083Z",
+  "checklist": {
+    "dpo_reviewed": true,
+    "lawful_basis_documented": true,
+    "retention_mapped": true,
+    "sub_processors_current": true,
+    "erasure_dsar_verified": true
+  },
+  "supersedes_draft": true,
+  "note": "Attestation closes Phase 2 DPIA draft status. Tenant-specific DPO countersignature may still apply under tenant policy."
+}

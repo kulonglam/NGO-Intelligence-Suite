@@ -14,10 +14,34 @@
   --danger: #8f2424;
   --focus: #c9a227;
   --shadow: 0 18px 50px rgba(20, 38, 43, 0.08);
+  --shadow-sm: 0 4px 14px rgba(20, 38, 43, 0.06);
+  --shadow-md: var(--shadow);
+  --warning: #8a5a12;
+  --info: #1f4e5f;
 
+  /* SDD §19.5 semantic aliases */
+  --color-primary: var(--brand);
+  --color-primary-hover: var(--brand-deep);
+  --color-primary-subtle: rgba(31, 78, 95, 0.08);
+  --color-on-primary: var(--on-brand);
+  --color-success: var(--ok);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --color-surface: var(--surface);
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: var(--paper-2);
+  --color-border: var(--line);
+  --color-border-strong: #8fa39c;
+  --color-text: var(--ink);
+  --color-text-muted: var(--ink-muted);
+  --color-text-inverse: var(--on-brand);
+
+  --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-pill: 999px;
+  --radius-full: 999px;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -25,6 +49,13 @@
   --space-4: 1rem;
   --space-5: 1.5rem;
   --space-6: 2rem;
+  --space-8: 2.5rem;
+
+  --sidebar-width: 272px;
+  --header-height: 3.5rem;
+  --content-max-width: 72rem;
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
 
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-display: 'Fraunces', Georgia, serif;

@@ -1,0 +1,10 @@
+{
+  "gate": "phase3-offline-harness",
+  "generated_at": "2026-07-30T19:58:37.957Z",
+  "batch_size": 5,
+  "partial_accepted": 3,
+  "replayed": 3,
+  "newly_accepted": 2,
+  "lost": 0,
+  "pass": true
+}

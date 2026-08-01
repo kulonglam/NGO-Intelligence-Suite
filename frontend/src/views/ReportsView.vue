@@ -6,6 +6,9 @@ import { formatMoney } from '../lib/format';
 import BaseButton from '../components/base/BaseButton.vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
+import PageHeader from '../components/layout/PageHeader.vue';
+import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
+import EmptyState from '../components/feedback/EmptyState.vue';
 
 type Portfolio = {
   award_count: number;
@@ -66,14 +69,18 @@ onMounted(() => {
 
 <template>
   <section class="reports">
-    <header>
-      <p class="eyebrow">{{ t('reports.eyebrow') }}</p>
-      <h1>{{ t('reports.title') }}</h1>
-      <p class="lede">{{ t('reports.lede') }}</p>
-    </header>
+    <PageHeader
+      :eyebrow="t('reports.eyebrow')"
+      :title="t('reports.title')"
+      :lede="t('reports.lede')"
+    >
+      <template #actions>
+        <BaseButton variant="ghost" :disabled="loading" @click="load">{{ t('app.refresh') }}</BaseButton>
+      </template>
+    </PageHeader>
 
     <p v-if="error" class="error" role="alert">{{ error }}</p>
-    <p v-if="loading">{{ t('app.loading') }}</p>
+    <SkeletonBlock v-if="loading" :rows="6" height="1.2rem" />
 
     <template v-else-if="portfolio">
       <div class="totals" aria-label="Portfolio totals">
@@ -131,7 +138,11 @@ onMounted(() => {
       <p class="lede">
         {{ t('reports.rangeSummary', { count: disbursements.count, total: formatMoney(disbursements.total, 'USD', locale) }) }}
       </p>
-      <table>
+      <EmptyState
+        v-if="!disbursements.by_status.length"
+        :title="t('reports.emptyDisbursements')"
+      />
+      <table v-else>
         <thead>
           <tr>
             <th>{{ t('grants.status') }}</th>
@@ -145,9 +156,6 @@ onMounted(() => {
             <td>{{ row.count }}</td>
             <td>{{ formatMoney(row.total, 'USD', locale) }}</td>
           </tr>
-          <tr v-if="!disbursements.by_status.length">
-            <td colspan="3">{{ t('reports.emptyDisbursements') }}</td>
-          </tr>
         </tbody>
       </table>
     </template>
@@ -157,17 +165,6 @@ onMounted(() => {
 <style scoped>
 .reports {
   max-width: 1100px;
-}
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.75rem;
-  color: var(--muted);
-  margin: 0;
-}
-h1 {
-  font-family: var(--font-display);
-  margin: 0.35rem 0;
 }
 .lede {
   color: var(--muted);

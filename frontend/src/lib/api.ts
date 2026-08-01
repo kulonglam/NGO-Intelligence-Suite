@@ -25,7 +25,15 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   };
 
   if (!res.ok || !body.success) {
-    throw new Error(body.errors?.[0]?.message ?? `Request failed (${res.status})`);
+    const message = body.errors?.[0]?.message ?? `Request failed (${res.status})`;
+    if (res.status === 401) {
+      auth.logout();
+      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+        const redirect = encodeURIComponent(window.location.pathname + window.location.search);
+        window.location.assign(`/login?redirect=${redirect}`);
+      }
+    }
+    throw new Error(message);
   }
   return body.data;
 }

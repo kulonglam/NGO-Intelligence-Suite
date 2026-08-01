@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { RouterLink } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth';
+import { api } from '../lib/api';
+import PageHeader from '../components/layout/PageHeader.vue';
+import SectionCard from '../components/layout/SectionCard.vue';
+import StatCard from '../components/data/StatCard.vue';
+import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
 
 const { t } = useI18n();
 const auth = useAuthStore();
@@ -9,13 +15,73 @@ const auth = useAuthStore();
 const welcome = computed(() =>
   auth.user ? t('home.welcomeNamed', { name: auth.user.display_name }) : t('home.welcome'),
 );
+
+const loading = ref(true);
+const grantCount = ref<number | null>(null);
+const expenseCount = ref<number | null>(null);
+const payrollCount = ref<number | null>(null);
+const kpiCount = ref<number | null>(null);
+
+onMounted(async () => {
+  loading.value = true;
+  try {
+    const [grants, expenses, runs, dash] = await Promise.allSettled([
+      api<unknown[]>('/v1/grant/grants'),
+      api<unknown[]>('/v1/grant/expenses'),
+      api<unknown[]>('/v1/hr/payroll-runs'),
+      api<{ kpis?: unknown[] }>('/v1/analytics/dashboard'),
+    ]);
+    if (grants.status === 'fulfilled') grantCount.value = grants.value.length;
+    if (expenses.status === 'fulfilled') expenseCount.value = expenses.value.length;
+    if (runs.status === 'fulfilled') payrollCount.value = runs.value.length;
+    if (dash.status === 'fulfilled') kpiCount.value = dash.value.kpis?.length ?? 0;
+  } finally {
+    loading.value = false;
+  }
+});
 </script>
 
 <template>
   <section aria-labelledby="home-heading">
-    <p class="eyebrow">{{ t('home.eyebrow') }}</p>
-    <h1 id="home-heading">{{ welcome }}</h1>
-    <p class="lede">{{ t('home.lede') }}</p>
+    <PageHeader
+      :eyebrow="t('home.eyebrow')"
+      :title="welcome"
+      :lede="t('home.lede')"
+      heading-id="home-heading"
+    />
+
+    <div v-if="loading" class="stats">
+      <SkeletonBlock :rows="2" height="3.5rem" />
+    </div>
+    <div v-else class="stats">
+      <StatCard
+        :label="t('home.statGrants')"
+        :value="grantCount == null ? '—' : String(grantCount)"
+      />
+      <StatCard
+        :label="t('home.statExpenses')"
+        :value="expenseCount == null ? '—' : String(expenseCount)"
+      />
+      <StatCard
+        :label="t('home.statPayroll')"
+        :value="payrollCount == null ? '—' : String(payrollCount)"
+      />
+      <StatCard
+        :label="t('home.statKpis')"
+        :value="kpiCount == null ? '—' : String(kpiCount)"
+        :hint="grantCount == null ? t('home.statsEmpty') : undefined"
+      />
+    </div>
+
+    <SectionCard :title="t('home.quickLinks')" title-id="quick-links">
+      <div class="links">
+        <RouterLink to="/grants">{{ t('home.goGrants') }}</RouterLink>
+        <RouterLink to="/finance">{{ t('home.goFinance') }}</RouterLink>
+        <RouterLink to="/payroll">{{ t('home.goPayroll') }}</RouterLink>
+        <RouterLink to="/intelligence">{{ t('home.goIntelligence') }}</RouterLink>
+      </div>
+    </SectionCard>
+
     <div class="grid">
       <article>
         <h2>{{ t('home.identityTitle') }}</h2>
@@ -34,24 +100,31 @@ const welcome = computed(() =>
 </template>
 
 <style scoped>
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.75rem;
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block-end: 1.5rem;
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.links a {
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
   color: var(--brand);
   font-weight: 600;
 }
-h1 {
-  font-size: 2.4rem;
-  margin: 0.5rem 0 0.75rem;
-  color: var(--brand-deep);
-}
-.lede {
-  max-width: 42rem;
-  color: var(--ink-muted);
+.links a:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
 }
 .grid {
-  margin-block-start: 1.75rem;
+  margin-block-start: 1.5rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
@@ -71,6 +144,7 @@ article p {
   color: var(--ink-muted);
 }
 @media (max-width: 900px) {
+  .stats,
   .grid {
     grid-template-columns: 1fr;
   }

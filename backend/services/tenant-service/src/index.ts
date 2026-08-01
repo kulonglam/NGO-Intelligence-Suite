@@ -12,6 +12,7 @@ import {
   validateBody,
 } from '@ngois/service-kit';
 import { requireTenantId, withTenant } from '@ngois/tenant-context';
+import { mountWebhookRoutes } from './webhooks.js';
 
 const config = loadConfig(
   baseServiceSchema.extend({
@@ -316,6 +317,8 @@ app.post(
     }
   },
 );
+
+mountWebhookRoutes(app, pool, config.SERVICE_NAME);
 
 app.use(errorHandler(log));
 

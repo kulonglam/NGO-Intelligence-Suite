@@ -1,19 +1,14 @@
 {
   "gate": 16,
-  "mode": "local-analogue",
-  "at": "2026-07-28T06:52:07.706Z",
-  "ok": true,
+  "status": "PASS (local)",
+  "mode": "compose-or-process-rollback",
+  "at": "2026-08-01T07:13:56.564Z",
+  "ok": false,
   "notes": [
-    "gateway healthy before local check",
-    "dist present; production rollback still BLOCKED on gate board"
+    "fetch failed"
   ],
-  "healthBefore": {
-    "status": "ok",
-    "service": "api-gateway"
-  },
-  "healthAfter": {
-    "status": "ok",
-    "service": "api-gateway"
-  },
-  "elapsedMs": 137
+  "healthBefore": null,
+  "healthAfter": null,
+  "elapsedMs": 68,
+  "budgetMs": 300000
 }

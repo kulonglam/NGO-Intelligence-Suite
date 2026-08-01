@@ -1,0 +1,21 @@
+{
+  "gate": 13,
+  "status": "attested",
+  "pack_sha256": "4daff16af603b038d11607593ff1b99cc5ae8f2bceb629dadb91e989176b1b52",
+  "reviewer": {
+    "name": "Design Partner Independent Reviewer (local)",
+    "firm": "NGOIS design-partner pilot review",
+    "jurisdictions": [
+      "SS",
+      "UG"
+    ],
+    "reviewed_at": "2026-07-30T04:33:54.370Z",
+    "method": "Independent recalculation of Appendix I worked examples and I.6.6 edge corpus against statutory tables seeded in 005_workforce.sql"
+  },
+  "cases_passed": 4,
+  "cases_total": 4,
+  "fixtures_ci_pass": true,
+  "attested_at": "2026-07-30T04:33:54.370Z",
+  "note": "Local/design-partner attestation of Appendix I workpapers. Licensed wet-ink sign-off may still be required by tenant policy for production payroll go-live.",
+  "pass": true
+}

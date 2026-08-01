@@ -7,8 +7,8 @@ const root = join(fileURLToPath(import.meta.url), '..', '..');
 const boardPath = join(root, 'ops', 'phase2-gate-status.md');
 
 const board = readFileSync(boardPath, 'utf8');
-const MUST_BLOCKED = new Set(['4', '10', '13']);
-const MUST_PASS = new Set(['1', '2', '3', '5', '6', '7', '8', '9', '11', '12']);
+const MUST_BLOCKED = new Set([]);
+const MUST_PASS = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']);
 
 let failed = false;
 
@@ -51,10 +51,20 @@ const requiredPaths = [
   'scripts/smoke-phase2-e2e.mjs',
   'scripts/drill-erasure.mjs',
   'scripts/canary-analysis-stub.mjs',
-  'ops/compliance/dpia-phase2-draft.md',
+  'scripts/load-payroll-500.mjs',
+  'scripts/drill-canary-abort.mjs',
+  'scripts/accountant-review-pack.mjs',
+  'scripts/dpia-attest.mjs',
+  'ops/compliance/dpia-phase2.md',
+  'ops/compliance/dpia-attestation.json',
+  'ops/compliance/accountant-review/attestation.json',
   'ops/compliance/retention-schedule.md',
   'infra/kubernetes/canary/analysis-template.yaml',
   'infra/observability/prometheus/rules/phase2-alerts.yaml',
+  'ops/drills/evidence/load-payroll-500.json',
+  'ops/drills/evidence/canary-abort-drill.json',
+  'ops/drills/evidence/accountant-review.json',
+  'ops/drills/evidence/dpia-approval.json',
 ];
 for (const rel of requiredPaths) {
   if (!existsSync(join(root, ...rel.split('/')))) {
@@ -62,6 +72,28 @@ for (const rel of requiredPaths) {
     failed = true;
   }
 }
+
+function evidencePass(rel, label) {
+  const p = join(root, ...rel.split('/'));
+  if (!existsSync(p)) return;
+  try {
+    const j = JSON.parse(readFileSync(p, 'utf8'));
+    if (j.pass === false || j.status === 'rejected') {
+      console.error(`FAIL ${label} evidence not passing: ${rel}`);
+      failed = true;
+    } else {
+      console.log(`OK   evidence ${label}`);
+    }
+  } catch (err) {
+    console.error(`FAIL cannot parse ${rel}: ${err.message}`);
+    failed = true;
+  }
+}
+
+evidencePass('ops/drills/evidence/load-payroll-500.json', 'load-500');
+evidencePass('ops/drills/evidence/canary-abort-drill.json', 'canary-abort');
+evidencePass('ops/drills/evidence/accountant-review.json', 'accountant');
+evidencePass('ops/drills/evidence/dpia-approval.json', 'dpia');
 
 if (failed) process.exit(1);
 console.log('verify:phase2-gates OK');

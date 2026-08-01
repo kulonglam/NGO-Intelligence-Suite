@@ -1,0 +1,7 @@
+{
+  "channel": "email",
+  "to": "officer@example.com",
+  "subject": "Your payslip is ready",
+  "body": "Your payslip is ready. Open the secure link in the app — no figures in email.",
+  "at": "2026-07-30T19:59:43.962Z"
+}

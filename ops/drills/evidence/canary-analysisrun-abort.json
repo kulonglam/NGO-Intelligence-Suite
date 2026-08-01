@@ -1,0 +1,39 @@
+{
+  "apiVersion": "argoproj.io/v1alpha1",
+  "kind": "AnalysisRun",
+  "metadata": {
+    "name": "ngois-canary-injected-regression",
+    "namespace": "ngois"
+  },
+  "spec": {
+    "args": [
+      {
+        "name": "service-name",
+        "value": "api-gateway"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "error-rate",
+        "successCondition": "result[0] < 2",
+        "failureLimit": 1
+      }
+    ]
+  },
+  "status": {
+    "phase": "Failed",
+    "message": "metric error-rate failed (injected regression)",
+    "metricResults": [
+      {
+        "name": "error-rate",
+        "phase": "Failed",
+        "measurements": [
+          {
+            "value": "8.5",
+            "phase": "Failed"
+          }
+        ]
+      }
+    ]
+  }
+}

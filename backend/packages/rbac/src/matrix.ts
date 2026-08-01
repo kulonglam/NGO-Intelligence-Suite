@@ -109,6 +109,8 @@ export const MATRIX: ReadonlyArray<{ permission: string; grants: readonly GrantC
   { permission: 'tenant:offboard', grants: ['‡', '-', '-', '-', '-', '-', '-', '-'] },
   { permission: 'tenant:flag:read', grants: ['Y', 'Y', '-', '-', '-', '-', '-', 'Y'] },
   { permission: 'tenant:flag:update', grants: ['‡', '-', '-', '-', '-', '-', '-', '-'] },
+  { permission: 'webhook:subscription:manage', grants: ['‡', 'Y', '-', '-', '-', '-', '-', '-'] },
+  { permission: 'webhook:delivery:read', grants: ['‡', 'Y', '-', '-', '-', '-', '-', '-'] },
 
   // C.4 Grants and finance
   { permission: 'grant:donor:create', grants: ['-', 'Y', 'Y', '-', '-', '-', '-', '-'] },
@@ -244,6 +246,11 @@ export const MATRIX: ReadonlyArray<{ permission: string; grants: readonly GrantC
   { permission: 'lms:certificate:issue', grants: ['-', 'Y', '-', 'Y', '-', '-', '-', '-'] },
   { permission: 'lms:compliance:read', grants: ['-', 'Y', '-', 'Y', '-', '-', '-', 'Y'] },
   { permission: 'lms:mandatory_rule:admin', grants: ['-', 'Y', '-', 'Y', '-', '-', '-', '-'] },
+
+  // Notifications (Phase 3)
+  { permission: 'notification:send', grants: ['-', 'Y', 'Y', 'Y', '-', '-', '-', '-'] },
+  { permission: 'notification:template:admin', grants: ['-', 'Y', '-', '-', '-', '-', '-', '-'] },
+  { permission: 'notification:delivery:read', grants: ['-', 'Y', 'Y', 'Y', '-', '-', '-', 'Y'] },
 
   // C.10 Reporting, files, AI, audit
   { permission: 'reporting:report:generate', grants: ['-', 'Y', 'Y', 'Y', 'Y', '-', 'S', 'Y'] },

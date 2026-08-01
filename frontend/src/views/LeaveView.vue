@@ -5,6 +5,9 @@ import { api } from '../lib/api';
 import BaseButton from '../components/base/BaseButton.vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
+import PageHeader from '../components/layout/PageHeader.vue';
+import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
+import EmptyState from '../components/feedback/EmptyState.vue';
 
 type LeaveType = { id: string; code: string; name: string };
 type Employee = { id: string; display_name: string; employee_number: string };
@@ -127,18 +130,23 @@ onMounted(() => void load());
 
 <template>
   <section>
-    <header>
-      <p class="eyebrow">{{ t('workforce.eyebrow') }}</p>
-      <h1>{{ t('workforce.leave') }}</h1>
-      <p class="lede">{{ t('workforce.leaveLede') }}</p>
-    </header>
+    <PageHeader
+      :eyebrow="t('workforce.eyebrow')"
+      :title="t('workforce.leave')"
+      :lede="t('workforce.leaveLede')"
+    >
+      <template #actions>
+        <BaseButton variant="ghost" :disabled="loading" @click="load">{{ t('app.refresh') }}</BaseButton>
+      </template>
+    </PageHeader>
     <p v-if="error" class="error" role="alert">{{ error }}</p>
 
     <div class="balances-head">
       <h2>{{ t('workforce.balances') }}</h2>
       <BaseButton :disabled="busy" @click="runAccrue">{{ t('workforce.accrue') }}</BaseButton>
     </div>
-    <table>
+    <EmptyState v-if="!loading && !balances.length" :title="t('workforce.noBalances')" />
+    <table v-else-if="balances.length">
       <thead>
         <tr>
           <th>{{ t('workforce.name') }}</th>
@@ -153,9 +161,6 @@ onMounted(() => void load());
           <td>{{ b.leave_type_name ?? b.leave_type_code }}</td>
           <td>{{ b.accrued_days }}</td>
           <td>{{ b.taken_days }}</td>
-        </tr>
-        <tr v-if="!balances.length && !loading">
-          <td colspan="4">{{ t('workforce.noBalances') }}</td>
         </tr>
       </tbody>
     </table>
@@ -186,7 +191,8 @@ onMounted(() => void load());
       <BaseButton type="submit" :disabled="busy">{{ t('workforce.requestLeave') }}</BaseButton>
     </form>
 
-    <p v-if="loading">{{ t('app.loading') }}</p>
+    <SkeletonBlock v-if="loading" :rows="4" height="1.25rem" />
+    <EmptyState v-else-if="!requests.length" :title="t('workforce.noLeave')" />
     <table v-else>
       <thead>
         <tr>
@@ -216,25 +222,12 @@ onMounted(() => void load());
             </BaseButton>
           </td>
         </tr>
-        <tr v-if="!requests.length">
-          <td colspan="6">{{ t('workforce.noLeave') }}</td>
-        </tr>
       </tbody>
     </table>
   </section>
 </template>
 
 <style scoped>
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-.lede {
-  color: var(--muted);
-  max-width: 42rem;
-}
 .balances-head {
   display: flex;
   align-items: center;

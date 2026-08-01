@@ -1,0 +1,11 @@
+{
+  "gate": "phase3-field-2g-local",
+  "generated_at": "2026-07-30T19:58:35.187Z",
+  "count": 40,
+  "accepted": 40,
+  "lost": 0,
+  "elapsed_ms": 203,
+  "budget_ms": 90000,
+  "note": "Local gateway throughput proxy — not a physical 2G radio trial",
+  "pass": true
+}

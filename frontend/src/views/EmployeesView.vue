@@ -5,6 +5,9 @@ import { api } from '../lib/api';
 import BaseButton from '../components/base/BaseButton.vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
+import PageHeader from '../components/layout/PageHeader.vue';
+import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
+import EmptyState from '../components/feedback/EmptyState.vue';
 
 type Employee = {
   id: string;
@@ -103,18 +106,19 @@ onMounted(() => void load());
 
 <template>
   <section>
-    <header>
-      <p class="eyebrow">{{ t('workforce.eyebrow') }}</p>
-      <h1>{{ t('workforce.employees') }}</h1>
-      <p class="lede">{{ t('workforce.employeesLede') }}</p>
-    </header>
+    <PageHeader
+      :eyebrow="t('workforce.eyebrow')"
+      :title="t('workforce.employees')"
+      :lede="t('workforce.employeesLede')"
+    >
+      <template #actions>
+        <BaseButton :disabled="busy" @click="showForm = !showForm">
+          {{ showForm ? t('app.back') : t('workforce.addEmployee') }}
+        </BaseButton>
+        <BaseButton variant="ghost" :disabled="loading" @click="load">{{ t('app.refresh') }}</BaseButton>
+      </template>
+    </PageHeader>
     <p v-if="error" class="error" role="alert">{{ error }}</p>
-    <div class="actions">
-      <BaseButton :disabled="busy" @click="showForm = !showForm">
-        {{ showForm ? t('app.back') : t('workforce.addEmployee') }}
-      </BaseButton>
-      <BaseButton variant="ghost" :disabled="loading" @click="load">{{ t('app.refresh') }}</BaseButton>
-    </div>
 
     <form v-if="showForm" class="create" @submit.prevent="createEmployee">
       <BaseInput v-model="form.employee_number" :label="t('workforce.number')" required />
@@ -139,7 +143,8 @@ onMounted(() => void load());
       <BaseButton type="submit" :disabled="busy">{{ t('workforce.saveEmployee') }}</BaseButton>
     </form>
 
-    <p v-if="loading">{{ t('app.loading') }}</p>
+    <SkeletonBlock v-if="loading" :rows="5" height="1.25rem" />
+    <EmptyState v-else-if="!employees.length" :title="t('workforce.empty')" />
     <table v-else>
       <thead>
         <tr>
@@ -158,30 +163,12 @@ onMounted(() => void load());
           <td>{{ e.department_name }}</td>
           <td><StatusBadge :status="e.status" /></td>
         </tr>
-        <tr v-if="!employees.length">
-          <td colspan="5">{{ t('workforce.empty') }}</td>
-        </tr>
       </tbody>
     </table>
   </section>
 </template>
 
 <style scoped>
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-.lede {
-  color: var(--muted);
-  max-width: 42rem;
-}
-.actions {
-  display: flex;
-  gap: 0.75rem;
-  margin: 1rem 0;
-}
 .create {
   display: grid;
   gap: 0.75rem;

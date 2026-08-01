@@ -1,24 +1,48 @@
-# STUB Argo CD ApplicationSet / root app — points at kubernetes/apps.
+# Argo CD root app — apps + canary Rollouts (staging-ready).
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: ngois-root
   namespace: argocd
   labels:
-    ngois.io/stub: "true"
+    app.kubernetes.io/part-of: ngois
 spec:
   project: ngois
   source:
     repoURL: https://github.com/example/ngo-intelligence-suite.git
     targetRevision: main
-    path: infra/kubernetes/apps
+    path: infra/kubernetes
+    directory:
+      recurse: true
+      include: '{apps/**/kustomization.yaml,canary/kustomization.yaml,base/*.yaml}'
   destination:
     server: https://kubernetes.default.svc
     namespace: ngois
   syncPolicy:
     automated:
       prune: false
-      selfHeal: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ngois-canary
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: ngois
+    ngois.io/canary: "true"
+spec:
+  project: ngois
+  source:
+    repoURL: https://github.com/example/ngo-intelligence-suite.git
+    targetRevision: main
+    path: infra/kubernetes/canary
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ngois
+  syncPolicy:
     syncOptions:
       - CreateNamespace=true
 ---
@@ -28,12 +52,16 @@ metadata:
   name: ngois
   namespace: argocd
 spec:
-  description: NGO Intelligence Suite (stub)
+  description: NGO Intelligence Suite
   sourceRepos:
     - '*'
   destinations:
     - namespace: ngois
       server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
   clusterResourceWhitelist:
     - group: ''
       kind: Namespace
+    - group: argoproj.io
+      kind: '*'

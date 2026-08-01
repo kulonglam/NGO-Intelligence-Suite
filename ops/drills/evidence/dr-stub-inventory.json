@@ -1,14 +1,7 @@
 {
   "gate": 10,
-  "status": "BLOCKED",
-  "at": "2026-07-28T06:52:08.149Z",
-  "okStub": true,
-  "inventory": {
-    "terraformDrDir": true,
-    "terraformFiles": [
-      "main.tf"
-    ],
-    "drillTemplate": true
-  },
-  "note": "Cloud regional failover with measured RTO remains BLOCKED"
+  "status": "PASS (local)",
+  "at": "2026-08-01T07:13:55.481Z",
+  "supersededBy": "dr-failover.json",
+  "mode": "process-analogue"
 }

@@ -123,11 +123,16 @@ Isolation & CI: `.github/workflows/ci.yml` runs typecheck, unit tests, gitleaks,
 
 Frontend baseline: Vue 3 shell with design tokens, `vue-i18n` (en/ar + RTL `dir`), core base components, skip link / focus management / status badges (not colour-alone), offline banner + PWA shell (`vite-plugin-pwa`), contrast gate (`npm run check:contrast`) and gzip bundle budgets (`npm run verify:frontend`).
 
-Platform / ops stubs: `infra/` (Terraform envs + modules, K8s/Argo, OTel/Prometheus/Grafana D-01…D-06, Loki, Phase-1 alerts, cosign/SBOM notes) and `ops/` (on-call, incident process, drill templates, alert→runbook map). Validate with `npm run verify:platform` — does **not** apply cloud resources.
+Platform / ops: `infra/` stubs + local **prod-shaped** compose (`docker-compose.prod-shaped.yml`). Validate with `npm run verify:platform` — does **not** apply cloud resources.
 
-**Phase 1 release gate status:** see [`ops/phase1-gate-status.md`](ops/phase1-gate-status.md). Closable in-repo gates are `PASS (local)`; production canary (#2), cloud DR RTO (#10), external pen-test (#12), and production rollback (#16) stay **BLOCKED** until real infra/vendors. Refresh local evidence with:
+**Phase 1 release gate status:** see [`ops/phase1-gate-status.md`](ops/phase1-gate-status.md). Most gates are `PASS (local)`; **#2** (14-day prod canary) and **#12** (external pen-test) stay **BLOCKED**. Gates **#10** (DR failover) and **#16** (rollback &lt; 5 min) are **PASS (local)** via compose drills.
 
 ```powershell
+npm run stack:prod-shaped
+npm run drill:dr-failover
+npm run drill:rollback-local
+npm run pen-test:selfcheck
+npm run terraform:validate
 npm run drill:phase1
 npm run verify:phase1-gates
 ```
@@ -166,6 +171,10 @@ HR core + statutory payroll for **South Sudan** and **Uganda**, plus finance COA
 npm run dev:hr          # hr-payroll-service :3006
 npm run dev:reporting   # reporting-service :3008
 npm run test:payroll-fixtures
+npm run load:payroll-500
+npm run drill:canary-abort
+npm run accountant:review-pack
+npm run dpia:attest
 npm run verify:phase2-gates
 npm run smoke:payroll-e2e
 npm run smoke:phase2-e2e    # accrue, expense, BvA, report claim, quotas, erasure
@@ -174,7 +183,101 @@ npm run canary:analysis-stub
 npm run retention:sweep     # dry-run default; see ops/compliance/retention-schedule.md
 ```
 
-Gate board: [`ops/phase2-gate-status.md`](ops/phase2-gate-status.md). Still **BLOCKED** (by design): #4 scale load, #10 live Argo canary, #13 accountant review; DPIA is draft-only (not DPO-approved).
+Gate board: [`ops/phase2-gate-status.md`](ops/phase2-gate-status.md). All thirteen Phase 2 gates are **PASS (local)** including load (`load:payroll-500`), canary abort (`drill:canary-abort`), accountant review pack, and DPO-attested DPIA. Tenant policy may still require wet-ink countersignature before production payroll go-live.
+
+## Phase 3 scope (Field — full close)
+
+Offline-first capture, beneficiaries, LMS, notifications, devices/wipe, paper fallback, chaos catalogue, and k-anonymity. See [docs/sdd/31-implementation-roadmap.md §31.5.1](docs/sdd/31-implementation-roadmap.md).
+
+- **`@ngois/beneficiary-dedup`** / **`@ngois/vulnerability-score`** / **`@ngois/k-anonymity`**
+- **`beneficiary-service`** `:3004` · **`field-data-service`** `:3005` · **`lms-service`** `:3003` · **`notification-service`** `:3007` (local SendGrid/AT adapters)
+- **Frontend** — `/field`, `/training`, `/notifications`; IndexedDB + remote wipe
+- **Migrations:** `014`, `015`
+- **DPIA:** [`ops/compliance/dpia-phase3-beneficiary.md`](ops/compliance/dpia-phase3-beneficiary.md) (`npm run dpia:attest:phase3`)
+
+```powershell
+npm run dev:beneficiary   # :3004
+npm run dev:field         # :3005
+npm run dev:lms           # :3003
+npm run dev:notify        # :3007
+npm run verify:phase3-gates
+npm run smoke:field-e2e
+npm run smoke:phase3-e2e
+npm run smoke:paper-fallback
+npm run offline:harness
+npm run load:field-2g
+npm run chaos:catalogue
+npm run dpia:attest:phase3
+```
+
+Gate board: [`ops/phase3-gate-status.md`](ops/phase3-gate-status.md) — all fifteen gates **PASS (local)**.
+
+## Phase 4 scope (Intelligence)
+
+Analytics, constrained AI, IATI local publish. See [docs/sdd/31-implementation-roadmap.md §31.5.2](docs/sdd/31-implementation-roadmap.md).
+
+- **`@ngois/ai-redaction`** — deny-by-default gate + 400-fixture corpus
+- **`analytics-service`** `:3012` — dashboard, KPIs, k-anon preview, compliance score
+- **`ai-insights-service`** `:3013` — local LLM stub, HITL approve, kill switch, token budgets
+- **`integration-service`** `:3011` — IATI v2.03 preview/publish (local artifact, exclusion policy)
+- **UI:** `/intelligence`, `/ai`, `/compliance`
+- **Migration:** `016_phase4_intelligence.sql`
+
+```powershell
+npm run dev:analytics      # :3012
+npm run dev:ai             # :3013
+npm run dev:integration    # :3011
+npm run test:ai-redaction
+npm run eval:ai-injection
+npm run smoke:phase4-e2e
+npm run finops:attribution
+npm run verify:phase4-gates
+```
+
+Gate board: [`ops/phase4-gate-status.md`](ops/phase4-gate-status.md).
+
+## Post-M4 — Production readiness + webhooks
+
+There is no SDD Phase 5 gate board. This tranche closes what can be closed locally after M4 and adds outbound webhooks ([§34.2.2](docs/sdd/34-future-extensibility.md)).
+
+- **Prod-shaped stack:** Postgres primary/DR, Redis, OTel, Prometheus, Loki
+- **`@ngois/webhook-egress`** — SSRF, PII strip, HMAC
+- **`webhook-dispatcher`** — Redis Streams consumer + outbox fallback
+- **APIs:** `/v1/tenant/webhooks` · **UI:** `/settings/webhooks`
+- **Migration:** `017_webhooks.sql`
+
+```powershell
+npm run stack:prod-shaped
+npm run verify:platform
+npm run test -w @ngois/webhook-egress
+npm run smoke:webhooks-e2e
+npm run verify:webhooks-gates
+```
+
+Gate board: [`ops/webhooks-gate-status.md`](ops/webhooks-gate-status.md).
+
+## Staging-ready (production path)
+
+Wiring for a real staging cutover — still **not** a claim of production canary / pen-test PASS.
+
+- Terraform modules with `enable_resources` (VPC, GKE, Cloud SQL HA+PITR, Redis, KMS)
+- Argo Rollouts canary for `api-gateway` + AnalysisTemplate
+- Provider switches: OIDC start, SendGrid / Africa’s Talking, OpenAI/Anthropic LLM, IATI Registry
+
+```powershell
+npm run verify:staging-ready
+npm run smoke:staging-checklist
+# Then follow ops/staging-ready.md with a GCP project
+```
+
+## Production experience (focused+)
+
+Operator UX tranche on top of local PASS gates:
+
+- Grouped shell IA + mobile drawer ([`frontend/src/layouts/AppShell.vue`](frontend/src/layouts/AppShell.vue))
+- Shared PageHeader / EmptyState / Skeleton / Toast / Confirm / DataTable / StatCard
+- Polished journeys: Login, Home, Grants, Finance, Payroll, Intelligence
+- Ops half: [`ops/staging-ready.md`](ops/staging-ready.md) checklist (no live apply without your GCP project)
 
 ## Conventions
 

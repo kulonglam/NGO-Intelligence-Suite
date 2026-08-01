@@ -12,8 +12,8 @@ const auth = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 
-const email = ref('admin@design-partner.example');
-const password = ref('changeme');
+const email = ref('');
+const password = ref('');
 const localError = ref<string | null>(null);
 
 async function submit() {
@@ -34,6 +34,7 @@ async function submit() {
       <LocaleSwitcher />
     </div>
     <section class="hero" aria-labelledby="login-hero">
+      <p class="brand">{{ t('app.name') }}</p>
       <p class="eyebrow">{{ t('login.eyebrow') }}</p>
       <h1 id="login-hero">{{ t('login.title') }}</h1>
       <p class="lede">{{ t('login.lede') }}</p>
@@ -75,6 +76,10 @@ async function submit() {
   padding: 3rem;
   align-items: center;
   position: relative;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(31, 78, 95, 0.16), transparent 36%),
+    radial-gradient(circle at 88% 72%, rgba(168, 74, 26, 0.1), transparent 30%),
+    linear-gradient(165deg, #f7faf8 0%, var(--paper) 55%, #e8f0ec 100%);
 }
 .locale-wrap {
   position: absolute;
@@ -86,6 +91,14 @@ async function submit() {
   background: var(--surface);
   color: var(--ink);
 }
+.brand {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--brand-deep);
+  line-height: 1.15;
+}
 .hero {
   max-width: 34rem;
 }
@@ -95,9 +108,10 @@ async function submit() {
   font-size: 0.75rem;
   color: var(--brand);
   font-weight: 600;
+  margin: 0;
 }
 h1 {
-  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   margin: 0.65rem 0 1rem;
   color: var(--brand-deep);
 }
@@ -106,7 +120,7 @@ h1 {
   font-size: 1.05rem;
 }
 .card {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--line);
   border-radius: 1.1rem;
   padding: 1.75rem;

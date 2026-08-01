@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { api } from '../lib/api';
 import { formatMoney } from '../lib/format';
 import { useAuthStore } from '../stores/auth';
+import { useToastStore } from '../stores/toast';
 import BaseButton from '../components/base/BaseButton.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
+import PageHeader from '../components/layout/PageHeader.vue';
+import DataTable from '../components/data/DataTable.vue';
+import ConfirmDialog from '../components/feedback/ConfirmDialog.vue';
 
 type PayrollRun = {
   id: string;
@@ -24,10 +28,29 @@ type PayslipJob = {
 
 const { t, locale } = useI18n();
 const auth = useAuthStore();
+const toast = useToastStore();
 const runs = ref<PayrollRun[]>([]);
 const error = ref<string | null>(null);
 const loading = ref(true);
 const busy = ref(false);
+const approveId = ref<string | null>(null);
+
+const columns = computed(() => [
+  { key: 'period', label: t('workforce.period'), sortable: true },
+  { key: 'status', label: t('grants.status') },
+  { key: 'gross_display', label: t('workforce.gross'), numeric: true },
+  { key: 'net_display', label: t('workforce.net'), numeric: true },
+  { key: 'actions', label: '' },
+]);
+
+const rows = computed(() =>
+  runs.value.map((r) => ({
+    ...r,
+    period: `${r.period_year}-${String(r.period_month).padStart(2, '0')}`,
+    gross_display: formatMoney(r.total_gross, 'SSP', locale.value),
+    net_display: formatMoney(r.total_net, 'SSP', locale.value),
+  })),
+);
 
 async function load() {
   loading.value = true;
@@ -82,10 +105,14 @@ async function submitRun(runId: string) {
   }
 }
 
-async function approveRun(runId: string) {
+async function confirmApprove() {
+  if (!approveId.value) return;
+  const runId = approveId.value;
+  approveId.value = null;
   busy.value = true;
   try {
     await api(`/v1/hr/payroll-runs/${runId}/approve`, { method: 'POST' });
+    toast.success(t('workforce.approvedToast'));
     await load();
   } catch (err) {
     error.value = err instanceof Error ? err.message : t('workforce.runFailed');
@@ -114,7 +141,7 @@ async function refreshFx() {
   }
 }
 
-async function exportPayslips(run: PayrollRun) {
+async function exportPayslips(run: Record<string, unknown>) {
   busy.value = true;
   error.value = null;
   try {
@@ -154,102 +181,94 @@ onMounted(() => void load());
 
 <template>
   <section>
-    <header>
-      <p class="eyebrow">{{ t('workforce.eyebrow') }}</p>
-      <h1>{{ t('workforce.payroll') }}</h1>
-      <p class="lede">{{ t('workforce.payrollLede') }}</p>
-    </header>
+    <PageHeader
+      :eyebrow="t('workforce.eyebrow')"
+      :title="t('workforce.payroll')"
+      :lede="t('workforce.payrollLede')"
+    >
+      <template #actions>
+        <BaseButton :disabled="busy" @click="createRun">{{ t('workforce.createRun') }}</BaseButton>
+        <BaseButton variant="ghost" :disabled="busy" @click="refreshFx">{{
+          t('workforce.refreshFx')
+        }}</BaseButton>
+        <BaseButton variant="ghost" :disabled="loading" @click="load">{{
+          t('app.refresh')
+        }}</BaseButton>
+      </template>
+    </PageHeader>
     <p v-if="error" class="error" role="alert">{{ error }}</p>
-    <div class="actions">
-      <BaseButton :disabled="busy" @click="createRun">{{ t('workforce.createRun') }}</BaseButton>
-      <BaseButton variant="ghost" :disabled="busy" @click="refreshFx">{{ t('workforce.refreshFx') }}</BaseButton>
-      <BaseButton variant="ghost" :disabled="loading" @click="load">{{ t('app.refresh') }}</BaseButton>
-    </div>
-    <p v-if="loading">{{ t('app.loading') }}</p>
-    <table v-else>
-      <thead>
-        <tr>
-          <th>{{ t('workforce.period') }}</th>
-          <th>{{ t('grants.status') }}</th>
-          <th>{{ t('workforce.gross') }}</th>
-          <th>{{ t('workforce.net') }}</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="r in runs" :key="r.id">
-          <td>{{ r.period_year }}-{{ String(r.period_month).padStart(2, '0') }}</td>
-          <td><StatusBadge :status="r.status" /></td>
-          <td>{{ formatMoney(r.total_gross, 'SSP', locale) }}</td>
-          <td>{{ formatMoney(r.total_net, 'SSP', locale) }}</td>
-          <td>
-            <BaseButton
-              v-if="r.status === 'draft' || r.status === 'failed'"
-              variant="ghost"
-              :disabled="busy"
-              @click="calculate(r.id)"
-            >
-              {{ t('workforce.calculate') }}
-            </BaseButton>
-            <BaseButton
-              v-if="r.status === 'computed'"
-              variant="ghost"
-              :disabled="busy"
-              @click="submitRun(r.id)"
-            >
-              {{ t('workforce.submit') }}
-            </BaseButton>
-            <BaseButton
-              v-if="r.status === 'pending_approval'"
-              variant="ghost"
-              :disabled="busy"
-              @click="approveRun(r.id)"
-            >
-              {{ t('workforce.approve') }}
-            </BaseButton>
-            <BaseButton
-              v-if="canExport(r.status)"
-              variant="ghost"
-              :disabled="busy"
-              @click="exportPayslips(r)"
-            >
-              {{ t('workforce.exportPayslips') }}
-            </BaseButton>
-          </td>
-        </tr>
-        <tr v-if="!runs.length">
-          <td colspan="5">{{ t('workforce.noRuns') }}</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <DataTable
+      :columns="columns"
+      :rows="rows"
+      :caption="t('workforce.payroll')"
+      :loading="loading"
+      :empty-title="t('workforce.noRuns')"
+      :empty-body="t('workforce.noRunsBody')"
+      row-key="id"
+    >
+      <template #empty>
+        <BaseButton :disabled="busy" @click="createRun">{{ t('workforce.createRun') }}</BaseButton>
+      </template>
+      <template #cell-status="{ row }">
+        <StatusBadge :status="String(row.status)" />
+      </template>
+      <template #cell-actions="{ row }">
+        <div class="actions">
+          <BaseButton
+            v-if="row.status === 'draft' || row.status === 'failed'"
+            variant="ghost"
+            :disabled="busy"
+            @click="calculate(String(row.id))"
+          >
+            {{ t('workforce.calculate') }}
+          </BaseButton>
+          <BaseButton
+            v-if="row.status === 'computed'"
+            variant="ghost"
+            :disabled="busy"
+            @click="submitRun(String(row.id))"
+          >
+            {{ t('workforce.submit') }}
+          </BaseButton>
+          <BaseButton
+            v-if="row.status === 'pending_approval'"
+            variant="ghost"
+            :disabled="busy"
+            @click="approveId = String(row.id)"
+          >
+            {{ t('workforce.approve') }}
+          </BaseButton>
+          <BaseButton
+            v-if="canExport(String(row.status))"
+            variant="ghost"
+            :disabled="busy"
+            @click="exportPayslips(row)"
+          >
+            {{ t('workforce.exportPayslips') }}
+          </BaseButton>
+        </div>
+      </template>
+    </DataTable>
+
+    <ConfirmDialog
+      :open="Boolean(approveId)"
+      :title="t('workforce.approveConfirmTitle')"
+      :body="t('workforce.approveConfirmBody')"
+      :confirm-label="t('workforce.approveConfirm')"
+      :cancel-label="t('confirm.cancel')"
+      danger
+      @cancel="approveId = null"
+      @confirm="confirmApprove"
+    />
   </section>
 </template>
 
 <style scoped>
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-.lede {
-  color: var(--muted);
-  max-width: 42rem;
-}
 .actions {
   display: flex;
-  gap: 0.75rem;
-  margin: 1rem 0;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-th,
-td {
-  text-align: start;
-  padding: 0.65rem 0.5rem;
-  border-bottom: 1px solid var(--border);
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 .error {
   color: var(--danger);

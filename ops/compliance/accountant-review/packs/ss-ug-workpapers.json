@@ -1,0 +1,91 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-07-30T04:33:54.371Z",
+  "cases": [
+    {
+      "id": "SS-I.6.3",
+      "jurisdiction": "SS",
+      "title": "South Sudan full month (Appendix I.6.3)",
+      "expected": {
+        "gross": "51000.00",
+        "net": "39378.00",
+        "paye": "7782.00",
+        "nsif_ee": "3840.00"
+      },
+      "actual": {
+        "gross": "51000.00",
+        "net": "39378.00",
+        "employer_cost": "59160.00",
+        "paye": "7782.00",
+        "nsif_ee": "3840.00",
+        "ruleset_hash": "e6e7cf38578e6f49af617ea2b742e0235986edf5339e6fede1fb6ddb0c914a05",
+        "serialised": "{\"gross\":\"51000.00\",\"net\":\"39378.00\",\"total_deductions\":\"11622.00\",\"employer_cost\":\"59160.00\",\"lines\":[{\"component_code\":\"GROSS\",\"amount\":\"51000.00\",\"basis_amount\":\"51000.00\",\"rate_applied\":null},{\"component_code\":\"NSIF_EE\",\"amount\":\"3840.00\",\"basis_amount\":\"48000.00\",\"rate_applied\":\"8\"},{\"component_code\":\"NSIF_ER\",\"amount\":\"8160.00\",\"basis_amount\":\"48000.00\",\"rate_applied\":\"17\"},{\"component_code\":\"PAYE\",\"amount\":\"7782.00\",\"basis_amount\":\"44160.00\",\"rate_applied\":null}]}"
+      },
+      "mismatches": [],
+      "pass": true
+    },
+    {
+      "id": "UG-I.6.5",
+      "jurisdiction": "UG",
+      "title": "Uganda full month with LST (Appendix I.6.5)",
+      "expected": {
+        "gross": "1200000.00",
+        "net": "853000.00",
+        "paye": "262000.00",
+        "nssf_ee": "60000.00",
+        "lst": "25000.00"
+      },
+      "actual": {
+        "gross": "1200000.00",
+        "net": "853000.00",
+        "employer_cost": "1320000.00",
+        "paye": "262000.00",
+        "nssf_ee": "60000.00",
+        "lst": "25000.00",
+        "ruleset_hash": "aa9c3802c703b1a0fd15a43a057c065fc2cdbd20b5bf48906ddb7d33be94c7bd",
+        "serialised": "{\"gross\":\"1200000.00\",\"net\":\"853000.00\",\"total_deductions\":\"347000.00\",\"employer_cost\":\"1320000.00\",\"lines\":[{\"component_code\":\"GROSS\",\"amount\":\"1200000.00\",\"basis_amount\":\"1200000.00\",\"rate_applied\":null},{\"component_code\":\"NSSF_EE\",\"amount\":\"60000.00\",\"basis_amount\":\"1200000.00\",\"rate_applied\":\"5\"},{\"component_code\":\"NSSF_ER\",\"amount\":\"120000.00\",\"basis_amount\":\"1200000.00\",\"rate_applied\":\"10\"},{\"component_code\":\"PAYE\",\"amount\":\"262000.00\",\"basis_amount\":\"1200000.00\",\"rate_applied\":null},{\"component_code\":\"LST\",\"amount\":\"25000.00\",\"basis_amount\":\"100000\",\"rate_applied\":\"4\"}]}"
+      },
+      "mismatches": [],
+      "pass": true
+    },
+    {
+      "id": "SS-I.6.6-mid-join",
+      "jurisdiction": "SS",
+      "title": "Mid-month joiner proration",
+      "expected": {
+        "gross": "20000.00"
+      },
+      "actual": {
+        "gross": "20000.00",
+        "net": "15770.00",
+        "employer_cost": "23400.00",
+        "paye": "2630.00",
+        "nsif_ee": "1600.00",
+        "ruleset_hash": "e6e7cf38578e6f49af617ea2b742e0235986edf5339e6fede1fb6ddb0c914a05",
+        "serialised": "{\"gross\":\"20000.00\",\"net\":\"15770.00\",\"total_deductions\":\"4230.00\",\"employer_cost\":\"23400.00\",\"lines\":[{\"component_code\":\"GROSS\",\"amount\":\"20000.00\",\"basis_amount\":\"20000.00\",\"rate_applied\":null},{\"component_code\":\"NSIF_EE\",\"amount\":\"1600.00\",\"basis_amount\":\"20000.00\",\"rate_applied\":\"8\"},{\"component_code\":\"NSIF_ER\",\"amount\":\"3400.00\",\"basis_amount\":\"20000.00\",\"rate_applied\":\"17\"},{\"component_code\":\"PAYE\",\"amount\":\"2630.00\",\"basis_amount\":\"18400.00\",\"rate_applied\":null}]}"
+      },
+      "mismatches": [],
+      "pass": true
+    },
+    {
+      "id": "UG-band-boundary",
+      "jurisdiction": "UG",
+      "title": "Uganda PAYE band boundary 335000",
+      "expected": {},
+      "actual": {
+        "gross": "335000.00",
+        "net": "308250.00",
+        "employer_cost": "368500.00",
+        "paye": "10000.00",
+        "nssf_ee": "16750.00",
+        "lst": "0.00",
+        "ruleset_hash": "aa9c3802c703b1a0fd15a43a057c065fc2cdbd20b5bf48906ddb7d33be94c7bd",
+        "serialised": "{\"gross\":\"335000.00\",\"net\":\"308250.00\",\"total_deductions\":\"26750.00\",\"employer_cost\":\"368500.00\",\"lines\":[{\"component_code\":\"GROSS\",\"amount\":\"335000.00\",\"basis_amount\":\"335000.00\",\"rate_applied\":null},{\"component_code\":\"NSSF_EE\",\"amount\":\"16750.00\",\"basis_amount\":\"335000.00\",\"rate_applied\":\"5\"},{\"component_code\":\"NSSF_ER\",\"amount\":\"33500.00\",\"basis_amount\":\"335000.00\",\"rate_applied\":\"10\"},{\"component_code\":\"PAYE\",\"amount\":\"10000.00\",\"basis_amount\":\"335000.00\",\"rate_applied\":null},{\"component_code\":\"LST\",\"amount\":\"0.00\",\"basis_amount\":\"0\",\"rate_applied\":\"4\"}]}"
+      },
+      "mismatches": [],
+      "pass": true
+    }
+  ],
+  "fixtures_ci_pass": true,
+  "all_workpapers_match": true
+}

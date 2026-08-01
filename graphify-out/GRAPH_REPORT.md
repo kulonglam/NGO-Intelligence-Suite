@@ -1,16 +1,16 @@
-# Graph Report - NGO Intelligence Suite  (2026-07-29)
+# Graph Report - NGO Intelligence Suite  (2026-08-01)
 
 ## Corpus Check
-- 315 files · ~322,013 words
+- 454 files · ~376,883 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2982 nodes · 3973 edges · 221 communities (205 shown, 16 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.57)
+- 4068 nodes · 5201 edges · 291 communities (275 shown, 16 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.61)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2473c3ba`
+- Built from commit: `53cc7679`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -85,6 +85,7 @@
 - migrate.ts
 - frontend/tsconfig.json
 - verify-rls.mjs
+- seed.ts
 - vite-env.d.ts
 - fix-app-grants.mjs
 - fix-app-role.mjs
@@ -220,10 +221,79 @@
 - leave-accrual.mjs
 - Retention sweep — prod schedule note
 - RB-10 — Canary abort (local ops index)
+- accountant-review-pack.mjs
+- drill-canary-abort.mjs
+- dpia-attest.mjs
+- Accountant review checklist — SS & UG
+- FieldView.vue
+- dependencies
+- dependencies
+- beneficiary-dedup/src/index.ts
+- vulnerability-score/src/index.ts
+- beneficiary-dedup/package.json
+- vulnerability-score/package.json
+- beneficiary-service/src/index.ts
+- beneficiary-dedup/tsconfig.json
+- vulnerability-score/tsconfig.json
+- beneficiary-service/tsconfig.json
+- field-data-service/tsconfig.json
+- field-data-service/src/index.ts
+- offline-harness.mjs
+- verify-phase3-gates.mjs
+- smoke-field-e2e.mjs
+- k-anonymity/package.json
+- api.ts
+- dpia-attest-phase3.mjs
+- lms-service/src/index.ts
+- k-anonymity/tsconfig.json
+- load-field-2g.mjs
+- lms-service/tsconfig.json
+- notification-service/tsconfig.json
+- chaos-catalogue.mjs
+- smoke-paper-fallback.mjs
+- k-anonymity/src/index.ts
+- smoke-phase3-e2e.mjs
+- dependencies
+- ai-insights-service/src/index.ts
+- ai-redaction/package.json
+- ai-redaction/src/index.ts
+- generate-redaction-corpus.mjs
+- integration-service/src/index.ts
+- BaseButton.vue
+- AiInsightsView.vue
+- ai-redaction/tsconfig.json
+- ComplianceView.vue
+- ai-insights-service/tsconfig.json
+- analytics-service/tsconfig.json
+- integration-service/tsconfig.json
+- start-embedded-db.mjs
+- finops-attribution.mjs
+- analytics-service/src/index.ts
+- TrainingView.vue
+- eval-ai-injection.mjs
+- verify-phase4-gates.mjs
+- WebhooksView.vue
+- webhook-egress/package.json
+- webhook-egress/src/index.ts
+- stack-prod-shaped.mjs
+- Phase 3 DPIA — Beneficiary / field data (DPO-approved)
+- webhook-egress/tsconfig.json
+- webhook-dispatcher/tsconfig.json
+- drill-dr-failover.mjs
+- smoke-webhooks-e2e.mjs
+- pen-test-selfcheck.mjs
+- Penetration test engagement pack (Phase 1 gate #12)
+- terraform-validate.mjs
+- Local progressive canary procedure (does not satisfy Phase 1 gate #2)
+- verify-webhooks-gates.mjs
+- start-embedded-db.mjs
+- verify-staging-ready.mjs
+- DataTable.vue
+- smoke-staging-checklist.mjs
 
 ## God Nodes (most connected - your core abstractions)
-1. `scripts` - 54 edges
-2. `api()` - 30 edges
+1. `scripts` - 87 edges
+2. `api()` - 43 edges
 3. `compilerOptions` - 20 edges
 4. `compilerOptions` - 19 edges
 5. `05 — Architecture Diagrams` - 19 edges
@@ -234,25 +304,25 @@
 10. `18 — AI and LLM Architecture and Governance` - 15 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `main()` --indirect_call--> `channel()`  [INFERRED]
+  backend/packages/db/src/seed.ts → scripts/check-contrast.mjs
+- `dispatchEvent()` --indirect_call--> `sub()`  [INFERRED]
+  backend/services/webhook-dispatcher/src/index.ts → backend/packages/payroll-engine/src/decimal.ts
 - `registerPayrollRoutes()` --indirect_call--> `rulesetHash()`  [INFERRED]
   backend/services/hr-payroll-service/src/payroll-routes.ts → backend/packages/payroll-engine/src/types.ts
 - `refreshFx()` --calls--> `api()`  [EXTRACTED]
   frontend/src/views/PayrollView.vue → frontend/src/lib/api.ts
 - `load()` --calls--> `api()`  [EXTRACTED]
   frontend/src/views/ReportsView.vue → frontend/src/lib/api.ts
-- `shutdown()` --references--> `embedded-postgres`  [EXTRACTED]
-  scripts/start-embedded-db.mjs → package.json
-- `api()` --calls--> `useAuthStore`  [EXTRACTED]
-  frontend/src/lib/api.ts → frontend/src/stores/auth.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (221 total, 16 thin omitted)
+## Communities (291 total, 16 thin omitted)
 
 ### Community 0 - "Root Workspace Manifest"
-Cohesion: 0.04
-Nodes (54): scripts, build, build:backend, build:frontend, canary:analysis-stub, canary:local, check:bundle, check:contrast (+46 more)
+Cohesion: 0.02
+Nodes (87): scripts, accountant:review-pack, build, build:backend, build:frontend, canary:analysis-stub, canary:local, chaos:catalogue (+79 more)
 
 ### Community 1 - "File Service Package"
 Cohesion: 0.05
@@ -271,8 +341,8 @@ Cohesion: 0.06
 Nodes (31): dependencies, pinia, vue, vue-i18n, vue-router, devDependencies, typescript, vite (+23 more)
 
 ### Community 5 - "Vue App Shell UI"
-Cohesion: 0.10
-Nodes (19): connectivity, { t }, { t }, localeStore, { t }, AppLocale, i18n, isRtlLocale() (+11 more)
+Cohesion: 0.07
+Nodes (30): localeStore, { t }, AppLocale, i18n, isRtlLocale(), loadLocale(), MessageSchema, SUPPORTED_LOCALES (+22 more)
 
 ### Community 6 - "Grant Service Package"
 Cohesion: 0.07
@@ -299,12 +369,12 @@ Cohesion: 0.07
 Nodes (26): dependencies, express, @ngois/errors, @ngois/logging, uuid, zod, devDependencies, @types/express (+18 more)
 
 ### Community 12 - "Dev Tooling Dependencies"
-Cohesion: 0.10
-Nodes (21): axe-core, c8, @embedded-postgres/windows-x64, eslint, devDependencies, axe-core, c8, @embedded-postgres/windows-x64 (+13 more)
+Cohesion: 0.07
+Nodes (28): axe-core, c8, embedded-postgres, @embedded-postgres/windows-x64, eslint, devDependencies, axe-core, c8 (+20 more)
 
 ### Community 13 - "Tenant Service Package"
 Cohesion: 0.07
-Nodes (27): dependencies, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/service-kit, @ngois/tenant-context, zod (+19 more)
+Nodes (29): dependencies, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/service-kit, @ngois/tenant-context, @ngois/webhook-egress (+21 more)
 
 ### Community 14 - "SDD PDF Build Tools"
 Cohesion: 0.16
@@ -343,8 +413,8 @@ Cohesion: 0.13
 Nodes (18): coaSchema, expenseSchema, registerCoaExpenseRoutes(), ServiceConfig, assertWithinCeiling(), createBudgetSchema, createDisbursementSchema, disbursedTotal() (+10 more)
 
 ### Community 23 - "GrantsView.vue"
-Cohesion: 0.17
-Nodes (12): props, { t }, formatMoney(), statusLabel(), createGrant(), error, form, Grant (+4 more)
+Cohesion: 0.09
+Nodes (24): props, { t }, formatMoney(), statusLabel(), columns, createGrant(), error, form (+16 more)
 
 ### Community 24 - "config/package.json"
 Cohesion: 0.14
@@ -431,12 +501,12 @@ Cohesion: 0.25
 Nodes (8): ALLOWED_TYPES, { app, log }, config, pool, root, safeFilename(), tenantKey(), upload
 
 ### Community 46 - "auth.ts"
-Cohesion: 0.10
-Nodes (16): auth, router, { t }, AuthUser, Envelope, useAuthStore, auth, { t } (+8 more)
+Cohesion: 0.14
+Nodes (11): describedBy, emit, id, props, auth, email, localError, password (+3 more)
 
 ### Community 47 - "LoginView.vue"
-Cohesion: 0.16
-Nodes (18): api(), approveExpense(), busy, Bva, Coa, coaForm, createCoa(), createExpense() (+10 more)
+Cohesion: 0.12
+Nodes (23): api(), approveExpense(), busy, Bva, bvaColumns, bvaRows, Coa, coaColumns (+15 more)
 
 ### Community 48 - "isolation-suite.mjs"
 Cohesion: 0.31
@@ -475,24 +545,24 @@ Cohesion: 0.33
 Nodes (5): dependencies, jsdom, mermaid, jsdom, mermaid
 
 ### Community 57 - "sdd/README.md"
-Cohesion: 0.19
-Nodes (6): Backend, Frontend, RB-01 — Failed payroll run (ops stub), RB-02 — DLQ drain / report queue (ops stub), RB-04 — Certificate rotation (ops stub), RB-06 — Tenant offboarding (ops stub)
+Cohesion: 0.14
+Nodes (16): Backend, Frontend, Backup restore drill record (stub template), Checklist (stub), Checklist (stub), Regional failover drill record (stub template), How to refresh local evidence, Phase 1 gate status (SDD §31.3.3) (+8 more)
 
 ### Community 58 - "browser-smoke.mjs"
 Cohesion: 0.22
 Nodes (4): errors, outDir, require, root
 
 ### Community 59 - "check-contrast.mjs"
-Cohesion: 0.53
-Nodes (5): channel(), hexToRgb(), luminance(), pairs, ratio()
+Cohesion: 0.36
+Nodes (6): main(), channel(), hexToRgb(), luminance(), pairs, ratio()
 
 ### Community 60 - "verify-set-local.mjs"
 Cohesion: 0.33
 Nodes (4): BAD, root, roots, SKIP
 
 ### Community 61 - "tenant-service/src/index.ts"
-Cohesion: 0.29
-Nodes (6): { app, log }, config, createSchema, dsarSchema, erasureSchema, pool
+Cohesion: 0.19
+Nodes (11): { app, log }, config, createSchema, dsarSchema, erasureSchema, pool, allowPrivateEgress(), createSchema (+3 more)
 
 ### Community 62 - "validate.mjs"
 Cohesion: 0.40
@@ -503,8 +573,12 @@ Cohesion: 0.05
 Nodes (37): 10.10 Concurrency control, 10.11.1 Strategy, 10.11.2 Deprecation process, 10.11 Versioning and deprecation, 10.12.1 Batch requests, 10.12.2 Asynchronous jobs, 10.12 Bulk and asynchronous operations, 10.13 Webhooks (+29 more)
 
 ### Community 64 - "verify-platform.mjs"
-Cohesion: 0.40
-Nodes (4): dashboards, required, root, services
+Cohesion: 0.29
+Nodes (6): dashboards, required, root, services, tf, tfScript
+
+### Community 70 - "seed.ts"
+Cohesion: 0.07
+Nodes (27): dependencies, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/service-kit, @ngois/tenant-context, zod (+19 more)
 
 ### Community 87 - "compute.ts"
 Cohesion: 0.14
@@ -667,8 +741,8 @@ Cohesion: 0.11
 Nodes (18): 1. Symptoms, 2. Impact, 3. Prerequisites, 4. Do not, 5.1 Identify and confirm, 5.2 Email or SMS, 5.3 Mobile money, 5.4 Bank webhooks (+10 more)
 
 ### Community 127 - "NGO Intelligence Suite"
-Cohesion: 0.11
-Nodes (15): How to refresh local evidence, Phase 1 gate status (SDD §31.3.3), Phase 2 gate status (SDD §31.4.2), Conventions, Database setup, NGO Intelligence Suite, Option A — Docker, Option B — Local PostgreSQL (no Docker) (+7 more)
+Cohesion: 0.12
+Nodes (17): Conventions, Database setup, NGO Intelligence Suite, Option A — Docker, Option B — Local PostgreSQL (no Docker), Phase 1 scope, Phase 2 scope (Workforce), Phase 3 scope (Field — full close) (+9 more)
 
 ### Community 128 - "33 — Cost Model and FinOps"
 Cohesion: 0.12
@@ -699,8 +773,8 @@ Cohesion: 0.12
 Nodes (16): 1. When this runs, 2. Who does what, 3. Prerequisites, 4. Do not, 5.1 Record and verify, 5.2 Assess legal holds, 5.3 Approve, 5.4 Execute (+8 more)
 
 ### Community 135 - "ReportsView.vue"
-Cohesion: 0.13
-Nodes (13): describedBy, emit, id, props, DisbursementReport, disbursements, error, from (+5 more)
+Cohesion: 0.07
+Nodes (27): dependencies, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/service-kit, @ngois/tenant-context, zod (+19 more)
 
 ### Community 136 - "payroll-engine/package.json"
 Cohesion: 0.13
@@ -743,8 +817,8 @@ Cohesion: 0.14
 Nodes (14): 1. Before you use this runbook, 2. Prerequisites, 3. Do not, 4.1 Authorise and scope, 4.2 Make the change, 4.3 Review and pipeline, 4.4 Staging, 4.5 Production (+6 more)
 
 ### Community 146 - "PayrollView.vue"
-Cohesion: 0.15
-Nodes (14): approveRun(), auth, busy, calculate(), createRun(), error, load(), loading (+6 more)
+Cohesion: 0.11
+Nodes (18): approveId, auth, busy, calculate(), columns, confirmApprove(), createRun(), error (+10 more)
 
 ### Community 147 - "03 — System Overview and Context"
 Cohesion: 0.15
@@ -787,8 +861,8 @@ Cohesion: 0.22
 Nodes (9): 34.1 The position on extensibility, 34.2.1 Payroll jurisdictions, 34.2.2 Outbound webhooks, 34.2.3 Dynamic form definitions, 34.2 Extension points that exist, 34.3 Designed seams, 34.4 Roadmap horizon beyond Phase 4, 34.5 Rules for extending the platform (+1 more)
 
 ### Community 157 - "App.vue"
-Cohesion: 0.29
-Nodes (5): Checklist, Data categories, Phase 2 DPIA draft (workforce / payroll) — NOT DPO-approved, Risks & mitigations, RB-07 — PII erasure request (ops stub)
+Cohesion: 0.12
+Nodes (13): Approval, Checklist (completed), Data categories, Data subject rights, Superseded, Phase 2 DPIA — Workforce / Payroll (DPO-approved), Processing purposes, Retention (+5 more)
 
 ### Community 158 - "drill-backup-restore.mjs"
 Cohesion: 0.22
@@ -803,8 +877,8 @@ Cohesion: 0.25
 Nodes (8): 01 — Executive Summary, 1. The problem, 2. The solution, 3. The architecture in one page, 4. What this document commits to, 5. Delivery and investment, 6. The five risks that could sink this, 7. What is deliberately not being built
 
 ### Community 161 - "start-embedded-db.mjs"
-Cohesion: 0.25
-Nodes (7): embedded-postgres, embedded-postgres, alreadyInitialised, databaseDir, pg, root, shutdown()
+Cohesion: 0.12
+Nodes (12): AfricasTalkingAdapter, ChannelAdapter, LocalEmailAdapter, LocalSmsAdapter, SendGridAdapter, SendResult, { app, log }, config (+4 more)
 
 ### Community 162 - "ADR-0010 — Anthropic Claude as LLM Provider, with Hard Boundaries"
 Cohesion: 0.29
@@ -855,7 +929,7 @@ Cohesion: 0.33
 Nodes (4): client, root, template, templatePath
 
 ### Community 174 - "verify-phase2-gates.mjs"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (6): board, boardPath, MUST_BLOCKED, MUST_PASS, requiredPaths, root
 
 ### Community 175 - "@ngois/rbac"
@@ -967,8 +1041,8 @@ Cohesion: 0.50
 Nodes (4): SDD Consistency Checks, The checks, What these checks do not catch, Why two checks are advisory rather than hard
 
 ### Community 202 - "Platform infrastructure (stubs)"
-Cohesion: 0.50
-Nodes (4): Environments, Layout, Local checks, Platform infrastructure (stubs)
+Cohesion: 0.12
+Nodes (14): Environments, Layout, Local checks, Platform infrastructure (staging-ready modules + local prod-shaped stack), 0. Prerequisites, 1. Terraform (enable resources), 2. Argo CD + Rollouts, 3. Provider env secrets (+6 more)
 
 ### Community 203 - "On-call rotation (stub)"
 Cohesion: 0.50
@@ -981,6 +1055,14 @@ Nodes (3): Files here, Operations baseline (stubs), Phase 1 runbooks (required)
 ### Community 205 - "test-coverage.mjs"
 Cohesion: 0.50
 Nodes (3): c8Bin, packages, root
+
+### Community 206 - "backup-restore.md"
+Cohesion: 0.07
+Nodes (29): dependencies, @ngois/ai-redaction, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/service-kit, @ngois/tenant-context (+21 more)
+
+### Community 207 - "regional-failover.md"
+Cohesion: 0.07
+Nodes (29): dependencies, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/k-anonymity, @ngois/service-kit, @ngois/tenant-context (+21 more)
 
 ### Community 212 - "LeaveView.vue"
 Cohesion: 0.13
@@ -1006,8 +1088,276 @@ Nodes (4): evidence, outDir, path, root
 Cohesion: 0.40
 Nodes (4): month, now, pool, year
 
+### Community 218 - "Retention sweep — prod schedule note"
+Cohesion: 0.12
+Nodes (13): baseP95, during, duringP95, EMP_COUNT, evidence, evidenceDir, MAX_MS, root (+5 more)
+
+### Community 221 - "accountant-review-pack.mjs"
+Cohesion: 0.14
+Nodes (13): attestation, cases, fixtureRun, outDir, packBody, packHash, results, reviewer (+5 more)
+
+### Community 222 - "drill-canary-abort.mjs"
+Cohesion: 0.17
+Nodes (10): abort, analysisRunAbort, analysisTpl, checks, evidence, evidenceDir, promote, rolloutStub (+2 more)
+
+### Community 223 - "dpia-attest.mjs"
+Cohesion: 0.18
+Nodes (10): attestation, body, compliance, dpiaPath, draftPath, evidenceDir, missing, required (+2 more)
+
+### Community 224 - "Accountant review checklist — SS & UG"
+Cohesion: 0.33
+Nodes (5): Accountant review checklist — SS & UG, Attestation, Fixture corpus, Scope, Workpapers
+
+### Community 225 - "FieldView.vue"
+Cohesion: 0.09
+Nodes (45): connectivity, { t }, { t }, CachedForm, clearSessionKey(), decryptJson(), encryptJson(), enqueueSubmission() (+37 more)
+
+### Community 226 - "dependencies"
+Cohesion: 0.06
+Nodes (35): dependencies, @ngois/audit, @ngois/beneficiary-dedup, @ngois/config, @ngois/crypto, @ngois/db, @ngois/errors, @ngois/k-anonymity (+27 more)
+
+### Community 227 - "dependencies"
+Cohesion: 0.07
+Nodes (27): dependencies, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/service-kit, @ngois/tenant-context, zod (+19 more)
+
+### Community 228 - "beneficiary-dedup/src/index.ts"
+Cohesion: 0.19
+Nodes (14): buildIndexes(), daysApart(), DedupCandidate, DedupIndexes, DedupResult, DedupSignal, DedupSubject, hmacIndex() (+6 more)
+
+### Community 229 - "vulnerability-score/src/index.ts"
+Cohesion: 0.19
+Nodes (15): band(), BENTIU_FIXTURE, DisplacementStatus, f1(), f2(), f3(), f4(), f5() (+7 more)
+
+### Community 230 - "beneficiary-dedup/package.json"
+Cohesion: 0.13
+Nodes (14): devDependencies, tsx, exports, tsx, main, name, private, scripts (+6 more)
+
+### Community 231 - "vulnerability-score/package.json"
+Cohesion: 0.13
+Nodes (14): devDependencies, tsx, exports, tsx, main, name, private, scripts (+6 more)
+
+### Community 232 - "beneficiary-service/src/index.ts"
+Cohesion: 0.18
+Nodes (9): aggregateSchema, { app, log }, assessSchema, config, createBeneficiarySchema, enrollSchema, householdSchema, pool (+1 more)
+
+### Community 233 - "beneficiary-dedup/tsconfig.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 234 - "vulnerability-score/tsconfig.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 235 - "beneficiary-service/tsconfig.json"
+Cohesion: 0.25
+Nodes (7): compilerOptions, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 236 - "field-data-service/tsconfig.json"
+Cohesion: 0.25
+Nodes (7): compilerOptions, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 237 - "field-data-service/src/index.ts"
+Cohesion: 0.20
+Nodes (9): { app, log }, batchSchema, config, createFormSchema, paperBatchSchema, paperRowsSchema, pool, registerDeviceSchema (+1 more)
+
+### Community 238 - "offline-harness.mjs"
+Cohesion: 0.29
+Nodes (4): evidence, evidenceDir, root, uuids
+
+### Community 239 - "verify-phase3-gates.mjs"
+Cohesion: 0.29
+Nodes (6): board, boardPath, evidenceFiles, MUST_PASS, required, root
+
+### Community 241 - "k-anonymity/package.json"
+Cohesion: 0.13
+Nodes (14): devDependencies, tsx, exports, tsx, main, name, private, scripts (+6 more)
+
+### Community 242 - "api.ts"
+Cohesion: 0.17
+Nodes (9): Delivery, error, rows, { t }, compliance, Enrollment, error, rows (+1 more)
+
+### Community 243 - "dpia-attest-phase3.mjs"
+Cohesion: 0.18
+Nodes (10): attestation, body, compliance, dpiaPath, draftPath, evidenceDir, missing, required (+2 more)
+
+### Community 244 - "lms-service/src/index.ts"
+Cohesion: 0.20
+Nodes (9): { app, log }, attemptSchema, config, createCourseSchema, enrollSchema, onboardSchema, pool, progressSchema (+1 more)
+
+### Community 245 - "k-anonymity/tsconfig.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 246 - "load-field-2g.mjs"
+Cohesion: 0.22
+Nodes (7): BUDGET_MS, COUNT, evidence, evidenceDir, root, t0, uuids
+
+### Community 247 - "lms-service/tsconfig.json"
+Cohesion: 0.25
+Nodes (7): compilerOptions, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 248 - "notification-service/tsconfig.json"
+Cohesion: 0.25
+Nodes (7): compilerOptions, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 249 - "chaos-catalogue.mjs"
+Cohesion: 0.25
+Nodes (5): allPass, evidence, evidenceDir, results, root
+
+### Community 250 - "smoke-paper-fallback.mjs"
+Cohesion: 0.25
+Nodes (6): evidence, evidenceDir, ids, matched, root, serials
+
+### Community 251 - "k-anonymity/src/index.ts"
+Cohesion: 0.38
+Nodes (5): AggregateCell, KOCH_FIXTURE, PublishedCell, suppressAggregate(), SuppressResult
+
+### Community 253 - "dependencies"
+Cohesion: 0.07
+Nodes (29): dependencies, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/k-anonymity, @ngois/service-kit, @ngois/tenant-context (+21 more)
+
+### Community 254 - "ai-insights-service/src/index.ts"
+Cohesion: 0.11
+Nodes (12): { app, log }, approveSchema, config, generateSchema, llm, pool, settingsSchema, createLlmAdapter() (+4 more)
+
+### Community 255 - "ai-redaction/package.json"
+Cohesion: 0.12
+Nodes (15): devDependencies, tsx, exports, tsx, main, name, private, scripts (+7 more)
+
+### Community 256 - "ai-redaction/src/index.ts"
+Cohesion: 0.19
+Nodes (14): assertNoFieldTextInPrompt(), COMMON_NAMES, extractFigures(), hasSmallCohort(), numericalGuardrail(), PERMITTED_DEFAULT, RedactionInput, redactionRatio() (+6 more)
+
+### Community 257 - "generate-redaction-corpus.mjs"
+Cohesion: 0.13
+Nodes (13): admins, banks, coords, emails, fixtures, nids, outDir, path (+5 more)
+
+### Community 258 - "integration-service/src/index.ts"
+Cohesion: 0.16
+Nodes (11): buildIatiActivity(), GrantForIati, IatiBuildInput, IatiDocument, PII_PATTERNS, validateIatiDocument(), { app, log }, config (+3 more)
+
+### Community 259 - "BaseButton.vue"
+Cohesion: 0.14
+Nodes (13): toast, ToastItem, ToastKind, useToastStore, asOf, busy, error, kpis (+5 more)
+
+### Community 260 - "AiInsightsView.vue"
+Cohesion: 0.16
+Nodes (12): approve(), attest, busy, edit, error, generate(), Insight, load() (+4 more)
+
+### Community 261 - "ai-redaction/tsconfig.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 262 - "ComplianceView.vue"
+Cohesion: 0.14
+Nodes (13): emit, onKey(), panel, previouslyFocused, props, busy, error, load() (+5 more)
+
+### Community 263 - "ai-insights-service/tsconfig.json"
+Cohesion: 0.25
+Nodes (7): compilerOptions, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 264 - "analytics-service/tsconfig.json"
+Cohesion: 0.25
+Nodes (7): compilerOptions, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 265 - "integration-service/tsconfig.json"
+Cohesion: 0.25
+Nodes (7): compilerOptions, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 266 - "start-embedded-db.mjs"
+Cohesion: 0.07
+Nodes (29): dependencies, @ngois/config, @ngois/db, @ngois/logging, @ngois/webhook-egress, pg, redis, zod (+21 more)
+
+### Community 267 - "finops-attribution.mjs"
+Cohesion: 0.29
+Nodes (6): client, evidence, evidenceDir, root, rows, today
+
+### Community 268 - "analytics-service/src/index.ts"
+Cohesion: 0.33
+Nodes (4): aggregateSchema, { app, log }, config, pool
+
+### Community 269 - "TrainingView.vue"
+Cohesion: 0.18
+Nodes (15): config, deliver(), dispatchEvent(), ensureGroup(), hourlyCount(), loadSubs(), log, matches() (+7 more)
+
+### Community 270 - "eval-ai-injection.mjs"
+Cohesion: 0.33
+Nodes (5): evidence, evidenceDir, injections, require, root
+
+### Community 272 - "verify-phase4-gates.mjs"
+Cohesion: 0.50
+Nodes (3): board, required, root
+
+### Community 273 - "WebhooksView.vue"
+Cohesion: 0.13
+Nodes (14): busy, create(), deliveries, Delivery, disable(), endpoint, error, load() (+6 more)
+
+### Community 274 - "webhook-egress/package.json"
+Cohesion: 0.13
+Nodes (14): devDependencies, tsx, exports, tsx, main, name, private, scripts (+6 more)
+
+### Community 275 - "webhook-egress/src/index.ts"
+Cohesion: 0.26
+Nodes (9): buildWebhookEnvelope(), isPrivateIp(), PII_KEYS, RETRY_DELAYS_MS, signBody(), stripPii(), UrlValidation, validateWebhookUrl() (+1 more)
+
+### Community 276 - "stack-prod-shaped.mjs"
+Cohesion: 0.15
+Nodes (9): checks, compose, down, evidenceDir, pg, redis, redisOk, root (+1 more)
+
+### Community 277 - "Phase 3 DPIA — Beneficiary / field data (DPO-approved)"
+Cohesion: 0.20
+Nodes (8): Checklist, Data subject rights, Superseded, Erasure + DSAR, Lawful bases, Phase 3 DPIA — Beneficiary / field data (DPO-approved), Retention, Risks & mitigations
+
+### Community 278 - "webhook-egress/tsconfig.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 279 - "webhook-dispatcher/tsconfig.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*, ../../tsconfig.base.json
+
+### Community 280 - "drill-dr-failover.mjs"
+Cohesion: 0.28
+Nodes (6): compose, composeFailover(), dc(), evidenceDir, ready(), root
+
+### Community 281 - "smoke-webhooks-e2e.mjs"
+Cohesion: 0.22
+Nodes (4): env, mock, received, suspended
+
+### Community 282 - "pen-test-selfcheck.mjs"
+Cohesion: 0.25
+Nodes (7): board, checks, evidence, evidenceDir, gate12Blocked, results, root
+
+### Community 283 - "Penetration test engagement pack (Phase 1 gate #12)"
+Cohesion: 0.29
+Nodes (6): Assets to provide, Closure criterion, Penetration test engagement pack (Phase 1 gate #12), Rules of engagement, Scope (in), Scope (out)
+
+### Community 284 - "terraform-validate.mjs"
+Cohesion: 0.33
+Nodes (5): envs, evidenceDir, results, root, tfCheck
+
+### Community 285 - "Local progressive canary procedure (does not satisfy Phase 1 gate #2)"
+Cohesion: 0.33
+Nodes (5): Apply, Local / CI, Prerequisites, Progressive canary — Argo Rollouts (staging-ready), Weights (gate #2 prep)
+
+### Community 286 - "verify-webhooks-gates.mjs"
+Cohesion: 0.50
+Nodes (3): board, required, root
+
+### Community 287 - "start-embedded-db.mjs"
+Cohesion: 0.16
+Nodes (11): AuthUser, Envelope, useAuthStore, auth, expenseCount, grantCount, kpiCount, loading (+3 more)
+
+### Community 289 - "DataTable.vue"
+Cohesion: 0.22
+Nodes (5): DataColumn, props, sortDir, sorted, sortKey
+
+### Community 290 - "smoke-staging-checklist.mjs"
+Cohesion: 0.25
+Nodes (5): ENV_NAMES, envPath, MARKERS, mdPath, root
+
 ## Knowledge Gaps
-- **1945 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+1940 more)
+- **2614 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+2609 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -1015,15 +1365,15 @@ Nodes (4): month, now, pool, year
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Appendix I — Algorithms and Worked Examples` connect `Appendix I — Algorithms and Worked Examples` to `sdd/README.md`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `10 — API Design Standards` connect `10 — API Design Standards` to `sdd/README.md`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **Why does `03 — System Overview and Context` connect `03 — System Overview and Context` to `sdd/README.md`?**
-  _High betweenness centrality (0.016) - this node is a cross-community bridge._
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **Why does `14 — Security Architecture` connect `14 — Security Architecture` to `sdd/README.md`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **Why does `Appendix C — RBAC Permission Matrix` connect `Appendix C — RBAC Permission Matrix` to `sdd/README.md`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `name`, `version`, `private` to the rest of the system?**
-  _1945 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _2614 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Root Workspace Manifest` be split into smaller, more focused modules?**
-  _Cohesion score 0.037037037037037035 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.022988505747126436 - nodes in this community are weakly interconnected._
 - **Should `File Service Package` be split into smaller, more focused modules?**
   _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._
 - **Should `API Gateway Package` be split into smaller, more focused modules?**

@@ -16,6 +16,7 @@
     "@ngois/errors": "*",
     "@ngois/service-kit": "*",
     "@ngois/tenant-context": "*",
+    "@ngois/webhook-egress": "*",
     "zod": "^3.25.28"
   },
   "devDependencies": {

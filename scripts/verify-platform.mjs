@@ -1,15 +1,18 @@
 /**
  * Inventory gate for platform stubs (SDD §31.3.1 platform / ops baseline).
- * Does not apply Terraform or talk to a cluster.
+ * Does not apply Terraform or talk to a cluster. Optionally runs terraform validate.
  */
 import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
 const root = join(fileURLToPath(import.meta.url), '..', '..');
 
 const required = [
   'infra/README.md',
+  'docker-compose.prod-shaped.yml',
+  'infra/observability/otel-collector-local.yaml',
   'infra/terraform/envs/dev/main.tf',
   'infra/terraform/envs/staging/main.tf',
   'infra/terraform/envs/prod/main.tf',
@@ -33,8 +36,17 @@ const required = [
   'ops/drills/backup-restore.md',
   'ops/drills/regional-failover.md',
   'ops/phase1-gate-status.md',
+  'ops/compliance/pen-test-engagement-pack.md',
   'infra/kubernetes/canary/rollout-stub.yaml',
+  'infra/kubernetes/canary/PROGRESSIVE_ROLLOUT.md',
+  'infra/kubernetes/canary/api-gateway-rollout.yaml',
+  'infra/terraform/envs/staging/terraform.tfvars.example',
+  'ops/staging-ready.md',
   'infra/pgbouncer/pgbouncer.ini',
+  'scripts/stack-prod-shaped.mjs',
+  'scripts/drill-dr-failover.mjs',
+  'scripts/terraform-validate.mjs',
+  'scripts/verify-staging-ready.mjs',
 ];
 
 const dashboards = join(root, 'infra', 'observability', 'grafana', 'dashboards');
@@ -78,8 +90,21 @@ for (const s of services) {
   }
 }
 
+const tfScript = join(root, 'scripts', 'terraform-validate.mjs');
+const tf = spawnSync(process.execPath, [tfScript], {
+  cwd: root,
+  stdio: 'inherit',
+  shell: false,
+});
+if (tf.status !== 0) {
+  console.error('FAIL terraform-validate');
+  failed = true;
+} else {
+  console.log('OK   terraform-validate');
+}
+
 if (failed) {
   console.error('verify-platform: FAIL');
   process.exit(1);
 }
-console.log('verify-platform: OK (stubs present)');
+console.log('verify-platform: OK (stubs + compose + terraform validate)');

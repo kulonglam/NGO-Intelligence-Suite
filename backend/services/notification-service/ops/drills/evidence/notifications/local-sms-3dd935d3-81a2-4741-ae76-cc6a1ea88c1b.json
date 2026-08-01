@@ -1,0 +1,7 @@
+{
+  "channel": "sms",
+  "to": "+211911111111",
+  "body": "NGOIS sync alert. Check with supervisor. Ref CH7",
+  "provider": "africas_talking_local_stub",
+  "at": "2026-07-30T19:59:45.148Z"
+}

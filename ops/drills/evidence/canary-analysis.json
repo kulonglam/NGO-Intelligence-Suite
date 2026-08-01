@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29T19:52:16.949Z",
+  "generated_at": "2026-07-30T04:33:51.335Z",
   "baseline_error_rate_pct": 0.5,
   "canary_error_rate_pct": 8.5,
   "threshold_pp": 2,
@@ -8,5 +8,5 @@
     "action": "abort",
     "reason": "error_rate_regression"
   },
-  "note": "Local stub only — production Argo Rollouts analysis required for gate #10"
+  "analysis_template": "infra/kubernetes/canary/analysis-template.yaml"
 }

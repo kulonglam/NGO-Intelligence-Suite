@@ -1,0 +1,80 @@
+{
+  "version": "2.03",
+  "iati_activities": [
+    {
+      "iati-identifier": "NGOIS-SSD-2026-001",
+      "title": {
+        "narrative": "Emergency WASH Response"
+      },
+      "reporting_org": {
+        "narrative": "NGO Intelligence Suite tenant"
+      },
+      "activity_status": {
+        "code": "2"
+      },
+      "activity_date": [
+        {
+          "type": "1",
+          "iso-date": "2025-12-31T21:00:00.000Z"
+        },
+        {
+          "type": "3",
+          "iso-date": "2026-12-30T21:00:00.000Z"
+        }
+      ],
+      "recipient_region": {
+        "vocabulary": "1",
+        "code": "298",
+        "narrative": "Unity"
+      },
+      "location": {
+        "name": "Unity",
+        "exactness": "2"
+      },
+      "budget": {
+        "value": {
+          "currency": "USD",
+          "amount": "2500000.00"
+        }
+      },
+      "result": {
+        "title": "Households reached (k-anonymised)",
+        "indicator": [
+          {
+            "dimension": "Rubkona/Female",
+            "value": 412
+          },
+          {
+            "dimension": "Rubkona/Male",
+            "value": 388
+          },
+          {
+            "dimension": "Guit/Female",
+            "value": 96
+          },
+          {
+            "dimension": "Guit/Male",
+            "value": 104
+          },
+          {
+            "dimension": "Mayendit/Female",
+            "value": 44
+          },
+          {
+            "dimension": "Mayendit/Male",
+            "value": 39
+          }
+        ],
+        "footnote": "Totals exclude suppressed cells (k-anonymity).",
+        "published_total": 1083
+      }
+    }
+  ],
+  "exclusions_applied": [
+    "beneficiary_level_records",
+    "precise_coordinates",
+    "staff_names_below_management",
+    "k_anonymity_lt_5"
+  ],
+  "checksum": "77d0306697ec8f7ca8a95abeec0208f0f005b38d081849d73f46c2132f88275d"
+}

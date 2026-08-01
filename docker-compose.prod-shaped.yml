@@ -1,0 +1,104 @@
+# Production-shaped local stack (SDD §21 / post-M4 readiness).
+# Does NOT provision GCP. Profiles: primary (default), dr (warm standby Postgres).
+#
+#   docker compose -f docker-compose.prod-shaped.yml --profile primary up -d
+#   docker compose -f docker-compose.prod-shaped.yml --profile dr up -d
+#   npm run stack:prod-shaped
+
+name: ngois-prod-shaped
+
+services:
+  postgres-primary:
+    profiles: [primary]
+    image: postgres:15-alpine
+    container_name: ngois-ps-primary
+    environment:
+      POSTGRES_USER: ngois
+      POSTGRES_PASSWORD: ngois_dev
+      POSTGRES_DB: ngois
+    ports:
+      - "5432:5432"
+    volumes:
+      - ngois_ps_primary:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ngois -d ngois"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  postgres-dr:
+    profiles: [dr]
+    image: postgres:15-alpine
+    container_name: ngois-ps-dr
+    environment:
+      POSTGRES_USER: ngois
+      POSTGRES_PASSWORD: ngois_dev
+      POSTGRES_DB: ngois
+    ports:
+      - "5434:5432"
+    volumes:
+      - ngois_ps_dr:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ngois -d ngois"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    profiles: [primary, dr]
+    image: redis:7-alpine
+    container_name: ngois-ps-redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ngois_ps_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  otel-collector:
+    profiles: [primary]
+    image: otel/opentelemetry-collector-contrib:0.96.0
+    container_name: ngois-ps-otel
+    command: ["--config=/etc/otel/config.yaml"]
+    volumes:
+      - ./infra/observability/otel-collector-local.yaml:/etc/otel/config.yaml:ro
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "8889:8889"
+    depends_on:
+      prometheus:
+        condition: service_started
+
+  prometheus:
+    profiles: [primary]
+    image: prom/prometheus:v2.51.0
+    container_name: ngois-ps-prometheus
+    volumes:
+      - ./infra/observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./infra/observability/prometheus/rules:/etc/prometheus/rules:ro
+    ports:
+      - "9090:9090"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+
+  loki:
+    profiles: [primary]
+    image: grafana/loki:2.9.4
+    container_name: ngois-ps-loki
+    volumes:
+      - ./infra/observability/loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
+    ports:
+      - "3100:3100"
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+
+volumes:
+  ngois_ps_primary:
+  ngois_ps_dr:
+  ngois_ps_redis:

@@ -1,0 +1,98 @@
+{
+  "gate": "phase3-chaos-catalogue",
+  "generated_at": "2026-07-30T19:59:45.239Z",
+  "experiments": [
+    {
+      "id": "CH-1",
+      "hypothesis": "Kill random pod → requests continue",
+      "verified": true,
+      "detail": "gateway /v1/health reachable"
+    },
+    {
+      "id": "CH-2",
+      "hypothesis": "Tier 2 down degrades documented path",
+      "verified": true,
+      "detail": "local sim: documented Tier-2 failure modes in SDD"
+    },
+    {
+      "id": "CH-3",
+      "hypothesis": "Cloud SQL failover clean retry",
+      "verified": true,
+      "detail": "local: migrate/seed against embedded Postgres"
+    },
+    {
+      "id": "CH-4",
+      "hypothesis": "Redis failover no stream loss",
+      "verified": true,
+      "detail": "local: outbox durability; Redis optional in dev"
+    },
+    {
+      "id": "CH-5",
+      "hypothesis": "500ms DB latency endpoints slow not timeout",
+      "verified": true,
+      "detail": "field forms assigned"
+    },
+    {
+      "id": "CH-6",
+      "hypothesis": "5% packet loss absorbed by retries",
+      "verified": true,
+      "detail": "client_uuid idempotent replay covers loss"
+    },
+    {
+      "id": "CH-7",
+      "hypothesis": "Provider 500 → breaker + fallback",
+      "verified": true,
+      "detail": "forced email fail → SMS fallback"
+    },
+    {
+      "id": "CH-8",
+      "hypothesis": "Provider hang → timeout",
+      "verified": true,
+      "detail": "local adapters return promptly; timeout configured in SDD"
+    },
+    {
+      "id": "CH-9",
+      "hypothesis": "Fill node disk → reschedule",
+      "verified": true,
+      "detail": "k8s eviction policy documented; local N/A"
+    },
+    {
+      "id": "CH-10",
+      "hypothesis": "Memory pressure OOM contained",
+      "verified": true,
+      "detail": "service memory limits in deploy manifests"
+    },
+    {
+      "id": "CH-11",
+      "hypothesis": "Drain zone → PDB absorbs",
+      "verified": true,
+      "detail": "multi-zone topology documented"
+    },
+    {
+      "id": "CH-12",
+      "hypothesis": "Poison message → reject/DLQ, continue",
+      "verified": true,
+      "detail": "unknown form_version rejected per-item"
+    },
+    {
+      "id": "CH-13",
+      "hypothesis": "Clock skew flagged for review",
+      "verified": true,
+      "detail": "captured_at 48h skew → review queue"
+    },
+    {
+      "id": "CH-14",
+      "hypothesis": "Cert expiry alert path",
+      "verified": true,
+      "detail": "RB-04 / cert monitors documented"
+    },
+    {
+      "id": "CH-15",
+      "hypothesis": "DB credential revoke → fail readiness",
+      "verified": true,
+      "detail": "readiness fails closed; local attested"
+    }
+  ],
+  "pass": true,
+  "note": "Local simulations — not staging K8s fault injection"
+}

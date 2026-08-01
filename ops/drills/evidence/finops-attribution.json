@@ -1,0 +1,10 @@
+{
+  "gate": "phase4-finops-attribution",
+  "generated_at": "2026-07-30T20:17:21.690Z",
+  "tenant_id": "11111111-1111-4111-8111-111111111111",
+  "cost_date": "2026-07-30",
+  "total_usd": 0.7,
+  "tokens": 1200,
+  "pre_scale_note": "Calendar peak stub recorded in meta — not cloud autoscaler",
+  "pass": true
+}

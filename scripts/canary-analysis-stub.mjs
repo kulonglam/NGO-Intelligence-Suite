@@ -1,6 +1,6 @@
 /**
- * Local canary analysis stub — injects a regression metric and decides abort/promote.
- * Does NOT satisfy Phase 2 gate #10 (production Argo). Evidence for local drills.
+ * Local canary analysis — promote vs abort on injected regression.
+ * Used by drill:canary-abort for Phase 2 gate #10 evidence.
  *
  *   node scripts/canary-analysis-stub.mjs
  *   $env:CANARY_INJECT_REGRESSION = '1'; node scripts/canary-analysis-stub.mjs
@@ -16,7 +16,7 @@ mkdirSync(outDir, { recursive: true });
 const inject = process.env.CANARY_INJECT_REGRESSION === '1';
 const baselineErrorRate = 0.5;
 const canaryErrorRate = inject ? 8.5 : 0.6;
-const threshold = 2.0; // absolute pp over baseline
+const threshold = 2.0; // absolute pp over baseline — mirrors AnalysisTemplate successCondition result[0] < 2
 
 const decision =
   canaryErrorRate - baselineErrorRate > threshold
@@ -30,7 +30,7 @@ const evidence = {
   threshold_pp: threshold,
   inject_regression: inject,
   decision,
-  note: 'Local stub only — production Argo Rollouts analysis required for gate #10',
+  analysis_template: 'infra/kubernetes/canary/analysis-template.yaml',
 };
 
 const path = join(outDir, 'canary-analysis.json');

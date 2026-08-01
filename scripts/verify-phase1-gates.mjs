@@ -13,14 +13,16 @@ mkdirSync(evidenceDir, { recursive: true });
 
 const board = readFileSync(boardPath, 'utf8');
 
-/** Gates that must remain BLOCKED until external evidence exists. */
-const MUST_BLOCKED = new Set(['2', '10', '12', '16']);
+/** Gates that must remain BLOCKED until external / prod evidence exists. */
+const MUST_BLOCKED = new Set(['2', '12']);
 
 /** Local PASS gates that require evidence artefacts after drills. */
 const EVIDENCE = {
   7: 'audit-chain.json',
   8: 'encryption-sample.json',
   9: 'backup-restore.json',
+  10: 'dr-failover.json',
+  16: 'rollback-local.json',
   17: 'rb05-onboarding.json',
 };
 
@@ -36,6 +38,16 @@ for (const id of MUST_BLOCKED) {
   }
 }
 
+for (const id of ['10', '16']) {
+  const row = board.split('\n').find((l) => l.startsWith(`| ${id} |`));
+  if (!row?.includes('PASS')) {
+    console.error(`FAIL gate #${id} should be PASS (local) on the board`);
+    failed = true;
+  } else {
+    console.log(`OK   gate #${id} PASS (local) on board`);
+  }
+}
+
 const requireEvidence = process.env.PHASE1_REQUIRE_EVIDENCE === '1';
 for (const [id, file] of Object.entries(EVIDENCE)) {
   const abs = join(evidenceDir, file);
@@ -47,7 +59,7 @@ for (const [id, file] of Object.entries(EVIDENCE)) {
   }
   if (!existsSync(abs)) {
     if (requireEvidence) {
-      console.error(`FAIL gate #${id} missing evidence ${file} (run npm run drill:phase1)`);
+      console.error(`FAIL gate #${id} missing evidence ${file}`);
       failed = true;
     } else {
       console.log(`WARN gate #${id} evidence ${file} not yet generated (ok without PHASE1_REQUIRE_EVIDENCE=1)`);

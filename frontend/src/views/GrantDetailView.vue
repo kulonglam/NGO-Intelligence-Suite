@@ -7,6 +7,12 @@ import { formatMoney } from '../lib/format';
 import { useAuthStore } from '../stores/auth';
 import BaseButton from '../components/base/BaseButton.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
+import PageHeader from '../components/layout/PageHeader.vue';
+import SectionCard from '../components/layout/SectionCard.vue';
+import StatCard from '../components/data/StatCard.vue';
+import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
+import EmptyState from '../components/feedback/EmptyState.vue';
+
 
 type Summary = {
   grant: {
@@ -174,45 +180,43 @@ watch(grantId, () => {
       <RouterLink to="/grants">← {{ t('grants.detail.awards') }}</RouterLink>
     </p>
     <p v-if="error" class="error" role="alert">{{ error }}</p>
-    <p v-if="loading">{{ t('app.loading') }}</p>
+    <SkeletonBlock v-if="loading" :rows="5" height="1.25rem" />
 
     <template v-if="summary && !loading">
-      <div class="head">
-        <div>
-          <p class="eyebrow bidi-isolate" dir="ltr">{{ summary.grant.grant_number }}</p>
-          <h1 id="grant-heading">{{ summary.grant.title }}</h1>
-          <p class="meta">
-            {{ summary.grant.donor_name }} ·
-            <StatusBadge :status="summary.grant.status" />
-          </p>
-        </div>
-        <BaseButton variant="ghost" @click="load">{{ t('app.refresh') }}</BaseButton>
-      </div>
+      <PageHeader
+        :eyebrow="summary.grant.grant_number"
+        :title="summary.grant.title"
+        :lede="`${summary.grant.donor_name}`"
+        heading-id="grant-heading"
+      >
+        <template #actions>
+          <StatusBadge :status="summary.grant.status" />
+          <BaseButton variant="ghost" @click="load">{{ t('app.refresh') }}</BaseButton>
+        </template>
+      </PageHeader>
 
       <div class="stats">
-        <div>
-          <span>{{ t('grants.detail.ceiling') }}</span>
-          <strong class="bidi-isolate" dir="ltr">
-            {{ formatMoney(summary.ceiling, summary.currency, locale) }}
-          </strong>
-        </div>
-        <div>
-          <span>{{ t('grants.detail.committed') }}</span>
-          <strong class="bidi-isolate" dir="ltr">
-            {{ formatMoney(summary.committed, summary.currency, locale) }}
-          </strong>
-        </div>
-        <div>
-          <span>{{ t('grants.detail.remaining') }}</span>
-          <strong class="bidi-isolate" dir="ltr">
-            {{ formatMoney(summary.remaining, summary.currency, locale) }}
-          </strong>
-        </div>
+        <StatCard
+          :label="t('grants.detail.ceiling')"
+          :value="formatMoney(summary.ceiling, summary.currency, locale)"
+        />
+        <StatCard
+          :label="t('grants.detail.committed')"
+          :value="formatMoney(summary.committed, summary.currency, locale)"
+        />
+        <StatCard
+          :label="t('grants.detail.remaining')"
+          :value="formatMoney(summary.remaining, summary.currency, locale)"
+        />
       </div>
 
-      <div class="panel">
-        <h2>{{ t('grants.detail.disbursements') }}</h2>
-        <table>
+      <SectionCard :title="t('grants.detail.disbursements')" title-id="disb-heading">
+        <EmptyState
+          v-if="!disbursements.length"
+          :title="t('grants.detail.emptyDisbursements')"
+        />
+        <table v-else>
+          <caption class="sr-only">{{ t('grants.detail.disbursements') }}</caption>
           <thead>
             <tr>
               <th scope="col">{{ t('grants.detail.date') }}</th>
@@ -247,9 +251,6 @@ watch(grantId, () => {
                 </BaseButton>
               </td>
             </tr>
-            <tr v-if="disbursements.length === 0">
-              <td colspan="4">{{ t('grants.detail.emptyDisbursements') }}</td>
-            </tr>
           </tbody>
         </table>
 
@@ -275,11 +276,11 @@ watch(grantId, () => {
           </label>
           <BaseButton type="submit" variant="secondary">{{ t('grants.detail.record') }}</BaseButton>
         </form>
-      </div>
+      </SectionCard>
 
-      <div class="panel">
-        <h2>{{ t('grants.detail.files') }}</h2>
-        <ul class="files">
+      <SectionCard :title="t('grants.detail.files')" title-id="files-heading">
+        <EmptyState v-if="!files.length" :title="t('grants.detail.emptyFiles')" />
+        <ul v-else class="files">
           <li v-for="f in files" :key="f.id">
             <button
               type="button"
@@ -290,13 +291,12 @@ watch(grantId, () => {
             </button>
             <span class="bidi-isolate" dir="ltr">{{ Math.round(f.size_bytes / 1024) }} KB</span>
           </li>
-          <li v-if="files.length === 0">{{ t('grants.detail.emptyFiles') }}</li>
         </ul>
         <label class="upload">
           {{ t('grants.detail.upload') }}
           <input ref="fileInput" type="file" @change="uploadFile" />
         </label>
-      </div>
+      </SectionCard>
     </template>
   </section>
 </template>
@@ -304,44 +304,14 @@ watch(grantId, () => {
 <style scoped>
 .back { margin: 0 0 12px; }
 .back a { color: var(--brand); text-decoration: none; font-weight: 600; }
-.head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 16px;
-  margin-bottom: 18px;
-}
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.75rem;
-  color: var(--brand);
-  font-weight: 600;
-  margin: 0;
-}
-h1 { margin: 6px 0 0; color: var(--brand-deep); }
-.meta { color: var(--ink-muted); margin: 6px 0 0; }
 .stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 20px;
 }
-.stats div {
-  background: rgba(255,255,255,0.84);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: grid;
-  gap: 6px;
-}
-.stats span { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); }
-.stats strong { font-size: 1.15rem; color: var(--brand-deep); }
-.panel {
-  background: rgba(255,255,255,0.84);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 18px;
+.section-gap :deep(.card),
+:deep(.card) {
   margin-bottom: 18px;
 }
 table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }

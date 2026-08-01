@@ -1,0 +1,4604 @@
+[
+  {
+    "id": "nid-0",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Registered under NID-12345678"
+    }
+  },
+  {
+    "id": "nid-1",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Registered under NIN:987654321"
+    }
+  },
+  {
+    "id": "nid-2",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Registered under ID 44556677"
+    }
+  },
+  {
+    "id": "nid-3",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Registered under A1234567B"
+    }
+  },
+  {
+    "id": "email-struct-4",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 50,
+        "contact": "a@example.com"
+      }
+    }
+  },
+  {
+    "id": "email-struct-5",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 50,
+        "contact": "field.officer@ngo.org"
+      }
+    }
+  },
+  {
+    "id": "email-struct-6",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 50,
+        "contact": "x+y@mail.co.ug"
+      }
+    }
+  },
+  {
+    "id": "coord-7",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 80,
+        "location": "9.233, 29.800"
+      }
+    }
+  },
+  {
+    "id": "coord-8",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 80,
+        "location": "-1.2921, 36.8219"
+      }
+    }
+  },
+  {
+    "id": "coord-9",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 80,
+        "location": "0.3476, 32.5825"
+      }
+    }
+  },
+  {
+    "id": "bank-10",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90
+      },
+      "free_text": "Pay to GB82WEST12345698765432"
+    }
+  },
+  {
+    "id": "bank-11",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90
+      },
+      "free_text": "Pay to acct:123456789012"
+    }
+  },
+  {
+    "id": "bank-12",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90
+      },
+      "free_text": "Pay to momo 256700112233"
+    }
+  },
+  {
+    "id": "tin-13",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90
+      },
+      "free_text": "Tax ref TIN-1234567"
+    }
+  },
+  {
+    "id": "tin-14",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90
+      },
+      "free_text": "Tax ref NSSF 998877"
+    }
+  },
+  {
+    "id": "tin-15",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90
+      },
+      "free_text": "Tax ref NSIF:112233"
+    }
+  },
+  {
+    "id": "secret-16",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90
+      },
+      "free_text": "key sk-abc123def456ghi789"
+    }
+  },
+  {
+    "id": "secret-17",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90
+      },
+      "free_text": "key AKIAIOSFODNN7EXAMPLE"
+    }
+  },
+  {
+    "id": "secret-18",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90
+      },
+      "free_text": "key ghp_abcdefghijklmnopqrstuv"
+    }
+  },
+  {
+    "id": "phone-struct-19",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90,
+        "phone": "+211912345678"
+      }
+    }
+  },
+  {
+    "id": "phone-struct-20",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90,
+        "phone": "+256701234567"
+      }
+    }
+  },
+  {
+    "id": "phone-struct-21",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 90,
+        "phone": "+254712345678"
+      }
+    }
+  },
+  {
+    "id": "cohort-1",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "count_reached": 1
+      }
+    }
+  },
+  {
+    "id": "cohort-2",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "count_reached": 2
+      }
+    }
+  },
+  {
+    "id": "cohort-3",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "count_reached": 3
+      }
+    }
+  },
+  {
+    "id": "cohort-4",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "count_reached": 4
+      }
+    }
+  },
+  {
+    "id": "class-restricted",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "classification_max": "restricted"
+    }
+  },
+  {
+    "id": "bad-view",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "source_view": "beneficiaries_raw"
+    }
+  },
+  {
+    "id": "clean-0",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 50,
+        "admin2": "Rubkona",
+        "grants_active": 2,
+        "burn_rate_pct": 10
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-1",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 53,
+        "admin2": "Guit",
+        "grants_active": 3,
+        "burn_rate_pct": 11
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-2",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 56,
+        "admin2": "Koch",
+        "grants_active": 4,
+        "burn_rate_pct": 12
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-3",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 59,
+        "admin2": "Mayendit",
+        "grants_active": 5,
+        "burn_rate_pct": 13
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-4",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 62,
+        "admin2": "Juba",
+        "grants_active": 6,
+        "burn_rate_pct": 14
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-5",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 65,
+        "admin2": "Kampala",
+        "grants_active": 2,
+        "burn_rate_pct": 15
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-6",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 68,
+        "admin2": "Nairobi",
+        "grants_active": 3,
+        "burn_rate_pct": 16
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-7",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 71,
+        "admin2": "Rubkona",
+        "grants_active": 4,
+        "burn_rate_pct": 17
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-8",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 74,
+        "admin2": "Guit",
+        "grants_active": 5,
+        "burn_rate_pct": 18
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-9",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 77,
+        "admin2": "Koch",
+        "grants_active": 6,
+        "burn_rate_pct": 19
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-10",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 80,
+        "admin2": "Mayendit",
+        "grants_active": 2,
+        "burn_rate_pct": 20
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-11",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 83,
+        "admin2": "Juba",
+        "grants_active": 3,
+        "burn_rate_pct": 21
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-12",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 86,
+        "admin2": "Kampala",
+        "grants_active": 4,
+        "burn_rate_pct": 22
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-13",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 89,
+        "admin2": "Nairobi",
+        "grants_active": 5,
+        "burn_rate_pct": 23
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-14",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 92,
+        "admin2": "Rubkona",
+        "grants_active": 6,
+        "burn_rate_pct": 24
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-15",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 95,
+        "admin2": "Guit",
+        "grants_active": 2,
+        "burn_rate_pct": 25
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-16",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 98,
+        "admin2": "Koch",
+        "grants_active": 3,
+        "burn_rate_pct": 26
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-17",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 101,
+        "admin2": "Mayendit",
+        "grants_active": 4,
+        "burn_rate_pct": 27
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-18",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 104,
+        "admin2": "Juba",
+        "grants_active": 5,
+        "burn_rate_pct": 28
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-19",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 107,
+        "admin2": "Kampala",
+        "grants_active": 6,
+        "burn_rate_pct": 29
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-20",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 110,
+        "admin2": "Nairobi",
+        "grants_active": 2,
+        "burn_rate_pct": 30
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-21",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 113,
+        "admin2": "Rubkona",
+        "grants_active": 3,
+        "burn_rate_pct": 31
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-22",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 116,
+        "admin2": "Guit",
+        "grants_active": 4,
+        "burn_rate_pct": 32
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-23",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 119,
+        "admin2": "Koch",
+        "grants_active": 5,
+        "burn_rate_pct": 33
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-24",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 122,
+        "admin2": "Mayendit",
+        "grants_active": 6,
+        "burn_rate_pct": 34
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-25",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 125,
+        "admin2": "Juba",
+        "grants_active": 2,
+        "burn_rate_pct": 35
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-26",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 128,
+        "admin2": "Kampala",
+        "grants_active": 3,
+        "burn_rate_pct": 36
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-27",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 131,
+        "admin2": "Nairobi",
+        "grants_active": 4,
+        "burn_rate_pct": 37
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-28",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 134,
+        "admin2": "Rubkona",
+        "grants_active": 5,
+        "burn_rate_pct": 38
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-29",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 137,
+        "admin2": "Guit",
+        "grants_active": 6,
+        "burn_rate_pct": 39
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-30",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 140,
+        "admin2": "Koch",
+        "grants_active": 2,
+        "burn_rate_pct": 40
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-31",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 143,
+        "admin2": "Mayendit",
+        "grants_active": 3,
+        "burn_rate_pct": 41
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-32",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 146,
+        "admin2": "Juba",
+        "grants_active": 4,
+        "burn_rate_pct": 42
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-33",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 149,
+        "admin2": "Kampala",
+        "grants_active": 5,
+        "burn_rate_pct": 43
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-34",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 152,
+        "admin2": "Nairobi",
+        "grants_active": 6,
+        "burn_rate_pct": 44
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-35",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 155,
+        "admin2": "Rubkona",
+        "grants_active": 2,
+        "burn_rate_pct": 45
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-36",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 158,
+        "admin2": "Guit",
+        "grants_active": 3,
+        "burn_rate_pct": 46
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-37",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 161,
+        "admin2": "Koch",
+        "grants_active": 4,
+        "burn_rate_pct": 47
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-38",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 164,
+        "admin2": "Mayendit",
+        "grants_active": 5,
+        "burn_rate_pct": 48
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-39",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 167,
+        "admin2": "Juba",
+        "grants_active": 6,
+        "burn_rate_pct": 49
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-40",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 170,
+        "admin2": "Kampala",
+        "grants_active": 2,
+        "burn_rate_pct": 10
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-41",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 173,
+        "admin2": "Nairobi",
+        "grants_active": 3,
+        "burn_rate_pct": 11
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-42",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 176,
+        "admin2": "Rubkona",
+        "grants_active": 4,
+        "burn_rate_pct": 12
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-43",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 179,
+        "admin2": "Guit",
+        "grants_active": 5,
+        "burn_rate_pct": 13
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-44",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 182,
+        "admin2": "Koch",
+        "grants_active": 6,
+        "burn_rate_pct": 14
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-45",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 185,
+        "admin2": "Mayendit",
+        "grants_active": 2,
+        "burn_rate_pct": 15
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-46",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 188,
+        "admin2": "Juba",
+        "grants_active": 3,
+        "burn_rate_pct": 16
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-47",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 191,
+        "admin2": "Kampala",
+        "grants_active": 4,
+        "burn_rate_pct": 17
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-48",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 194,
+        "admin2": "Nairobi",
+        "grants_active": 5,
+        "burn_rate_pct": 18
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-49",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 197,
+        "admin2": "Rubkona",
+        "grants_active": 6,
+        "burn_rate_pct": 19
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-50",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 200,
+        "admin2": "Guit",
+        "grants_active": 2,
+        "burn_rate_pct": 20
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-51",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 203,
+        "admin2": "Koch",
+        "grants_active": 3,
+        "burn_rate_pct": 21
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-52",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 206,
+        "admin2": "Mayendit",
+        "grants_active": 4,
+        "burn_rate_pct": 22
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-53",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 209,
+        "admin2": "Juba",
+        "grants_active": 5,
+        "burn_rate_pct": 23
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-54",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 212,
+        "admin2": "Kampala",
+        "grants_active": 6,
+        "burn_rate_pct": 24
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-55",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 215,
+        "admin2": "Nairobi",
+        "grants_active": 2,
+        "burn_rate_pct": 25
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-56",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 218,
+        "admin2": "Rubkona",
+        "grants_active": 3,
+        "burn_rate_pct": 26
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-57",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 221,
+        "admin2": "Guit",
+        "grants_active": 4,
+        "burn_rate_pct": 27
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-58",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 224,
+        "admin2": "Koch",
+        "grants_active": 5,
+        "burn_rate_pct": 28
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-59",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 227,
+        "admin2": "Mayendit",
+        "grants_active": 6,
+        "burn_rate_pct": 29
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-60",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 230,
+        "admin2": "Juba",
+        "grants_active": 2,
+        "burn_rate_pct": 30
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-61",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 233,
+        "admin2": "Kampala",
+        "grants_active": 3,
+        "burn_rate_pct": 31
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-62",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 236,
+        "admin2": "Nairobi",
+        "grants_active": 4,
+        "burn_rate_pct": 32
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-63",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 239,
+        "admin2": "Rubkona",
+        "grants_active": 5,
+        "burn_rate_pct": 33
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-64",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 242,
+        "admin2": "Guit",
+        "grants_active": 6,
+        "burn_rate_pct": 34
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-65",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 245,
+        "admin2": "Koch",
+        "grants_active": 2,
+        "burn_rate_pct": 35
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-66",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 248,
+        "admin2": "Mayendit",
+        "grants_active": 3,
+        "burn_rate_pct": 36
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-67",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 251,
+        "admin2": "Juba",
+        "grants_active": 4,
+        "burn_rate_pct": 37
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-68",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 254,
+        "admin2": "Kampala",
+        "grants_active": 5,
+        "burn_rate_pct": 38
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-69",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 257,
+        "admin2": "Nairobi",
+        "grants_active": 6,
+        "burn_rate_pct": 39
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-70",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 260,
+        "admin2": "Rubkona",
+        "grants_active": 2,
+        "burn_rate_pct": 40
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-71",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 263,
+        "admin2": "Guit",
+        "grants_active": 3,
+        "burn_rate_pct": 41
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-72",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 266,
+        "admin2": "Koch",
+        "grants_active": 4,
+        "burn_rate_pct": 42
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-73",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 269,
+        "admin2": "Mayendit",
+        "grants_active": 5,
+        "burn_rate_pct": 43
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-74",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 272,
+        "admin2": "Juba",
+        "grants_active": 6,
+        "burn_rate_pct": 44
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-75",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 275,
+        "admin2": "Kampala",
+        "grants_active": 2,
+        "burn_rate_pct": 45
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-76",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 278,
+        "admin2": "Nairobi",
+        "grants_active": 3,
+        "burn_rate_pct": 46
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-77",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 281,
+        "admin2": "Rubkona",
+        "grants_active": 4,
+        "burn_rate_pct": 47
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-78",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 284,
+        "admin2": "Guit",
+        "grants_active": 5,
+        "burn_rate_pct": 48
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-79",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 287,
+        "admin2": "Koch",
+        "grants_active": 6,
+        "burn_rate_pct": 49
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-80",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 290,
+        "admin2": "Mayendit",
+        "grants_active": 2,
+        "burn_rate_pct": 10
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-81",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 293,
+        "admin2": "Juba",
+        "grants_active": 3,
+        "burn_rate_pct": 11
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-82",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 296,
+        "admin2": "Kampala",
+        "grants_active": 4,
+        "burn_rate_pct": 12
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-83",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 299,
+        "admin2": "Nairobi",
+        "grants_active": 5,
+        "burn_rate_pct": 13
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-84",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 302,
+        "admin2": "Rubkona",
+        "grants_active": 6,
+        "burn_rate_pct": 14
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-85",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 305,
+        "admin2": "Guit",
+        "grants_active": 2,
+        "burn_rate_pct": 15
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-86",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 308,
+        "admin2": "Koch",
+        "grants_active": 3,
+        "burn_rate_pct": 16
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-87",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 311,
+        "admin2": "Mayendit",
+        "grants_active": 4,
+        "burn_rate_pct": 17
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-88",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 314,
+        "admin2": "Juba",
+        "grants_active": 5,
+        "burn_rate_pct": 18
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-89",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 317,
+        "admin2": "Kampala",
+        "grants_active": 6,
+        "burn_rate_pct": 19
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-90",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 320,
+        "admin2": "Nairobi",
+        "grants_active": 2,
+        "burn_rate_pct": 20
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-91",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 323,
+        "admin2": "Rubkona",
+        "grants_active": 3,
+        "burn_rate_pct": 21
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-92",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 326,
+        "admin2": "Guit",
+        "grants_active": 4,
+        "burn_rate_pct": 22
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-93",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 329,
+        "admin2": "Koch",
+        "grants_active": 5,
+        "burn_rate_pct": 23
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-94",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 332,
+        "admin2": "Mayendit",
+        "grants_active": 6,
+        "burn_rate_pct": 24
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-95",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 335,
+        "admin2": "Juba",
+        "grants_active": 2,
+        "burn_rate_pct": 25
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-96",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 338,
+        "admin2": "Kampala",
+        "grants_active": 3,
+        "burn_rate_pct": 26
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-97",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 341,
+        "admin2": "Nairobi",
+        "grants_active": 4,
+        "burn_rate_pct": 27
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-98",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 344,
+        "admin2": "Rubkona",
+        "grants_active": 5,
+        "burn_rate_pct": 28
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-99",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 347,
+        "admin2": "Guit",
+        "grants_active": 6,
+        "burn_rate_pct": 29
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-100",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 350,
+        "admin2": "Koch",
+        "grants_active": 2,
+        "burn_rate_pct": 30
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-101",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 353,
+        "admin2": "Mayendit",
+        "grants_active": 3,
+        "burn_rate_pct": 31
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-102",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 356,
+        "admin2": "Juba",
+        "grants_active": 4,
+        "burn_rate_pct": 32
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-103",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 359,
+        "admin2": "Kampala",
+        "grants_active": 5,
+        "burn_rate_pct": 33
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-104",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 362,
+        "admin2": "Nairobi",
+        "grants_active": 6,
+        "burn_rate_pct": 34
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-105",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 365,
+        "admin2": "Rubkona",
+        "grants_active": 2,
+        "burn_rate_pct": 35
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-106",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 368,
+        "admin2": "Guit",
+        "grants_active": 3,
+        "burn_rate_pct": 36
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-107",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 371,
+        "admin2": "Koch",
+        "grants_active": 4,
+        "burn_rate_pct": 37
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-108",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 374,
+        "admin2": "Mayendit",
+        "grants_active": 5,
+        "burn_rate_pct": 38
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-109",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 377,
+        "admin2": "Juba",
+        "grants_active": 6,
+        "burn_rate_pct": 39
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-110",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 380,
+        "admin2": "Kampala",
+        "grants_active": 2,
+        "burn_rate_pct": 40
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-111",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 383,
+        "admin2": "Nairobi",
+        "grants_active": 3,
+        "burn_rate_pct": 41
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-112",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 386,
+        "admin2": "Rubkona",
+        "grants_active": 4,
+        "burn_rate_pct": 42
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-113",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 389,
+        "admin2": "Guit",
+        "grants_active": 5,
+        "burn_rate_pct": 43
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-114",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 392,
+        "admin2": "Koch",
+        "grants_active": 6,
+        "burn_rate_pct": 44
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-115",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 395,
+        "admin2": "Mayendit",
+        "grants_active": 2,
+        "burn_rate_pct": 45
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-116",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 398,
+        "admin2": "Juba",
+        "grants_active": 3,
+        "burn_rate_pct": 46
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-117",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 401,
+        "admin2": "Kampala",
+        "grants_active": 4,
+        "burn_rate_pct": 47
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-118",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 404,
+        "admin2": "Nairobi",
+        "grants_active": 5,
+        "burn_rate_pct": 48
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "clean-119",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 407,
+        "admin2": "Rubkona",
+        "grants_active": 6,
+        "burn_rate_pct": 49
+      },
+      "source_view": "analytics_aggregates",
+      "classification_max": "internal"
+    }
+  },
+  {
+    "id": "pad-fail-148",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000148 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-149",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 349,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-150",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000150 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-151",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 351,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-152",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000152 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-153",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 353,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-154",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000154 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-155",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 355,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-156",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000156 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-157",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 357,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-158",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000158 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-159",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 359,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-160",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000160 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-161",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 361,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-162",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000162 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-163",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 363,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-164",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000164 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-165",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 365,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-166",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000166 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-167",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 367,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-168",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000168 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-169",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 369,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-170",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000170 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-171",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 371,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-172",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000172 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-173",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 373,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-174",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000174 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-175",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 375,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-176",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000176 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-177",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 377,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-178",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000178 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-179",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 379,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-180",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000180 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-181",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 381,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-182",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000182 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-183",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 383,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-184",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000184 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-185",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 385,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-186",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000186 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-187",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 387,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-188",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000188 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-189",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 389,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-190",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000190 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-191",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 391,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-192",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000192 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-193",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 393,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-194",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000194 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-195",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 395,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-196",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000196 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-197",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 397,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-198",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000198 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-199",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 399,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-200",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000200 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-201",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 401,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-202",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000202 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-203",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 403,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-204",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000204 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-205",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 405,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-206",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000206 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-207",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 407,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-208",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000208 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-209",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 409,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-210",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000210 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-211",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 411,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-212",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000212 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-213",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 413,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-214",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000214 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-215",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 415,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-216",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000216 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-217",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 417,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-218",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000218 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-219",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 419,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-220",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000220 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-221",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 421,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-222",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000222 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-223",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 423,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-224",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000224 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-225",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 425,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-226",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000226 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-227",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 427,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-228",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000228 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-229",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 429,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-230",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000230 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-231",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 431,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-232",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000232 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-233",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 433,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-234",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000234 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-235",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 435,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-236",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000236 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-237",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 437,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-238",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000238 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-239",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 439,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-240",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000240 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-241",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 441,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-242",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000242 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-243",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 443,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-244",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000244 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-245",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 445,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-246",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000246 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-247",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 447,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-248",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000248 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-249",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 449,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-250",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000250 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-251",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 451,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-252",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000252 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-253",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 453,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-254",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000254 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-255",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 455,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-256",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000256 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-257",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 457,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-258",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000258 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-259",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 459,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-260",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000260 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-261",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 461,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-262",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000262 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-263",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 463,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-264",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000264 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-265",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 465,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-266",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000266 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-267",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 467,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-268",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000268 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-269",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 469,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-270",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000270 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-271",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 471,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-272",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000272 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-273",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 473,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-274",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000274 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-275",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 475,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-276",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000276 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-277",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 477,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-278",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000278 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-279",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 479,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-280",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000280 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-281",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 481,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-282",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000282 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-283",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 483,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-284",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000284 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-285",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 485,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-286",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000286 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-287",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 487,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-288",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000288 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-289",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 489,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-290",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000290 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-291",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 491,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-292",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000292 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-293",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 493,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-294",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000294 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-295",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 495,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-296",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000296 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-297",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 497,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-298",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000298 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-299",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 499,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-300",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000300 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-301",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 501,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-302",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000302 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-303",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 503,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-304",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000304 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-305",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 505,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-306",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000306 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-307",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 507,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-308",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000308 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-309",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 509,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-310",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000310 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-311",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 511,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-312",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000312 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-313",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 513,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-314",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000314 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-315",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 515,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-316",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000316 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-317",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 517,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-318",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000318 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-319",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 519,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-320",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000320 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-321",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 521,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-322",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000322 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-323",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 523,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-324",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000324 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-325",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 525,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-326",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000326 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-327",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 527,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-328",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000328 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-329",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 529,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-330",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000330 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-331",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 531,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-332",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000332 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-333",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 533,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-334",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000334 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-335",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 535,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-336",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000336 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-337",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 537,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-338",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000338 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-339",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 539,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-340",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000340 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-341",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 541,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-342",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000342 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-343",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 543,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-344",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000344 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-345",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 545,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-346",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000346 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-347",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 547,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-348",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000348 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-349",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 549,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-350",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000350 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-351",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 551,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-352",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000352 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-353",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 553,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-354",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000354 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-355",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 555,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-356",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000356 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-357",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 557,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-358",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000358 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-359",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 559,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-360",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000360 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-361",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 561,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-362",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000362 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-363",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 563,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-364",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000364 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-365",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 565,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-366",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000366 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-367",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 567,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-368",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000368 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-369",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 569,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-370",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000370 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-371",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 571,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-372",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000372 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-373",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 573,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-374",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000374 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-375",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 575,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-376",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000376 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-377",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 577,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-378",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000378 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-379",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 579,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-380",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000380 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-381",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 581,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-382",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000382 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-383",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 583,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-384",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000384 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-385",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 585,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-386",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000386 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-387",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 587,
+        "admin2": "Koch",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-388",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000388 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-389",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 589,
+        "admin2": "Juba",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-390",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000390 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-391",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 591,
+        "admin2": "Nairobi",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-392",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000392 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-393",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 593,
+        "admin2": "Guit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-394",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000394 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-395",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 595,
+        "admin2": "Mayendit",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-396",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000396 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-397",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 597,
+        "admin2": "Kampala",
+        "indicator_value": 12.5
+      }
+    }
+  },
+  {
+    "id": "pad-fail-398",
+    "expect": "fail",
+    "input": {
+      "structured": {
+        "households_reached": 100
+      },
+      "free_text": "Beneficiary NID-10000398 needs follow-up"
+    }
+  },
+  {
+    "id": "pad-pass-399",
+    "expect": "pass",
+    "input": {
+      "structured": {
+        "households_reached": 599,
+        "admin2": "Rubkona",
+        "indicator_value": 12.5
+      }
+    }
+  }
+]

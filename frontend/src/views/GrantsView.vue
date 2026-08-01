@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { api } from '../lib/api';
@@ -7,6 +7,10 @@ import { formatMoney } from '../lib/format';
 import BaseButton from '../components/base/BaseButton.vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
+import PageHeader from '../components/layout/PageHeader.vue';
+import SectionCard from '../components/layout/SectionCard.vue';
+import DataTable from '../components/data/DataTable.vue';
+import { useToastStore } from '../stores/toast';
 
 type Grant = {
   id: string;
@@ -21,6 +25,7 @@ type Grant = {
 };
 
 const { t, locale } = useI18n();
+const toast = useToastStore();
 const grants = ref<Grant[]>([]);
 const error = ref<string | null>(null);
 const loading = ref(true);
@@ -35,6 +40,21 @@ const form = ref({
   end_date: '2026-12-31',
   status: 'draft' as const,
 });
+
+const columns = computed(() => [
+  { key: 'grant_number', label: t('grants.number'), sortable: true },
+  { key: 'title', label: t('grants.grantTitle'), sortable: true },
+  { key: 'donor_name', label: t('grants.donor'), sortable: true },
+  { key: 'budget_display', label: t('grants.budget'), numeric: true },
+  { key: 'status', label: t('grants.status') },
+]);
+
+const rows = computed(() =>
+  grants.value.map((g) => ({
+    ...g,
+    budget_display: formatMoney(g.total_budget, g.currency, locale.value),
+  })),
+);
 
 async function load() {
   loading.value = true;
@@ -57,6 +77,7 @@ async function createGrant() {
     });
     form.value.grant_number = '';
     form.value.title = '';
+    toast.success(t('grants.created'));
     await load();
   } catch (err) {
     error.value = err instanceof Error ? err.message : t('grants.createFailed');
@@ -70,123 +91,67 @@ onMounted(() => {
 
 <template>
   <section aria-labelledby="grants-heading">
-    <div class="head">
-      <div>
-        <p class="eyebrow">{{ t('grants.eyebrow') }}</p>
-        <h1 id="grants-heading">{{ t('grants.title') }}</h1>
-      </div>
-      <BaseButton variant="ghost" @click="load">{{ t('app.refresh') }}</BaseButton>
-    </div>
+    <PageHeader
+      :eyebrow="t('grants.eyebrow')"
+      :title="t('grants.title')"
+      :lede="t('grants.lede')"
+      heading-id="grants-heading"
+    >
+      <template #actions>
+        <BaseButton variant="ghost" @click="load">{{ t('app.refresh') }}</BaseButton>
+      </template>
+    </PageHeader>
 
     <p v-if="error" class="error" role="alert">{{ error }}</p>
-    <p v-if="loading">{{ t('app.loading') }}</p>
 
-    <div class="table-wrap" v-if="!loading">
-      <table>
-        <caption class="sr-only">{{ t('grants.title') }}</caption>
-        <thead>
-          <tr>
-            <th scope="col">{{ t('grants.number') }}</th>
-            <th scope="col">{{ t('grants.grantTitle') }}</th>
-            <th scope="col">{{ t('grants.donor') }}</th>
-            <th scope="col">{{ t('grants.budget') }}</th>
-            <th scope="col">{{ t('grants.status') }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="g in grants" :key="g.id">
-            <td>
-              <RouterLink :to="`/grants/${g.id}`">{{ g.grant_number }}</RouterLink>
-            </td>
-            <td>{{ g.title }}</td>
-            <td>{{ g.donor_name }}</td>
-            <td class="bidi-isolate" dir="ltr">
-              {{ formatMoney(g.total_budget, g.currency, locale) }}
-            </td>
-            <td><StatusBadge :status="g.status" /></td>
-          </tr>
-          <tr v-if="grants.length === 0">
-            <td colspan="5">{{ t('grants.empty') }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <DataTable
+      :columns="columns"
+      :rows="rows"
+      :caption="t('grants.title')"
+      :loading="loading"
+      :empty-title="t('grants.empty')"
+      :empty-body="t('grants.emptyBody')"
+      row-key="id"
+    >
+      <template #cell-grant_number="{ row }">
+        <RouterLink :to="`/grants/${row.id}`">{{ row.grant_number }}</RouterLink>
+      </template>
+      <template #cell-status="{ row }">
+        <StatusBadge :status="String(row.status)" />
+      </template>
+    </DataTable>
 
-    <form class="create" @submit.prevent="createGrant" aria-labelledby="create-heading">
-      <h2 id="create-heading">{{ t('grants.create') }}</h2>
-      <div class="row">
-        <BaseInput v-model="form.grant_number" :label="t('grants.number')" required ltr />
-        <BaseInput v-model="form.title" :label="t('grants.grantTitle')" required />
-      </div>
-      <div class="row">
-        <BaseInput v-model="form.donor_name" :label="t('grants.donor')" required />
-        <BaseInput v-model="form.total_budget" :label="t('grants.budget')" required ltr />
-        <BaseInput
-          v-model="form.currency"
-          :label="t('grants.currency')"
-          :maxlength="3"
-          required
-          ltr
-        />
-      </div>
-      <BaseButton type="submit" variant="secondary">{{ t('grants.submit') }}</BaseButton>
-    </form>
+    <SectionCard class="create-wrap" :title="t('grants.create')" title-id="create-heading">
+      <form class="create" @submit.prevent="createGrant" aria-labelledby="create-heading">
+        <div class="row">
+          <BaseInput v-model="form.grant_number" :label="t('grants.number')" required ltr />
+          <BaseInput v-model="form.title" :label="t('grants.grantTitle')" required />
+        </div>
+        <div class="row">
+          <BaseInput v-model="form.donor_name" :label="t('grants.donor')" required />
+          <BaseInput v-model="form.total_budget" :label="t('grants.budget')" required ltr />
+          <BaseInput
+            v-model="form.currency"
+            :label="t('grants.currency')"
+            :maxlength="3"
+            required
+            ltr
+          />
+        </div>
+        <BaseButton type="submit" variant="secondary">{{ t('grants.submit') }}</BaseButton>
+      </form>
+    </SectionCard>
   </section>
 </template>
 
 <style scoped>
-.head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 1rem;
-  margin-bottom: 1.1rem;
+.error {
+  color: var(--danger);
 }
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.75rem;
-  color: var(--brand);
-  font-weight: 600;
-  margin: 0;
-}
-h1 {
-  margin: 0.4rem 0 0;
-  color: var(--brand-deep);
-}
-.table-wrap {
-  background: rgba(255, 255, 255, 0.84);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  overflow: auto;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-}
-th,
-td {
-  text-align: start;
-  padding: 0.75rem 0.9rem;
-  border-bottom: 1px solid var(--line);
-}
-th {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ink-muted);
-}
-td a {
-  color: var(--brand);
-  font-weight: 600;
+.create-wrap {
+  margin-block-start: 1.5rem;
 }
 .create {
-  margin-block-start: 1.5rem;
-  padding: 1.25rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.84);
   display: grid;
   gap: 0.75rem;
 }
@@ -195,8 +160,9 @@ td a {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
 }
-.error {
-  color: var(--danger);
+:deep(td a) {
+  color: var(--brand);
+  font-weight: 600;
 }
 @media (max-width: 900px) {
   .row {

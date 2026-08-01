@@ -1,0 +1,7 @@
+{
+  "at": "2026-08-01T07:13:54.560Z",
+  "docker": false,
+  "composePresent": true,
+  "skipped": true,
+  "note": "Docker CLI unavailable — compose inventory only; use drill:dr-failover process analogue"
+}

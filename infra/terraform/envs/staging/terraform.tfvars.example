@@ -1,0 +1,4 @@
+project_id       = "YOUR_GCP_PROJECT_ID"
+region           = "africa-south1"
+enable_resources = true
+# db_password   = "set-via-TF_VAR_db_password" # never commit

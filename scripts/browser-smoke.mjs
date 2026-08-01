@@ -137,8 +137,9 @@ try {
     errors.push(`axe serious/critical on home: ${axeHome.map((v) => v.id).join(', ')}`);
   }
 
-  await page.click('a[href="/grants"]');
-  await page.waitForSelector('table', { timeout: 15000 });
+  // Grouped shell IA: navigate by URL (Grants lives under Programmes, may be collapsed).
+  await page.goto(`${BASE}/grants`, { waitUntil: 'networkidle0', timeout: 60000 });
+  await page.waitForSelector('table, .empty, form.create', { timeout: 15000 });
   await new Promise((r) => setTimeout(r, 800));
   await page.screenshot({ path: join(outDir, '03-grants.png'), fullPage: true });
 

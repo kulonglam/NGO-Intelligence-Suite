@@ -1,0 +1,45 @@
+{
+  "gate": 12,
+  "status": "BLOCKED",
+  "at": "2026-08-01T07:19:29.768Z",
+  "selfcheck_pass": true,
+  "gate12_still_blocked": true,
+  "results": [
+    {
+      "id": "threat_model",
+      "path": "docs/sdd/16-threat-model-stride.md",
+      "present": true
+    },
+    {
+      "id": "security_arch",
+      "path": "docs/sdd/14-security-architecture.md",
+      "present": true
+    },
+    {
+      "id": "engagement_pack",
+      "path": "ops/compliance/pen-test-engagement-pack.md",
+      "present": true
+    },
+    {
+      "id": "rls_verify_script",
+      "path": "scripts/verify-rls.mjs",
+      "present": true
+    },
+    {
+      "id": "isolation_suite",
+      "path": "scripts/isolation-suite.mjs",
+      "present": true
+    },
+    {
+      "id": "webhook_ssrf_pkg",
+      "path": "backend/packages/webhook-egress/src/index.ts",
+      "present": true
+    },
+    {
+      "id": "canary_stub",
+      "path": "infra/kubernetes/canary/rollout-stub.yaml",
+      "present": true
+    }
+  ],
+  "note": "Inventory/STRIDE prep only — external pen-test report required for PASS"
+}

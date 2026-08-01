@@ -14,6 +14,12 @@ export const useConnectivityStore = defineStore('connectivity', () => {
       timer = setTimeout(() => {
         justReconnected.value = false;
       }, 4000);
+      // Best-effort field sync on reconnect (SDD §13.4 trigger).
+      void import('../offline/sync')
+        .then((m) => m.runSync())
+        .catch(() => {
+          /* queue retained until manual sync */
+        });
     }
     online.value = next;
   }

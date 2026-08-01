@@ -22,6 +22,13 @@ const config = loadConfig(
     FILE_SERVICE_URL: z.string().default('http://127.0.0.1:3010'),
     HR_PAYROLL_SERVICE_URL: z.string().default('http://127.0.0.1:3006'),
     REPORTING_SERVICE_URL: z.string().default('http://127.0.0.1:3008'),
+    BENEFICIARY_SERVICE_URL: z.string().default('http://127.0.0.1:3004'),
+    FIELD_DATA_SERVICE_URL: z.string().default('http://127.0.0.1:3005'),
+    LMS_SERVICE_URL: z.string().default('http://127.0.0.1:3003'),
+    NOTIFICATION_SERVICE_URL: z.string().default('http://127.0.0.1:3007'),
+    ANALYTICS_SERVICE_URL: z.string().default('http://127.0.0.1:3012'),
+    AI_INSIGHTS_SERVICE_URL: z.string().default('http://127.0.0.1:3013'),
+    INTEGRATION_SERVICE_URL: z.string().default('http://127.0.0.1:3011'),
   }),
 );
 
@@ -107,7 +114,24 @@ app.use(async (req, res, next) => {
     (req as express.Request & { ctx: { permissions: string[] } }).ctx.permissions = permissions;
     next();
   } catch (err) {
-    next(err instanceof Error && err.name === 'JWTExpired' ? unauthorized('Token expired.') : err);
+    // jose JWT/JWS failures must be 401, not NGOIS-API-0500
+    const name = err instanceof Error ? err.name : '';
+    const code =
+      err && typeof err === 'object' && 'code' in err ? String((err as { code: unknown }).code) : '';
+    const message = err instanceof Error ? err.message : String(err);
+    const isJwtFailure =
+      name === 'JWTExpired' ||
+      name === 'JWSSignatureVerificationFailed' ||
+      name === 'JWTClaimValidationFailed' ||
+      name === 'JWTInvalid' ||
+      code.startsWith('ERR_JWT') ||
+      code.startsWith('ERR_JWS') ||
+      /signature verification failed|claim validation failed|invalid compact jws/i.test(message);
+    if (isJwtFailure) {
+      next(unauthorized(name === 'JWTExpired' ? 'Token expired.' : 'Invalid or expired token.'));
+      return;
+    }
+    next(err);
   }
 });
 
@@ -193,6 +217,13 @@ mount('/v1/hr', config.HR_PAYROLL_SERVICE_URL);
 mount('/v1/reporting', config.REPORTING_SERVICE_URL);
 mount('/v1/tenant', config.TENANT_SERVICE_URL);
 mount('/v1/file', config.FILE_SERVICE_URL);
+mount('/v1/beneficiary', config.BENEFICIARY_SERVICE_URL);
+mount('/v1/field-data', config.FIELD_DATA_SERVICE_URL);
+mount('/v1/lms', config.LMS_SERVICE_URL);
+mount('/v1/notifications', config.NOTIFICATION_SERVICE_URL);
+mount('/v1/analytics', config.ANALYTICS_SERVICE_URL);
+mount('/v1/ai', config.AI_INSIGHTS_SERVICE_URL);
+mount('/v1/integrations', config.INTEGRATION_SERVICE_URL);
 
 app.use(errorHandler(log));
 

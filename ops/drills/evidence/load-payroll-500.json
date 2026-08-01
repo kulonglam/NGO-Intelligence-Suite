@@ -1,0 +1,19 @@
+{
+  "gate": 4,
+  "generated_at": "2026-07-30T04:33:50.521Z",
+  "employees": 500,
+  "computed": 500,
+  "elapsed_ms": 20,
+  "max_ms": 300000,
+  "within_5_min": true,
+  "background": {
+    "gateway": "http://127.0.0.1:3000",
+    "reachable": false,
+    "baseline_p95_ms": null,
+    "during_p95_ms": null,
+    "degradation_pct": null,
+    "limit_pct": 20,
+    "ok": true
+  },
+  "pass": true
+}

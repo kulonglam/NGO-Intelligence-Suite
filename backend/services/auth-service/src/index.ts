@@ -18,6 +18,11 @@ const config = loadConfig(
   baseServiceSchema.extend({
     SERVICE_NAME: z.string().default('auth-service'),
     PORT: z.coerce.number().default(3001),
+    /** dev = password login; oidc = redirect to IdP (ADR-0004) when OIDC_* set */
+    AUTH_MODE: z.enum(['dev', 'oidc']).default('dev'),
+    OIDC_ISSUER: z.string().optional(),
+    OIDC_CLIENT_ID: z.string().optional(),
+    OIDC_REDIRECT_URI: z.string().optional(),
   }),
 );
 
@@ -115,6 +120,43 @@ app.post('/v1/auth/dev/login', validateBody(loginSchema), async (req, res, next)
         tenant_id: tenant.id,
         permissions,
       },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * OIDC start — returns authorize URL when AUTH_MODE=oidc and OIDC_* configured.
+ * Full code exchange lands in a later IdP wiring PR; this is the staging-ready hook.
+ */
+app.get('/v1/auth/oidc/start', (req, res, next) => {
+  try {
+    const issuer = config.OIDC_ISSUER ?? process.env.OIDC_ISSUER;
+    const clientId = config.OIDC_CLIENT_ID ?? process.env.OIDC_CLIENT_ID;
+    const redirect =
+      config.OIDC_REDIRECT_URI ??
+      process.env.OIDC_REDIRECT_URI ??
+      'http://127.0.0.1:5173/auth/callback';
+    if (config.AUTH_MODE !== 'oidc' || !issuer || !clientId) {
+      throw new AppError({
+        code: 'NGOIS-AUTH-0012',
+        message: 'OIDC is not configured. Set AUTH_MODE=oidc and OIDC_ISSUER / OIDC_CLIENT_ID.',
+        statusCode: 503,
+      });
+    }
+    const state = createHash('sha256').update(`${Date.now()}-${Math.random()}`).digest('hex').slice(0, 24);
+    const authorize = new URL(`${issuer.replace(/\/$/, '')}/authorize`);
+    authorize.searchParams.set('client_id', clientId);
+    authorize.searchParams.set('redirect_uri', redirect);
+    authorize.searchParams.set('response_type', 'code');
+    authorize.searchParams.set('scope', 'openid profile email');
+    authorize.searchParams.set('state', state);
+    ok(res, req, {
+      mode: 'oidc',
+      authorize_url: authorize.toString(),
+      state,
+      note: 'Complete token exchange with IdP; map claims to tenant_id + role before issuing NGOIS JWT.',
     });
   } catch (err) {
     next(err);

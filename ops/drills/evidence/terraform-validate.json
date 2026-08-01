@@ -1,0 +1,12 @@
+{
+  "at": "2026-08-01T08:00:46.888Z",
+  "terraformInstalled": false,
+  "skipped": true,
+  "note": "terraform CLI not installed — inventory-only pass",
+  "envs": [
+    "dev",
+    "staging",
+    "prod",
+    "dr"
+  ]
+}
