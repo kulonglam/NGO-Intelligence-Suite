@@ -1,7 +1,7 @@
 {
   "gate": 12,
   "status": "BLOCKED",
-  "at": "2026-08-01T07:19:29.768Z",
+  "at": "2026-08-01T08:34:07.986Z",
   "selfcheck_pass": true,
   "gate12_still_blocked": true,
   "results": [
@@ -36,8 +36,8 @@
       "present": true
     },
     {
-      "id": "canary_stub",
-      "path": "infra/kubernetes/canary/rollout-stub.yaml",
+      "id": "canary_rollout",
+      "path": "infra/kubernetes/canary/api-gateway-rollout.yaml",
       "present": true
     }
   ],

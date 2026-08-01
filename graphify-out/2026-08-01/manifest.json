@@ -110,8 +110,8 @@
     "semantic_hash": "3021eda21b95c6c878c3ab2aa3981353"
   },
   "backend/services/api-gateway/src/index.ts": {
-    "mtime": 1785442181.0600727,
-    "ast_hash": "698ea6c8785522b3b819aa4cae00fff1",
+    "mtime": 1785571683.0671353,
+    "ast_hash": "2fe836cded10233dea14805e60d31120",
     "semantic_hash": ""
   },
   "backend/services/api-gateway/tsconfig.json": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "frontend/src/lib/api.ts": {
-    "mtime": 1785218879.378464,
-    "ast_hash": "d5001fcac1134ba4df67415f64fcf39e",
+    "mtime": 1785571683.0681336,
+    "ast_hash": "b9c2244b153e075f433b8553cba09c97",
     "semantic_hash": ""
   },
   "frontend/src/main.ts": {

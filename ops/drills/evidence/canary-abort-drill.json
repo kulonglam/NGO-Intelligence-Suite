@@ -1,9 +1,9 @@
 {
   "gate": 10,
-  "generated_at": "2026-07-30T04:33:51.354Z",
+  "generated_at": "2026-08-01T08:34:07.162Z",
   "checks": {
     "analysis_template_present": true,
-    "rollout_stub_present": true,
+    "rollout_manifest_present": true,
     "template_has_failure_limit": true,
     "template_has_success_condition": true,
     "rollout_references_analysis": true

@@ -268,7 +268,6 @@
   "266": "start-embedded-db.mjs",
   "267": "finops-attribution.mjs",
   "268": "analytics-service/src/index.ts",
-  "269": "TrainingView.vue",
   "270": "eval-ai-injection.mjs",
   "271": "smoke-phase4-e2e.mjs",
   "272": "verify-phase4-gates.mjs",

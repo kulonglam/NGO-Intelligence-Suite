@@ -1,7 +1,7 @@
 # Graph Report - NGO Intelligence Suite  (2026-08-01)
 
 ## Corpus Check
-- 454 files · ~376,727 words
+- 454 files · ~376,883 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary

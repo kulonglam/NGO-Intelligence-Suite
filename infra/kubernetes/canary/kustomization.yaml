@@ -3,5 +3,4 @@ kind: Kustomization
 namespace: ngois
 resources:
   - analysis-template.yaml
-  - rollout-stub.yaml
   - api-gateway-rollout.yaml

@@ -52,9 +52,12 @@ npm run db:up
 
 ```powershell
 $env:PGPASSWORD = '<your postgres superuser password>'
-.\scripts\setup-local-db.ps1
+npm run db:setup-local
+# or: .\scripts\setup-local-db.ps1
 $env:DATABASE_URL = 'postgres://ngois:ngois_dev@127.0.0.1:5432/ngois'
 ```
+
+Repair helpers (optional, after a broken local DB): `npm run db:repair-app-role`, `npm run db:repair-app-grants`, `npm run db:provision-payroll`.
 
 Then migrate and seed:
 

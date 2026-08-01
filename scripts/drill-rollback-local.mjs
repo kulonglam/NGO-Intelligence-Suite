@@ -77,9 +77,9 @@ try {
   evidence.notes.push(`recovered in ${evidence.elapsedMs}ms`);
 
   // Record canary manifest presence as rollback prerequisite
-  const rollout = join(root, 'infra/kubernetes/canary/rollout-stub.yaml');
+  const rollout = join(root, 'infra/kubernetes/canary/api-gateway-rollout.yaml');
   if (existsSync(rollout)) {
-    evidence.notes.push('canary rollout stub available for progressive rollback');
+    evidence.notes.push('canary Rollout manifest available for progressive rollback');
     evidence.rolloutBytes = readFileSync(rollout).length;
   }
 } catch (err) {

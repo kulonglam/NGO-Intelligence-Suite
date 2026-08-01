@@ -1,16 +1,16 @@
 # Graph Report - NGO Intelligence Suite  (2026-08-01)
 
 ## Corpus Check
-- 454 files · ~376,883 words
+- 454 files · ~376,792 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4068 nodes · 5201 edges · 291 communities (275 shown, 16 thin omitted)
+- 4072 nodes · 5205 edges · 290 communities (274 shown, 16 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.61)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `53cc7679`
+- Built from commit: `bc4b1be3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -269,7 +269,6 @@
 - start-embedded-db.mjs
 - finops-attribution.mjs
 - analytics-service/src/index.ts
-- TrainingView.vue
 - eval-ai-injection.mjs
 - verify-phase4-gates.mjs
 - WebhooksView.vue
@@ -292,7 +291,7 @@
 - smoke-staging-checklist.mjs
 
 ## God Nodes (most connected - your core abstractions)
-1. `scripts` - 87 edges
+1. `scripts` - 91 edges
 2. `api()` - 43 edges
 3. `compilerOptions` - 20 edges
 4. `compilerOptions` - 19 edges
@@ -306,23 +305,23 @@
 ## Surprising Connections (you probably didn't know these)
 - `main()` --indirect_call--> `channel()`  [INFERRED]
   backend/packages/db/src/seed.ts → scripts/check-contrast.mjs
-- `dispatchEvent()` --indirect_call--> `sub()`  [INFERRED]
-  backend/services/webhook-dispatcher/src/index.ts → backend/packages/payroll-engine/src/decimal.ts
 - `registerPayrollRoutes()` --indirect_call--> `rulesetHash()`  [INFERRED]
   backend/services/hr-payroll-service/src/payroll-routes.ts → backend/packages/payroll-engine/src/types.ts
 - `refreshFx()` --calls--> `api()`  [EXTRACTED]
   frontend/src/views/PayrollView.vue → frontend/src/lib/api.ts
 - `load()` --calls--> `api()`  [EXTRACTED]
   frontend/src/views/ReportsView.vue → frontend/src/lib/api.ts
+- `shutdown()` --references--> `embedded-postgres`  [EXTRACTED]
+  scripts/start-embedded-db.mjs → package.json
 
 ## Import Cycles
 - None detected.
 
-## Communities (291 total, 16 thin omitted)
+## Communities (290 total, 16 thin omitted)
 
 ### Community 0 - "Root Workspace Manifest"
 Cohesion: 0.02
-Nodes (87): scripts, accountant:review-pack, build, build:backend, build:frontend, canary:analysis-stub, canary:local, chaos:catalogue (+79 more)
+Nodes (91): scripts, accountant:review-pack, build, build:backend, build:frontend, canary:analysis-stub, canary:local, chaos:catalogue (+83 more)
 
 ### Community 1 - "File Service Package"
 Cohesion: 0.05
@@ -581,8 +580,8 @@ Cohesion: 0.07
 Nodes (27): dependencies, @ngois/audit, @ngois/config, @ngois/db, @ngois/errors, @ngois/service-kit, @ngois/tenant-context, zod (+19 more)
 
 ### Community 87 - "compute.ts"
-Cohesion: 0.14
-Nodes (27): basisAmount(), computePayroll(), cumulativePayeUg(), marginalPayeSs(), prorate(), serialiseResult(), sumAllowances(), add() (+19 more)
+Cohesion: 0.08
+Nodes (42): basisAmount(), computePayroll(), cumulativePayeUg(), marginalPayeSs(), prorate(), serialiseResult(), sumAllowances(), add() (+34 more)
 
 ### Community 88 - "Appendix B — Data Dictionary"
 Cohesion: 0.06
@@ -1022,7 +1021,7 @@ Nodes (5): After-action, Channels (stub), Declare first (security), Incident pro
 
 ### Community 197 - "canary-local-check.mjs"
 Cohesion: 0.40
-Nodes (4): evidence, evidenceDir, root, stub
+Nodes (4): evidence, evidenceDir, rollout, root
 
 ### Community 198 - "retention-sweep.mjs"
 Cohesion: 0.40
@@ -1098,7 +1097,7 @@ Nodes (13): attestation, cases, fixtureRun, outDir, packBody, packHash, results,
 
 ### Community 222 - "drill-canary-abort.mjs"
 Cohesion: 0.17
-Nodes (10): abort, analysisRunAbort, analysisTpl, checks, evidence, evidenceDir, promote, rolloutStub (+2 more)
+Nodes (10): abort, analysisRunAbort, analysisTpl, checks, evidence, evidenceDir, promote, rolloutManifest (+2 more)
 
 ### Community 223 - "dpia-attest.mjs"
 Cohesion: 0.18
@@ -1276,10 +1275,6 @@ Nodes (6): client, evidence, evidenceDir, root, rows, today
 Cohesion: 0.33
 Nodes (4): aggregateSchema, { app, log }, config, pool
 
-### Community 269 - "TrainingView.vue"
-Cohesion: 0.18
-Nodes (15): config, deliver(), dispatchEvent(), ensureGroup(), hourlyCount(), loadSubs(), log, matches() (+7 more)
-
 ### Community 270 - "eval-ai-injection.mjs"
 Cohesion: 0.33
 Nodes (5): evidence, evidenceDir, injections, require, root
@@ -1357,23 +1352,23 @@ Cohesion: 0.25
 Nodes (5): ENV_NAMES, envPath, MARKERS, mdPath, root
 
 ## Knowledge Gaps
-- **2614 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+2609 more)
+- **2618 isolated node(s):** `name`, `version`, `private`, `type`, `main` (+2613 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Appendix I — Algorithms and Worked Examples` connect `Appendix I — Algorithms and Worked Examples` to `sdd/README.md`?**
+- **Why does `Appendix B — Data Dictionary` connect `Appendix B — Data Dictionary` to `sdd/README.md`?**
   _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **Why does `14 — Security Architecture` connect `14 — Security Architecture` to `sdd/README.md`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **Why does `Appendix C — RBAC Permission Matrix` connect `Appendix C — RBAC Permission Matrix` to `sdd/README.md`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `20 — Configuration, Secrets and Feature Flags` connect `20.5 Feature flags` to `sdd/README.md`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `name`, `version`, `private` to the rest of the system?**
-  _2614 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _2618 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Root Workspace Manifest` be split into smaller, more focused modules?**
-  _Cohesion score 0.022988505747126436 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.02197802197802198 - nodes in this community are weakly interconnected._
 - **Should `File Service Package` be split into smaller, more focused modules?**
   _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._
 - **Should `API Gateway Package` be split into smaller, more focused modules?**

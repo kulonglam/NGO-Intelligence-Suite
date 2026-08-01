@@ -37,7 +37,6 @@ const required = [
   'ops/drills/regional-failover.md',
   'ops/phase1-gate-status.md',
   'ops/compliance/pen-test-engagement-pack.md',
-  'infra/kubernetes/canary/rollout-stub.yaml',
   'infra/kubernetes/canary/PROGRESSIVE_ROLLOUT.md',
   'infra/kubernetes/canary/api-gateway-rollout.yaml',
   'infra/terraform/envs/staging/terraform.tfvars.example',

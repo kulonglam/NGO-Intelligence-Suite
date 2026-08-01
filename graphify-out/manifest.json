@@ -315,8 +315,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1785571070.6830864,
-    "ast_hash": "d0a29721aee7f494a22a1fd986f8ee32",
+    "mtime": 1785573201.5425422,
+    "ast_hash": "46afdd7a74944ff2705b5f66bb9e0808",
     "semantic_hash": ""
   },
   "scripts/browser-smoke.mjs": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1785571074.5031128,
-    "ast_hash": "717d98eb0238fd7b409748378e985a17",
+    "mtime": 1785573225.3556561,
+    "ast_hash": "01064306b11abceab6f7f89701c94e84",
     "semantic_hash": ""
   },
   "backend/README.md": {
@@ -1240,8 +1240,8 @@
     "semantic_hash": ""
   },
   "ops/drills/evidence/canary-local.json": {
-    "mtime": 1785221530.2045267,
-    "ast_hash": "e74a5d7dc2237a5274f458402f22f62f",
+    "mtime": 1785573246.1354365,
+    "ast_hash": "e2fa8d8ba9dc14b07e15a6ab5c73bad6",
     "semantic_hash": ""
   },
   "ops/drills/evidence/dr-stub-inventory.json": {
@@ -1270,8 +1270,8 @@
     "semantic_hash": ""
   },
   "scripts/canary-local-check.mjs": {
-    "mtime": 1785221162.8627708,
-    "ast_hash": "a0e593461d1837f65847041f91a34452",
+    "mtime": 1785573206.2528384,
+    "ast_hash": "898a540032e02c863a6ff47221bba175",
     "semantic_hash": ""
   },
   "scripts/check-bundle-budget.mjs": {
@@ -1315,8 +1315,8 @@
     "semantic_hash": ""
   },
   "scripts/drill-rollback-local.mjs": {
-    "mtime": 1785568305.734132,
-    "ast_hash": "ca86df697c156fddaad5a9c3377782ea",
+    "mtime": 1785573223.6630929,
+    "ast_hash": "762db8738c4a5b25d02f3952c393c7fc",
     "semantic_hash": ""
   },
   "scripts/fix-app-grants.mjs": {
@@ -1370,8 +1370,8 @@
     "semantic_hash": ""
   },
   "scripts/verify-platform.mjs": {
-    "mtime": 1785569222.7398076,
-    "ast_hash": "be7b776233072426f60385a18db5dc55",
+    "mtime": 1785573221.966012,
+    "ast_hash": "d1683fd4cbf99763faafabb3e97ccbde",
     "semantic_hash": ""
   },
   "scripts/verify-rls.mjs": {
@@ -1477,11 +1477,6 @@
   "infra/kubernetes/base/namespace.yaml": {
     "mtime": 1785219142.4533663,
     "ast_hash": "030794a14c1fa840d8f13ad3305317b9",
-    "semantic_hash": ""
-  },
-  "infra/kubernetes/canary/rollout-stub.yaml": {
-    "mtime": 1785354704.0460181,
-    "ast_hash": "3f22b4a07667c335f49646192a2023b4",
     "semantic_hash": ""
   },
   "infra/observability/loki/loki-config.yaml": {
@@ -1635,8 +1630,8 @@
     "semantic_hash": ""
   },
   "ops/drills/evidence/canary-analysis.json": {
-    "mtime": 1785386031.3372183,
-    "ast_hash": "2a5b1af0988c801684ab00e1fe102906",
+    "mtime": 1785573247.140645,
+    "ast_hash": "9119f95ab339629884b58e0241e2c578",
     "semantic_hash": ""
   },
   "ops/drills/evidence/erasure-e2e.json": {
@@ -1740,12 +1735,12 @@
     "semantic_hash": ""
   },
   "ops/drills/evidence/canary-abort-drill.json": {
-    "mtime": 1785386031.3625157,
-    "ast_hash": "f5cd2c50a146a61b5c55866b6ab6f8ae",
+    "mtime": 1785573247.165635,
+    "ast_hash": "f01d4364a90ef63440f76c839f89934c",
     "semantic_hash": ""
   },
   "ops/drills/evidence/canary-analysisrun-abort.json": {
-    "mtime": 1785386031.364545,
+    "mtime": 1785573247.1666343,
     "ast_hash": "0e34636e3f88568a34b8379dd854f472",
     "semantic_hash": ""
   },
@@ -1770,8 +1765,8 @@
     "semantic_hash": ""
   },
   "scripts/drill-canary-abort.mjs": {
-    "mtime": 1785385956.7628539,
-    "ast_hash": "23b1cd028c1c6fe9e60080dccad3570f",
+    "mtime": 1785573217.224067,
+    "ast_hash": "a6be8a1e6bebddc40256b8c9b7c7c832",
     "semantic_hash": ""
   },
   "scripts/load-payroll-500.mjs": {
@@ -2290,8 +2285,8 @@
     "semantic_hash": ""
   },
   "ops/drills/evidence/pen-test-selfcheck.json": {
-    "mtime": 1785568769.7690406,
-    "ast_hash": "1a8a57b0cb20be1524616761772537f7",
+    "mtime": 1785573247.9876447,
+    "ast_hash": "51718ca492a69cc24bc9fe6e0edbef7d",
     "semantic_hash": ""
   },
   "ops/drills/evidence/prod-shaped-stack.json": {
@@ -2300,8 +2295,8 @@
     "semantic_hash": ""
   },
   "ops/drills/evidence/terraform-validate.json": {
-    "mtime": 1785571246.8933969,
-    "ast_hash": "ba43a6b5920bbc05dfdd664b74a8cc81",
+    "mtime": 1785573249.073994,
+    "ast_hash": "fb2adaa7de9ad28969b9e497edf1c52a",
     "semantic_hash": ""
   },
   "scripts/drill-dr-failover.mjs": {
@@ -2310,8 +2305,8 @@
     "semantic_hash": ""
   },
   "scripts/pen-test-selfcheck.mjs": {
-    "mtime": 1785567892.2857077,
-    "ast_hash": "e00049ffe29ad44bf068bb249faee371",
+    "mtime": 1785573220.5203135,
+    "ast_hash": "777b9d406952b7ec9738e80a2dc430fe",
     "semantic_hash": ""
   },
   "scripts/smoke-webhooks-e2e.mjs": {
@@ -2370,8 +2365,8 @@
     "semantic_hash": ""
   },
   "infra/kubernetes/canary/kustomization.yaml": {
-    "mtime": 1785569152.6159608,
-    "ast_hash": "f971fffcad933afd89e2cfc5a288acd3",
+    "mtime": 1785573241.5121806,
+    "ast_hash": "61ee367390beb3df3a849ffb749bc585",
     "semantic_hash": ""
   },
   "ops/staging-ready.md": {

@@ -14,7 +14,7 @@ const evidenceDir = join(root, 'ops', 'drills', 'evidence');
 mkdirSync(evidenceDir, { recursive: true });
 
 const analysisTpl = join(root, 'infra/kubernetes/canary/analysis-template.yaml');
-const rolloutStub = join(root, 'infra/kubernetes/canary/rollout-stub.yaml');
+const rolloutManifest = join(root, 'infra/kubernetes/canary/api-gateway-rollout.yaml');
 const stubScript = join(root, 'scripts/canary-analysis-stub.mjs');
 
 function runStub(inject) {
@@ -31,11 +31,11 @@ function runStub(inject) {
 }
 
 const tplText = existsSync(analysisTpl) ? readFileSync(analysisTpl, 'utf8') : '';
-const rolloutText = existsSync(rolloutStub) ? readFileSync(rolloutStub, 'utf8') : '';
+const rolloutText = existsSync(rolloutManifest) ? readFileSync(rolloutManifest, 'utf8') : '';
 
 const checks = {
   analysis_template_present: existsSync(analysisTpl),
-  rollout_stub_present: existsSync(rolloutStub),
+  rollout_manifest_present: existsSync(rolloutManifest),
   template_has_failure_limit: /failureLimit:\s*\d+/.test(tplText),
   template_has_success_condition: /successCondition:/.test(tplText),
   rollout_references_analysis: /templateName:\s*ngois-error-rate/.test(rolloutText),
@@ -86,7 +86,7 @@ const analysisRunAbort = {
 
 const pass =
   checks.analysis_template_present &&
-  checks.rollout_stub_present &&
+  checks.rollout_manifest_present &&
   checks.template_has_failure_limit &&
   checks.template_has_success_condition &&
   checks.rollout_references_analysis &&

@@ -16,7 +16,7 @@ const checks = [
   ['rls_verify_script', 'scripts/verify-rls.mjs'],
   ['isolation_suite', 'scripts/isolation-suite.mjs'],
   ['webhook_ssrf_pkg', 'backend/packages/webhook-egress/src/index.ts'],
-  ['canary_stub', 'infra/kubernetes/canary/rollout-stub.yaml'],
+  ['canary_rollout', 'infra/kubernetes/canary/api-gateway-rollout.yaml'],
 ];
 
 const results = checks.map(([id, rel]) => ({
