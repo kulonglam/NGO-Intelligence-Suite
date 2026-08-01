@@ -6,11 +6,13 @@ import { api } from '../lib/api';
 import { formatMoney } from '../lib/format';
 import BaseButton from '../components/base/BaseButton.vue';
 import BaseInput from '../components/base/BaseInput.vue';
-import StatusBadge from '../components/base/StatusBadge.vue';
+import GrantStatusBadge from '../components/domain/GrantStatusBadge.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
 import SectionCard from '../components/layout/SectionCard.vue';
 import DataTable from '../components/data/DataTable.vue';
+import DataTableToolbar from '../components/data/DataTableToolbar.vue';
 import { useToastStore } from '../stores/toast';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
 
 type Grant = {
   id: string;
@@ -29,6 +31,7 @@ const toast = useToastStore();
 const grants = ref<Grant[]>([]);
 const error = ref<string | null>(null);
 const loading = ref(true);
+const filterQuery = ref('');
 
 const form = ref({
   grant_number: '',
@@ -102,8 +105,9 @@ onMounted(() => {
       </template>
     </PageHeader>
 
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
 
+    <DataTableToolbar v-model="filterQuery" />
     <DataTable
       :columns="columns"
       :rows="rows"
@@ -111,13 +115,14 @@ onMounted(() => {
       :loading="loading"
       :empty-title="t('grants.empty')"
       :empty-body="t('grants.emptyBody')"
+      :filter-query="filterQuery"
       row-key="id"
     >
       <template #cell-grant_number="{ row }">
         <RouterLink :to="`/grants/${row.id}`">{{ row.grant_number }}</RouterLink>
       </template>
       <template #cell-status="{ row }">
-        <StatusBadge :status="String(row.status)" />
+        <GrantStatusBadge :status="String(row.status)" />
       </template>
     </DataTable>
 
@@ -145,9 +150,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.error {
-  color: var(--danger);
-}
 .create-wrap {
   margin-block-start: 1.5rem;
 }

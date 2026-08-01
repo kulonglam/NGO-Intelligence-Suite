@@ -9,7 +9,10 @@ import BaseButton from '../components/base/BaseButton.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
 import DataTable from '../components/data/DataTable.vue';
+import DataTableToolbar from '../components/data/DataTableToolbar.vue';
 import ConfirmDialog from '../components/feedback/ConfirmDialog.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
+import PayrollRunSummary from '../components/domain/PayrollRunSummary.vue';
 
 type PayrollRun = {
   id: string;
@@ -34,6 +37,7 @@ const error = ref<string | null>(null);
 const loading = ref(true);
 const busy = ref(false);
 const approveId = ref<string | null>(null);
+const filterQuery = ref('');
 
 const columns = computed(() => [
   { key: 'period', label: t('workforce.period'), sortable: true },
@@ -196,8 +200,20 @@ onMounted(() => void load());
         }}</BaseButton>
       </template>
     </PageHeader>
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
 
+    <PayrollRunSummary
+      v-if="rows[0]"
+      class="latest"
+      :period="String(rows[0].period)"
+      :status="String(rows[0].status)"
+      :gross="String(rows[0].gross_display)"
+      :net="String(rows[0].net_display)"
+      :gross-label="t('workforce.gross')"
+      :net-label="t('workforce.net')"
+    />
+
+    <DataTableToolbar v-model="filterQuery" />
     <DataTable
       :columns="columns"
       :rows="rows"
@@ -205,6 +221,7 @@ onMounted(() => void load());
       :loading="loading"
       :empty-title="t('workforce.noRuns')"
       :empty-body="t('workforce.noRunsBody')"
+      :filter-query="filterQuery"
       row-key="id"
     >
       <template #empty>
@@ -265,12 +282,12 @@ onMounted(() => void load());
 </template>
 
 <style scoped>
+.latest {
+  margin-block-end: 1rem;
+}
 .actions {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-}
-.error {
-  color: var(--danger);
 }
 </style>

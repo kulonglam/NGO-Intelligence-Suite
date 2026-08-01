@@ -5,6 +5,7 @@ import { router } from './router';
 import { i18n } from './i18n';
 import { installRouteFocus } from './lib/focus';
 import { useLocaleStore } from './stores/locale';
+import { useThemeStore } from './stores/theme';
 import './styles.css';
 
 const app = createApp(App);
@@ -14,6 +15,9 @@ app.use(pinia);
 app.use(i18n);
 app.use(router);
 installRouteFocus(router);
+
+const themeStore = useThemeStore(pinia);
+themeStore.init();
 
 const localeStore = useLocaleStore(pinia);
 void localeStore.init().then(() => {

@@ -39,7 +39,39 @@
     "intelligence": "Intelligence",
     "settings": "Settings",
     "openMenu": "Menu",
-    "closeMenu": "Close"
+    "closeMenu": "Close",
+    "breadcrumbs": "Breadcrumb",
+    "tenant": "Tenant {id}",
+    "forbidden": "You do not have access to that page.",
+    "designSystem": "Design system"
+  },
+  "theme": {
+    "label": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "session": {
+    "warnBanner": "Your session expires in about {minutes} minute(s). Sign in again to extend.",
+    "warnToast": "Session expires in about {minutes} minute(s).",
+    "extend": "Extend session"
+  },
+  "search": {
+    "title": "Go to…",
+    "open": "Search",
+    "placeholder": "Search pages…",
+    "empty": "No matching pages",
+    "hint": "↑↓ to move · Enter to open · Esc to close"
+  },
+  "table": {
+    "empty": "No rows to show",
+    "filter": "Filter table",
+    "filterPlaceholder": "Filter…",
+    "showing": "Showing {shown} of {total}",
+    "page": "Page {page} of {pages}",
+    "prev": "Previous page",
+    "next": "Next page",
+    "pageSize": "Rows per page"
   },
   "login": {
     "eyebrow": "NGO Intelligence Suite",
@@ -310,5 +342,20 @@
     "rejected": "Rejected",
     "reconciled": "Reconciled",
     "reversed": "Reversed"
+  },
+  "forms": {
+    "required": "required"
+  },
+  "designSystem": {
+    "eyebrow": "Foundation · §19.5",
+    "title": "Design system",
+    "lede": "Tokens, foundation, charts, domain, and AI widgets for NGOIS (Swahili locale deferred).",
+    "tokens": "Colour tokens"
+  },
+  "domain": {
+    "budget": "Budget",
+    "spent": "Spent",
+    "burnRate": "Burn rate",
+    "burnRateEmpty": "No burn-rate data"
   }
 }

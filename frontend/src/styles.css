@@ -1,33 +1,38 @@
 :root {
-  /* Colour tokens — contrast-checked pairs (see scripts/check-contrast.mjs) */
+  /* Brand primitives (light) */
+  --brand: #1f4e5f;
+  --brand-deep: #163944;
+  --on-brand: #f4f8f7;
+  --accent: #a84a1a;
+  --ok: #246247;
+  --danger: #8f2424;
+  --warning: #8a5a12;
+  --info: #1f4e5f;
+  --focus: #c9a227;
   --ink: #14262b;
   --ink-muted: #3d555c;
   --paper: #f3f6f4;
   --paper-2: #e7eeea;
   --surface: #ffffff;
-  --brand: #1f4e5f;
-  --brand-deep: #163944;
-  --on-brand: #f4f8f7;
-  --accent: #a84a1a;
   --line: #b7c7c2;
-  --ok: #246247;
-  --danger: #8f2424;
-  --focus: #c9a227;
-  --shadow: 0 18px 50px rgba(20, 38, 43, 0.08);
-  --shadow-sm: 0 4px 14px rgba(20, 38, 43, 0.06);
-  --shadow-md: var(--shadow);
-  --warning: #8a5a12;
-  --info: #1f4e5f;
 
-  /* SDD §19.5 semantic aliases */
+  /* §19.5.1 semantic — colour */
   --color-primary: var(--brand);
   --color-primary-hover: var(--brand-deep);
-  --color-primary-subtle: rgba(31, 78, 95, 0.08);
+  --color-primary-subtle: rgba(31, 78, 95, 0.1);
   --color-on-primary: var(--on-brand);
   --color-success: var(--ok);
+  --color-success-subtle: rgba(36, 98, 71, 0.12);
+  --color-on-success: #f3faf6;
   --color-warning: var(--warning);
+  --color-warning-subtle: rgba(138, 90, 18, 0.14);
+  --color-on-warning: #1f1608;
   --color-danger: var(--danger);
+  --color-danger-subtle: rgba(143, 36, 36, 0.12);
+  --color-on-danger: #fff6f6;
   --color-info: var(--info);
+  --color-info-subtle: rgba(31, 78, 95, 0.1);
+  --color-on-info: var(--on-brand);
   --color-surface: var(--surface);
   --color-surface-raised: #ffffff;
   --color-surface-sunken: var(--paper-2);
@@ -36,13 +41,10 @@
   --color-text: var(--ink);
   --color-text-muted: var(--ink-muted);
   --color-text-inverse: var(--on-brand);
+  --color-focus: var(--focus);
+  --color-overlay: rgba(20, 38, 43, 0.45);
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-pill: 999px;
-  --radius-full: 999px;
-
+  /* Spacing — 4px base */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -50,24 +52,100 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-8: 2.5rem;
+  --space-10: 3rem;
+  --space-12: 3.5rem;
+  --space-14: 4rem;
+  --space-16: 4.5rem;
 
-  --sidebar-width: 272px;
-  --header-height: 3.5rem;
-  --content-max-width: 72rem;
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --radius-full: 999px;
 
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-display: 'Fraunces', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+
+  --shadow-sm: 0 4px 14px rgba(20, 38, 43, 0.06);
+  --shadow-md: 0 18px 50px rgba(20, 38, 43, 0.08);
+  --shadow-lg: 0 28px 70px rgba(20, 38, 43, 0.14);
+  --shadow: var(--shadow-md);
+
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --sidebar-width: 256px;
+  --header-height: 3.25rem;
+  --content-max-width: 72rem;
+}
+
+[data-theme='dark'] {
+  --brand: #1f4e5f;
+  --brand-deep: #163944;
+  --on-brand: #f4f8f7;
+  --accent: #c96a3a;
+  --ok: #5cbc8a;
+  --danger: #e07070;
+  --warning: #e0b25a;
+  --info: #6aa3b5;
+  --focus: #e8c84a;
+  --ink: #e8f0ed;
+  --ink-muted: #a8bfb8;
+  --paper: #0f1a1d;
+  --paper-2: #162428;
+  --surface: #1a2c32;
+  --line: #3a5258;
+
+  --color-primary: var(--brand);
+  --color-primary-hover: #2a6a7e;
+  --color-primary-subtle: rgba(61, 122, 143, 0.22);
+  --color-on-primary: var(--on-brand);
+  --color-success: var(--ok);
+  --color-success-subtle: rgba(92, 188, 138, 0.18);
+  --color-on-success: #0f1a1d;
+  --color-warning: var(--warning);
+  --color-warning-subtle: rgba(224, 178, 90, 0.18);
+  --color-on-warning: #0f1a1d;
+  --color-danger: var(--danger);
+  --color-danger-subtle: rgba(224, 112, 112, 0.18);
+  --color-on-danger: #0f1a1d;
+  --color-info: var(--info);
+  --color-info-subtle: rgba(106, 163, 181, 0.2);
+  --color-on-info: #0f1a1d;
+  --color-surface: var(--surface);
+  --color-surface-raised: #21363d;
+  --color-surface-sunken: var(--paper-2);
+  --color-border: var(--line);
+  --color-border-strong: #5a747a;
+  --color-text: var(--ink);
+  --color-text-muted: var(--ink-muted);
+  --color-text-inverse: #0f1a1d;
+  --color-focus: var(--focus);
+  --color-overlay: rgba(0, 0, 0, 0.55);
+
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 18px 50px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 28px 70px rgba(0, 0, 0, 0.55);
 }
 
 html {
   font-family: var(--font-sans);
-  color: var(--ink);
+  color: var(--color-text);
   background:
-    radial-gradient(circle at top left, rgba(31, 78, 95, 0.08), transparent 28%),
-    linear-gradient(180deg, #f7faf8 0%, var(--paper) 45%, #eef3f0 100%);
+    radial-gradient(circle at top left, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 28%),
+    linear-gradient(180deg, var(--color-surface-sunken) 0%, var(--paper) 45%, var(--color-surface-sunken) 100%);
   line-height: 1.5;
+  font-size: var(--text-md);
 }
 
 *,
@@ -94,7 +172,8 @@ a {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
@@ -104,6 +183,7 @@ h3 {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
   line-height: 1.15;
+  color: var(--color-text);
 }
 
 h1:focus {

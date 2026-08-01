@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BaseButton from '../components/base/BaseButton.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
 import StatCard from '../components/data/StatCard.vue';
+import ChartPanel from '../components/data/ChartPanel.vue';
 import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
 import EmptyState from '../components/feedback/EmptyState.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
 import { api } from '../lib/api';
 import { useToastStore } from '../stores/toast';
 
@@ -16,6 +18,11 @@ const kpis = ref<Array<{ kpi_code: string; value_numeric: string | number }>>([]
 const error = ref<string | null>(null);
 const busy = ref(false);
 const loading = ref(true);
+
+const kpiCategories = computed(() => kpis.value.map((k) => k.kpi_code));
+const kpiSeries = computed(() => [
+  { label: t('intelligence.title'), values: kpis.value.map((k) => Number(k.value_numeric)) },
+]);
 
 async function load() {
   busy.value = true;
@@ -66,7 +73,7 @@ onMounted(() => {
       </template>
     </PageHeader>
     <p class="asof">{{ t('intelligence.asOf', { at: asOf || '—' }) }}</p>
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
 
     <SkeletonBlock v-if="loading" :rows="3" height="4rem" />
     <EmptyState
@@ -76,14 +83,23 @@ onMounted(() => {
     >
       <BaseButton :disabled="busy" @click="refresh">{{ t('intelligence.refresh') }}</BaseButton>
     </EmptyState>
-    <div v-else class="grid">
-      <StatCard
-        v-for="k in kpis"
-        :key="k.kpi_code"
-        :label="k.kpi_code"
-        :value="String(k.value_numeric)"
+    <template v-else>
+      <div class="grid">
+        <StatCard
+          v-for="k in kpis"
+          :key="k.kpi_code"
+          :label="k.kpi_code"
+          :value="String(k.value_numeric)"
+        />
+      </div>
+      <ChartPanel
+        class="chart"
+        :title="t('intelligence.title')"
+        type="bar"
+        :categories="kpiCategories"
+        :series="kpiSeries"
       />
-    </div>
+    </template>
     <p class="note">{{ t('intelligence.kanon') }}</p>
   </section>
 </template>
@@ -94,13 +110,13 @@ onMounted(() => {
   opacity: 0.8;
   margin: -0.5rem 0 1rem;
 }
-.error {
-  color: var(--color-danger);
-}
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+}
+.chart {
+  margin-block-start: 1.25rem;
 }
 .note {
   font-size: 0.85rem;

@@ -26,19 +26,30 @@ function ratio(a, b) {
   return (light + 0.05) / (dark + 0.05);
 }
 
-const pairs = [
-  { name: 'ink on paper', fg: '#14262b', bg: '#f3f6f4', min: 4.5 },
-  { name: 'ink-muted on paper', fg: '#3d555c', bg: '#f3f6f4', min: 4.5 },
-  { name: 'on-brand on brand', fg: '#f4f8f7', bg: '#1f4e5f', min: 4.5 },
-  { name: 'on-brand on brand-deep', fg: '#f4f8f7', bg: '#163944', min: 4.5 },
-  { name: 'danger on paper', fg: '#8f2424', bg: '#f3f6f4', min: 4.5 },
-  { name: 'ok on paper', fg: '#246247', bg: '#f3f6f4', min: 4.5 },
-  { name: 'accent on white (button)', fg: '#ffffff', bg: '#a84a1a', min: 4.5 },
-  { name: 'focus on brand (UI)', fg: '#c9a227', bg: '#1f4e5f', min: 3 },
+const lightPairs = [
+  { name: 'light ink on paper', fg: '#14262b', bg: '#f3f6f4', min: 4.5 },
+  { name: 'light ink-muted on paper', fg: '#3d555c', bg: '#f3f6f4', min: 4.5 },
+  { name: 'light on-brand on brand', fg: '#f4f8f7', bg: '#1f4e5f', min: 4.5 },
+  { name: 'light on-brand on brand-deep', fg: '#f4f8f7', bg: '#163944', min: 4.5 },
+  { name: 'light danger on paper', fg: '#8f2424', bg: '#f3f6f4', min: 4.5 },
+  { name: 'light ok on paper', fg: '#246247', bg: '#f3f6f4', min: 4.5 },
+  { name: 'light accent on white (button)', fg: '#ffffff', bg: '#a84a1a', min: 4.5 },
+  { name: 'light focus on brand (UI)', fg: '#c9a227', bg: '#1f4e5f', min: 3 },
+];
+
+const darkPairs = [
+  { name: 'dark ink on paper', fg: '#e8f0ed', bg: '#0f1a1d', min: 4.5 },
+  { name: 'dark ink-muted on paper', fg: '#a8bfb8', bg: '#0f1a1d', min: 4.5 },
+  { name: 'dark text on surface', fg: '#e8f0ed', bg: '#1a2c32', min: 4.5 },
+  { name: 'dark muted on surface', fg: '#a8bfb8', bg: '#1a2c32', min: 4.5 },
+  { name: 'dark on-primary on brand', fg: '#f4f8f7', bg: '#1f4e5f', min: 4.5 },
+  { name: 'dark danger on paper', fg: '#e07070', bg: '#0f1a1d', min: 4.5 },
+  { name: 'dark ok on paper', fg: '#5cbc8a', bg: '#0f1a1d', min: 4.5 },
+  { name: 'dark focus on brand (UI)', fg: '#e8c84a', bg: '#1f4e5f', min: 3 },
 ];
 
 let failed = false;
-for (const p of pairs) {
+for (const p of [...lightPairs, ...darkPairs]) {
   const r = ratio(p.fg, p.bg);
   const ok = r + 1e-6 >= p.min;
   console.log(`${ok ? 'OK  ' : 'FAIL'} ${p.name}: ${r.toFixed(2)} (need ≥ ${p.min})`);
@@ -46,4 +57,4 @@ for (const p of pairs) {
 }
 
 if (failed) process.exit(1);
-console.log('contrast: all token pairs pass');
+console.log('contrast: all light + dark token pairs pass');

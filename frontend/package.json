@@ -12,6 +12,7 @@
     "check:bundle": "node ../scripts/check-bundle-budget.mjs"
   },
   "dependencies": {
+    "@tanstack/vue-virtual": "^3.13.35",
     "pinia": "^3.0.2",
     "vue": "^3.5.14",
     "vue-i18n": "^11.1.5",

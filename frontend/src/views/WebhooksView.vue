@@ -2,7 +2,9 @@
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BaseButton from '../components/base/BaseButton.vue';
+import BaseInput from '../components/base/BaseInput.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
 import { api } from '../lib/api';
 
 const { t } = useI18n();
@@ -114,15 +116,12 @@ onMounted(() => {
       :title="t('webhooks.title')"
       :lede="t('webhooks.lede')"
     />
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
     <p v-if="status" class="ok">{{ status }}</p>
     <p v-if="onceSecret" class="secret">{{ t('webhooks.secretOnce', { s: onceSecret }) }}</p>
 
     <form class="create" @submit.prevent="create">
-      <label>
-        {{ t('webhooks.endpoint') }}
-        <input v-model="endpoint" type="url" required />
-      </label>
+      <BaseInput v-model="endpoint" type="url" :label="t('webhooks.endpoint')" required ltr />
       <BaseButton type="submit" :disabled="busy">{{ t('webhooks.create') }}</BaseButton>
     </form>
 
@@ -160,9 +159,6 @@ onMounted(() => {
 <style scoped>
 .page {
   max-width: 42rem;
-}
-.error {
-  color: var(--color-danger, #a33);
 }
 .ok,
 .secret {

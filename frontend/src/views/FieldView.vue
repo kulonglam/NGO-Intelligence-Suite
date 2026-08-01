@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BaseButton from '../components/base/BaseButton.vue';
 import BaseInput from '../components/base/BaseInput.vue';
+import BaseSelect from '../components/base/BaseSelect.vue';
+import BaseTextarea from '../components/base/BaseTextarea.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
+import SyncStatusPanel from '../components/feedback/SyncStatusPanel.vue';
 import { useConnectivityStore } from '../stores/connectivity';
 import { listQueue, type CachedForm } from '../offline/db';
 import { loadLocalForms, pullAssignedForms, runSync, saveDraftLocally } from '../offline/sync';
@@ -20,6 +24,13 @@ const notes = ref('');
 const error = ref<string | null>(null);
 const status = ref<string | null>(null);
 const busy = ref(false);
+
+const formOptions = computed(() =>
+  forms.value.map((f) => ({
+    value: f.form_version_id,
+    label: `${f.code} — ${f.title} (v${f.version_number})`,
+  })),
+);
 
 async function refresh() {
   forms.value = await loadLocalForms();
@@ -93,6 +104,13 @@ onMounted(() => {
       :eyebrow="t('field.eyebrow')"
       :title="t('field.title')"
       :lede="t('field.lede')"
+    />
+
+    <SyncStatusPanel
+      class="sync"
+      :online="connectivity.online"
+      :queue-count="queueCount"
+      :status-message="status"
     >
       <template #actions>
         <BaseButton :disabled="busy || !connectivity.online" @click="pull">
@@ -102,24 +120,17 @@ onMounted(() => {
           {{ t('field.sync') }}
         </BaseButton>
       </template>
-    </PageHeader>
-
-    <p class="meta" role="status">
-      {{ connectivity.online ? t('app.online') : t('app.offline') }}
-      · {{ t('field.queueCount', { count: queueCount }) }}
-    </p>
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
-    <p v-if="status" class="ok" role="status">{{ status }}</p>
+    </SyncStatusPanel>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
 
     <form class="create" @submit.prevent="queueLocal">
-      <label class="field">
-        <span>{{ t('field.form') }}</span>
-        <select v-model="selectedVersion" required>
-          <option v-for="f in forms" :key="f.form_version_id" :value="f.form_version_id">
-            {{ f.code }} — {{ f.title }} (v{{ f.version_number }})
-          </option>
-        </select>
-      </label>
+      <BaseSelect
+        v-model="selectedVersion"
+        :label="t('field.form')"
+        :options="formOptions"
+        required
+        ltr
+      />
       <BaseInput v-model="settlement" :label="t('field.settlement')" required />
       <BaseInput
         v-model="householdSize"
@@ -127,40 +138,23 @@ onMounted(() => {
         :label="t('field.householdSize')"
         required
       />
-      <BaseInput v-model="notes" :label="t('field.notes')" />
+      <BaseTextarea v-model="notes" :label="t('field.notes')" :rows="3" />
       <BaseButton type="submit" :disabled="busy">{{ t('field.saveLocal') }}</BaseButton>
     </form>
   </section>
 </template>
 
 <style scoped>
-.meta {
+.sync {
   margin: 1rem 0;
-  color: var(--muted);
 }
 .create {
   display: grid;
   gap: 0.75rem;
   max-width: 28rem;
   padding: 1rem;
-  border: 1px solid var(--line, var(--border));
-  border-radius: var(--radius-md, 10px);
-  background: #ffffffd6;
-}
-.field {
-  display: grid;
-  gap: 0.35rem;
-  font-size: 0.9rem;
-}
-.field select {
-  padding: 0.55rem 0.65rem;
-  border-radius: var(--radius-md, 8px);
-  border: 1px solid var(--line, var(--border));
-}
-.error {
-  color: var(--danger);
-}
-.ok {
-  color: var(--success, #0a7a3e);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
 }
 </style>

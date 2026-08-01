@@ -91,6 +91,11 @@ async function runAxe(page, label) {
         impact: v.impact,
         help: v.help,
         nodes: v.nodes.length,
+        samples: v.nodes.slice(0, 5).map((n) => ({
+          target: n.target,
+          html: n.html.slice(0, 240),
+          failureSummary: n.failureSummary,
+        })),
       })),
     };
   });
@@ -98,6 +103,9 @@ async function runAxe(page, label) {
     (v) => v.impact === 'serious' || v.impact === 'critical',
   );
   writeFileSync(join(outDir, `axe-${label}.json`), JSON.stringify(results, null, 2));
+  if (bad.length) {
+    console.error(`axe detail (${label}):`, JSON.stringify(bad, null, 2));
+  }
   return bad;
 }
 
@@ -137,16 +145,47 @@ try {
     errors.push(`axe serious/critical on home: ${axeHome.map((v) => v.id).join(', ')}`);
   }
 
+  // Command palette (Cmd/Ctrl+K)
+  await page.keyboard.down(process.platform === 'darwin' ? 'Meta' : 'Control');
+  await page.keyboard.press('KeyK');
+  await page.keyboard.up(process.platform === 'darwin' ? 'Meta' : 'Control');
+  await page.waitForSelector('[role="dialog"] input[type="search"]', { timeout: 5000 }).catch(() => {
+    errors.push('Command palette did not open on Ctrl/Cmd+K');
+  });
+  const paletteOpen = await page.$('[role="dialog"] input[type="search"]');
+  if (paletteOpen) {
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => !document.querySelector('[role="dialog"]'), {
+      timeout: 3000,
+    }).catch(() => null);
+  }
+
   // Grouped shell IA: navigate by URL (Grants lives under Programmes, may be collapsed).
   await page.goto(`${BASE}/grants`, { waitUntil: 'networkidle0', timeout: 60000 });
   await page.waitForSelector('table, .empty, form.create', { timeout: 15000 });
-  await new Promise((r) => setTimeout(r, 800));
+  // Client pagination may hide seed row — filter to surface it.
+  await page.evaluate(() => {
+    const input = document.querySelector('input[type="search"]');
+    if (!(input instanceof HTMLInputElement)) return;
+    input.focus();
+    input.value = 'SSD-2026-001';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await new Promise((r) => setTimeout(r, 400));
   await page.screenshot({ path: join(outDir, '03-grants.png'), fullPage: true });
 
   const grantsText = await page.evaluate(() => document.body.innerText);
   if (!/SSD-2026-001/.test(grantsText)) {
     errors.push('Seed grant SSD-2026-001 not visible');
   }
+  // Clear filter before create / leakage checks so new rows are visible.
+  await page.evaluate(() => {
+    const input = document.querySelector('input[type="search"]');
+    if (!(input instanceof HTMLInputElement)) return;
+    input.value = '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await new Promise((r) => setTimeout(r, 200));
   if (/UGA-2026-001|KEN-2026-001|Should never be visible/.test(grantsText)) {
     errors.push('Other tenant grant leaked');
   }

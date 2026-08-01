@@ -5,11 +5,18 @@ import { api } from '../lib/api';
 import { formatMoney } from '../lib/format';
 import BaseButton from '../components/base/BaseButton.vue';
 import BaseInput from '../components/base/BaseInput.vue';
+import BaseSelect from '../components/base/BaseSelect.vue';
+import BaseDatePicker from '../components/base/BaseDatePicker.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
 import SectionCard from '../components/layout/SectionCard.vue';
+import TabGroup from '../components/layout/TabGroup.vue';
 import DataTable from '../components/data/DataTable.vue';
+import DataTableToolbar from '../components/data/DataTableToolbar.vue';
 import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
+import CurrencyInput from '../components/forms/CurrencyInput.vue';
+import BurnRateChart from '../components/domain/BurnRateChart.vue';
 
 type Coa = { id: string; account_code: string; name: string; account_type: string };
 type Expense = {
@@ -41,6 +48,10 @@ const bva = ref<Bva | null>(null);
 const error = ref<string | null>(null);
 const loading = ref(true);
 const busy = ref(false);
+const activeTab = ref('coa');
+const coaFilter = ref('');
+const expenseFilter = ref('');
+const bvaFilter = ref('');
 
 const coaForm = ref({
   account_code: '',
@@ -56,6 +67,35 @@ const expenseForm = ref({
   currency: 'USD',
   expense_date: new Date().toISOString().slice(0, 10),
 });
+
+const financeTabs = computed(() => [
+  { id: 'coa', label: t('finance.coa') },
+  { id: 'expenses', label: t('finance.expenses') },
+  { id: 'bva', label: t('finance.bva') },
+]);
+
+const accountTypeOptions = [
+  { value: 'asset', label: 'asset' },
+  { value: 'liability', label: 'liability' },
+  { value: 'equity', label: 'equity' },
+  { value: 'revenue', label: 'revenue' },
+  { value: 'expense', label: 'expense' },
+];
+
+const grantOptions = computed(() => [
+  { value: '', label: '—' },
+  ...grants.value.map((g) => ({
+    value: g.id,
+    label: `${g.grant_number} — ${g.title}`,
+  })),
+]);
+
+const accountOptions = computed(() =>
+  coa.value.map((a) => ({
+    value: a.id,
+    label: `${a.account_code} — ${a.name}`,
+  })),
+);
 
 const coaColumns = computed(() => [
   { key: 'account_code', label: t('finance.accountCode'), sortable: true },
@@ -93,6 +133,14 @@ const bvaColumns = computed(() => [
   { key: 'disbursed_display', label: t('finance.disbursed'), numeric: true },
   { key: 'expense_display', label: t('finance.expenseTotal'), numeric: true },
 ]);
+
+const burnCategories = computed(() => (bva.value?.grants ?? []).map((g) => g.grant_number));
+const burnBudget = computed(() =>
+  (bva.value?.grants ?? []).map((g) => Number(g.total_budget)),
+);
+const burnSpent = computed(() =>
+  (bva.value?.grants ?? []).map((g) => Number(g.expenses_approved || g.disbursed)),
+);
 
 async function load() {
   loading.value = true;
@@ -191,108 +239,122 @@ onMounted(() => void load());
         <BaseButton variant="ghost" :disabled="loading" @click="load">{{ t('app.refresh') }}</BaseButton>
       </template>
     </PageHeader>
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
     <SkeletonBlock v-if="loading" :rows="6" height="1.2rem" />
 
-    <template v-else>
-      <SectionCard :title="t('finance.coa')" title-id="coa-heading" class="block">
-        <form class="create" @submit.prevent="createCoa">
-          <BaseInput v-model="coaForm.account_code" :label="t('finance.accountCode')" required />
-          <BaseInput v-model="coaForm.name" :label="t('finance.accountName')" required />
-          <label class="field">
-            <span>{{ t('finance.accountType') }}</span>
-            <select v-model="coaForm.account_type">
-              <option value="asset">asset</option>
-              <option value="liability">liability</option>
-              <option value="equity">equity</option>
-              <option value="revenue">revenue</option>
-              <option value="expense">expense</option>
-            </select>
-          </label>
-          <BaseButton type="submit" :disabled="busy">{{ t('finance.addAccount') }}</BaseButton>
-        </form>
-        <DataTable
-          :columns="coaColumns"
-          :rows="coa"
-          :caption="t('finance.coa')"
-          :empty-title="t('finance.emptyCoa')"
-          row-key="id"
-        />
-      </SectionCard>
-
-      <SectionCard :title="t('finance.expenses')" title-id="exp-heading" class="block">
-        <form class="create wide" @submit.prevent="createExpense">
-          <label class="field">
-            <span>{{ t('app.grants') }}</span>
-            <select v-model="expenseForm.grant_id">
-              <option value="">—</option>
-              <option v-for="g in grants" :key="g.id" :value="g.id">
-                {{ g.grant_number }} — {{ g.title }}
-              </option>
-            </select>
-          </label>
-          <label class="field">
-            <span>{{ t('finance.account') }}</span>
-            <select v-model="expenseForm.account_id" required>
-              <option v-for="a in coa" :key="a.id" :value="a.id">
-                {{ a.account_code }} — {{ a.name }}
-              </option>
-            </select>
-          </label>
-          <BaseInput v-model="expenseForm.expense_number" :label="t('finance.expenseNumber')" required />
-          <BaseInput v-model="expenseForm.description" :label="t('finance.description')" required />
-          <BaseInput v-model="expenseForm.amount" :label="t('grants.budget')" required />
-          <BaseInput v-model="expenseForm.currency" :label="t('grants.currency')" required />
-          <BaseInput
-            v-model="expenseForm.expense_date"
-            type="date"
-            :label="t('finance.expenseDate')"
-            required
+    <TabGroup v-else v-model="activeTab" :tabs="financeTabs">
+      <template #coa>
+        <SectionCard :title="t('finance.coa')" title-id="coa-heading" class="block">
+          <form class="create" @submit.prevent="createCoa">
+            <BaseInput v-model="coaForm.account_code" :label="t('finance.accountCode')" required ltr />
+            <BaseInput v-model="coaForm.name" :label="t('finance.accountName')" required />
+            <BaseSelect
+              v-model="coaForm.account_type"
+              :label="t('finance.accountType')"
+              :options="accountTypeOptions"
+              ltr
+            />
+            <BaseButton type="submit" :disabled="busy">{{ t('finance.addAccount') }}</BaseButton>
+          </form>
+          <DataTableToolbar v-model="coaFilter" />
+          <DataTable
+            :columns="coaColumns"
+            :rows="coa"
+            :caption="t('finance.coa')"
+            :empty-title="t('finance.emptyCoa')"
+            :filter-query="coaFilter"
+            row-key="id"
           />
-          <BaseButton type="submit" :disabled="busy">{{ t('finance.addExpense') }}</BaseButton>
-        </form>
-        <DataTable
-          :columns="expenseColumns"
-          :rows="expenseRows"
-          :caption="t('finance.expenses')"
-          :empty-title="t('finance.emptyExpenses')"
-          row-key="id"
-        >
-          <template #cell-status="{ row }">
-            <StatusBadge :status="String(row.status)" />
-          </template>
-          <template #cell-actions="{ row }">
-            <BaseButton
-              v-if="row.status === 'draft'"
-              variant="ghost"
-              :disabled="busy"
-              @click="submitExpense(String(row.id))"
-            >
-              {{ t('workforce.submit') }}
-            </BaseButton>
-            <BaseButton
-              v-else-if="row.status === 'submitted'"
-              variant="ghost"
-              :disabled="busy"
-              @click="approveExpense(String(row.id))"
-            >
-              {{ t('workforce.approve') }}
-            </BaseButton>
-          </template>
-        </DataTable>
-      </SectionCard>
+        </SectionCard>
+      </template>
 
-      <SectionCard :title="t('finance.bva')" title-id="bva-heading" class="block">
-        <p v-if="bva?.fx_stale" class="warn" role="status">{{ t('finance.fxStale') }}</p>
-        <DataTable
-          :columns="bvaColumns"
-          :rows="bvaRows"
-          :caption="t('finance.bva')"
-          :empty-title="t('finance.emptyBva')"
-          row-key="grant_number"
-        />
-      </SectionCard>
-    </template>
+      <template #expenses>
+        <SectionCard :title="t('finance.expenses')" title-id="exp-heading" class="block">
+          <form class="create wide" @submit.prevent="createExpense">
+            <BaseSelect
+              v-model="expenseForm.grant_id"
+              :label="t('app.grants')"
+              :options="grantOptions"
+              ltr
+            />
+            <BaseSelect
+              v-model="expenseForm.account_id"
+              :label="t('finance.account')"
+              :options="accountOptions"
+              required
+              ltr
+            />
+            <BaseInput v-model="expenseForm.expense_number" :label="t('finance.expenseNumber')" required ltr />
+            <BaseInput v-model="expenseForm.description" :label="t('finance.description')" required />
+            <CurrencyInput
+              v-model="expenseForm.amount"
+              v-model:currency="expenseForm.currency"
+              :label="t('grants.budget')"
+              required
+            />
+            <BaseDatePicker
+              v-model="expenseForm.expense_date"
+              :label="t('finance.expenseDate')"
+              required
+            />
+            <BaseButton type="submit" :disabled="busy">{{ t('finance.addExpense') }}</BaseButton>
+          </form>
+          <DataTableToolbar v-model="expenseFilter" />
+          <DataTable
+            :columns="expenseColumns"
+            :rows="expenseRows"
+            :caption="t('finance.expenses')"
+            :empty-title="t('finance.emptyExpenses')"
+            :filter-query="expenseFilter"
+            row-key="id"
+          >
+            <template #cell-status="{ row }">
+              <StatusBadge :status="String(row.status)" />
+            </template>
+            <template #cell-actions="{ row }">
+              <BaseButton
+                v-if="row.status === 'draft'"
+                variant="ghost"
+                :disabled="busy"
+                @click="submitExpense(String(row.id))"
+              >
+                {{ t('workforce.submit') }}
+              </BaseButton>
+              <BaseButton
+                v-else-if="row.status === 'submitted'"
+                variant="ghost"
+                :disabled="busy"
+                @click="approveExpense(String(row.id))"
+              >
+                {{ t('workforce.approve') }}
+              </BaseButton>
+            </template>
+          </DataTable>
+        </SectionCard>
+      </template>
+
+      <template #bva>
+        <SectionCard :title="t('finance.bva')" title-id="bva-heading" class="block">
+          <p v-if="bva?.fx_stale" class="warn" role="status">{{ t('finance.fxStale') }}</p>
+          <BurnRateChart
+            v-if="burnCategories.length"
+            class="burn"
+            :categories="burnCategories"
+            :budget="burnBudget"
+            :spent="burnSpent"
+          />
+          <DataTableToolbar v-model="bvaFilter" />
+          <DataTable
+            :columns="bvaColumns"
+            :rows="bvaRows"
+            :caption="t('finance.bva')"
+            :empty-title="t('finance.emptyBva')"
+            :filter-query="bvaFilter"
+            row-key="grant_number"
+          />
+        </SectionCard>
+      </template>
+    </TabGroup>
   </section>
 </template>
 
@@ -310,22 +372,12 @@ onMounted(() => void load());
   max-width: none;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-.field {
-  display: grid;
-  gap: 0.35rem;
-  font-size: 0.9rem;
-}
-.field select {
-  padding: 0.55rem 0.65rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-}
-.error {
-  color: var(--danger);
-}
 .warn {
-  color: var(--warning);
+  color: var(--color-warning);
   margin: 0 0 0.75rem;
+}
+.burn {
+  margin-block-end: 1rem;
 }
 @media (max-width: 900px) {
   .create.wide {

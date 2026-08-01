@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BaseButton from '../components/base/BaseButton.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
+import ComplianceScoreGauge from '../components/domain/ComplianceScoreGauge.vue';
 import { api } from '../lib/api';
 
 const { t } = useI18n();
@@ -55,11 +57,13 @@ onMounted(() => {
         <BaseButton :disabled="busy" @click="publishIati">{{ t('compliance.publishIati') }}</BaseButton>
       </template>
     </PageHeader>
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
     <p v-if="status" class="ok">{{ status }}</p>
-    <p v-if="score" class="score">
-      {{ t('compliance.score', { n: score.score }) }}
-    </p>
+    <ComplianceScoreGauge
+      v-if="score"
+      :score="Number(score.score)"
+      :label="t('compliance.score', { n: Number(score.score) }) || 'Score'"
+    />
     <ul class="list">
       <li v-for="p in pubs" :key="String(p.id)">
         <strong>{{ p.status }}</strong>
@@ -73,15 +77,8 @@ onMounted(() => {
 .page {
   max-width: 40rem;
 }
-.error {
-  color: var(--color-danger, #a33);
-}
 .ok {
   color: var(--color-ok, #2a6);
-}
-.score {
-  font-size: 1.25rem;
-  font-weight: 600;
 }
 .list {
   list-style: none;

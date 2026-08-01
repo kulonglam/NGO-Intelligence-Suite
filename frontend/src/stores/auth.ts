@@ -7,6 +7,7 @@ export type AuthUser = {
   display_name: string;
   role: string;
   tenant_id: string;
+  permissions?: string[];
 };
 
 type Envelope<T> = {
@@ -15,17 +16,74 @@ type Envelope<T> = {
   errors: Array<{ message: string }> | null;
 };
 
+function readJson<T>(key: string): T | null {
+  const raw = localStorage.getItem(key);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+function expFromJwt(token: string): number | null {
+  try {
+    const part = token.split('.')[1];
+    if (!part) return null;
+    const json = JSON.parse(atob(part.replace(/-/g, '+').replace(/_/g, '/'))) as {
+      exp?: number;
+    };
+    return typeof json.exp === 'number' ? json.exp * 1000 : null;
+  } catch {
+    return null;
+  }
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorage.getItem('ngois_token'));
-  const user = ref<AuthUser | null>(
-    localStorage.getItem('ngois_user')
-      ? (JSON.parse(localStorage.getItem('ngois_user')!) as AuthUser)
-      : null,
+  const user = ref<AuthUser | null>(readJson<AuthUser>('ngois_user'));
+  const permissions = ref<string[]>(
+    readJson<string[]>('ngois_permissions') ?? user.value?.permissions ?? [],
+  );
+  const sessionExpiresAt = ref<number | null>(
+    Number(localStorage.getItem('ngois_session_exp')) ||
+      (token.value ? expFromJwt(token.value) : null),
   );
   const error = ref<string | null>(null);
   const loading = ref(false);
 
   const isAuthenticated = computed(() => Boolean(token.value));
+
+  function can(permission: string): boolean {
+    if (!permission) return true;
+    return permissions.value.includes(permission);
+  }
+
+  function canAny(list: string[] | undefined): boolean {
+    if (!list?.length) return true;
+    return list.some((p) => can(p));
+  }
+
+  function persistSession(
+    accessToken: string,
+    nextUser: AuthUser,
+    perms: string[],
+    expiresInSec?: number,
+  ) {
+    token.value = accessToken;
+    user.value = { ...nextUser, permissions: perms };
+    permissions.value = perms;
+    const fromJwt = expFromJwt(accessToken);
+    const fromTtl =
+      typeof expiresInSec === 'number' ? Date.now() + expiresInSec * 1000 : null;
+    sessionExpiresAt.value = fromJwt ?? fromTtl;
+    localStorage.setItem('ngois_token', accessToken);
+    localStorage.setItem('ngois_user', JSON.stringify(user.value));
+    localStorage.setItem('ngois_permissions', JSON.stringify(perms));
+    if (sessionExpiresAt.value) {
+      localStorage.setItem('ngois_session_exp', String(sessionExpiresAt.value));
+    }
+  }
 
   async function login(email: string, password: string, tenantSlug = 'design-partner') {
     loading.value = true;
@@ -38,15 +96,14 @@ export const useAuthStore = defineStore('auth', () => {
       });
       const body = (await res.json()) as Envelope<{
         access_token: string;
-        user: AuthUser;
+        expires_in?: number;
+        user: AuthUser & { permissions?: string[] };
       }>;
       if (!res.ok || !body.success) {
         throw new Error(body.errors?.[0]?.message ?? 'Login failed');
       }
-      token.value = body.data.access_token;
-      user.value = body.data.user;
-      localStorage.setItem('ngois_token', body.data.access_token);
-      localStorage.setItem('ngois_user', JSON.stringify(body.data.user));
+      const perms = body.data.user.permissions ?? [];
+      persistSession(body.data.access_token, body.data.user, perms, body.data.expires_in);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Login failed';
       throw err;
@@ -58,9 +115,25 @@ export const useAuthStore = defineStore('auth', () => {
   function logout() {
     token.value = null;
     user.value = null;
+    permissions.value = [];
+    sessionExpiresAt.value = null;
     localStorage.removeItem('ngois_token');
     localStorage.removeItem('ngois_user');
+    localStorage.removeItem('ngois_permissions');
+    localStorage.removeItem('ngois_session_exp');
   }
 
-  return { token, user, error, loading, isAuthenticated, login, logout };
+  return {
+    token,
+    user,
+    permissions,
+    sessionExpiresAt,
+    error,
+    loading,
+    isAuthenticated,
+    can,
+    canAny,
+    login,
+    logout,
+  };
 });

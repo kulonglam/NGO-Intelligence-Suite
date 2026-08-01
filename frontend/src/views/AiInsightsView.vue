@@ -3,6 +3,10 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BaseButton from '../components/base/BaseButton.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
+import AiDraftPanel from '../components/ai/AiDraftPanel.vue';
+import AiApprovalDialog from '../components/ai/AiApprovalDialog.vue';
+import CitationChip from '../components/ai/CitationChip.vue';
 import { api } from '../lib/api';
 
 type Insight = {
@@ -18,6 +22,7 @@ const rows = ref<Insight[]>([]);
 const selected = ref<Insight | null>(null);
 const edit = ref('');
 const attest = ref(false);
+const approveOpen = ref(false);
 const error = ref<string | null>(null);
 const status = ref<string | null>(null);
 const busy = ref(false);
@@ -49,6 +54,12 @@ async function open(id: string) {
   selected.value = await api<Insight>(`/v1/ai/insights/${id}`);
   edit.value = selected.value.response_text ?? '';
   attest.value = false;
+  approveOpen.value = false;
+}
+
+function closeSelected() {
+  selected.value = null;
+  approveOpen.value = false;
 }
 
 async function approve() {
@@ -65,11 +76,10 @@ async function approve() {
     }
     await api(`/v1/ai/insights/${selected.value.id}/approve`, {
       method: 'POST',
-      body: JSON.stringify(
-        body.edited_text ? body : { attest_verbatim: true },
-      ),
+      body: JSON.stringify(body.edited_text ? body : { attest_verbatim: true }),
     });
     status.value = t('ai.approved');
+    approveOpen.value = false;
     await load();
     await open(selected.value.id);
   } catch (err) {
@@ -88,16 +98,12 @@ onMounted(() => {
 
 <template>
   <section class="page">
-    <PageHeader
-      :eyebrow="t('ai.eyebrow')"
-      :title="t('ai.title')"
-      :lede="t('ai.lede')"
-    >
+    <PageHeader :eyebrow="t('ai.eyebrow')" :title="t('ai.title')" :lede="t('ai.lede')">
       <template #actions>
         <BaseButton :disabled="busy" @click="generate">{{ t('ai.generate') }}</BaseButton>
       </template>
     </PageHeader>
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
     <p v-if="status" class="ok">{{ status }}</p>
     <ul class="list">
       <li v-for="r in rows" :key="r.id">
@@ -105,17 +111,28 @@ onMounted(() => {
           {{ r.id.slice(0, 8) }} · {{ r.approval_status }}
         </button>
         <span>{{ r.preview }}</span>
+        <CitationChip :id="r.id" />
       </li>
     </ul>
-    <div v-if="selected" class="draft" data-ai="unapproved">
-      <p class="label">{{ t('ai.machineLabel') }}</p>
-      <textarea v-model="edit" rows="8" />
-      <label class="attest">
-        <input v-model="attest" type="checkbox" />
-        {{ t('ai.attest') }}
-      </label>
-      <BaseButton :disabled="busy" @click="approve">{{ t('ai.approve') }}</BaseButton>
+
+    <div v-if="selected" class="selected">
+      <AiDraftPanel v-model="edit" :label="t('ai.title')" :rows="8">
+        <template #citations>
+          <CitationChip :id="selected.id" />
+        </template>
+      </AiDraftPanel>
+      <div class="actions">
+        <BaseButton variant="ghost" @click="closeSelected">{{ t('app.back') }}</BaseButton>
+        <BaseButton :disabled="busy" @click="approveOpen = true">{{ t('ai.approve') }}</BaseButton>
+      </div>
     </div>
+
+    <AiApprovalDialog
+      v-model:open="approveOpen"
+      v-model:attest="attest"
+      :busy="busy"
+      @approve="approve"
+    />
   </section>
 </template>
 
@@ -123,11 +140,8 @@ onMounted(() => {
 .page {
   max-width: 42rem;
 }
-.error {
-  color: var(--color-danger, #a33);
-}
 .ok {
-  color: var(--color-ok, #2a6);
+  color: var(--color-success);
 }
 .list {
   list-style: none;
@@ -135,6 +149,12 @@ onMounted(() => {
   margin: 1.25rem 0;
   display: grid;
   gap: 0.5rem;
+}
+.list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
 }
 .linkish {
   background: none;
@@ -145,28 +165,14 @@ onMounted(() => {
   cursor: pointer;
   font: inherit;
 }
-.draft {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  border: 2px dashed color-mix(in srgb, currentColor 35%, transparent);
+.selected {
   display: grid;
-  gap: 0.75rem;
+  gap: var(--space-3);
+  margin-block-start: var(--space-4);
 }
-.label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-textarea {
-  width: 100%;
-  font: inherit;
-  padding: 0.5rem;
-}
-.attest {
+.actions {
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  font-size: 0.9rem;
+  gap: var(--space-2);
+  flex-wrap: wrap;
 }
 </style>

@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { api } from '../lib/api';
 import BaseButton from '../components/base/BaseButton.vue';
+import BaseDatePicker from '../components/base/BaseDatePicker.vue';
 import BaseInput from '../components/base/BaseInput.vue';
+import BaseSelect from '../components/base/BaseSelect.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
-import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
-import EmptyState from '../components/feedback/EmptyState.vue';
+import DataTable from '../components/data/DataTable.vue';
+import DataTableToolbar from '../components/data/DataTableToolbar.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
 
 type Employee = {
   id: string;
@@ -29,6 +32,7 @@ const error = ref<string | null>(null);
 const loading = ref(true);
 const busy = ref(false);
 const showForm = ref(false);
+const filterQuery = ref('');
 
 const form = ref({
   employee_number: '',
@@ -41,6 +45,23 @@ const form = ref({
   salary_currency: 'SSP',
   contract_number: '',
 });
+
+const countryOptions = [
+  { value: 'SS', label: 'South Sudan' },
+  { value: 'UG', label: 'Uganda' },
+];
+
+const departmentOptions = computed(() =>
+  departments.value.map((d) => ({ value: d.id, label: d.name })),
+);
+
+const columns = computed(() => [
+  { key: 'employee_number', label: t('workforce.number'), sortable: true },
+  { key: 'display_name', label: t('workforce.name'), sortable: true },
+  { key: 'payroll_country', label: t('workforce.country') },
+  { key: 'department_name', label: t('workforce.department'), sortable: true },
+  { key: 'status', label: t('grants.status') },
+]);
 
 async function load() {
   loading.value = true;
@@ -118,53 +139,44 @@ onMounted(() => void load());
         <BaseButton variant="ghost" :disabled="loading" @click="load">{{ t('app.refresh') }}</BaseButton>
       </template>
     </PageHeader>
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
 
     <form v-if="showForm" class="create" @submit.prevent="createEmployee">
-      <BaseInput v-model="form.employee_number" :label="t('workforce.number')" required />
+      <BaseInput v-model="form.employee_number" :label="t('workforce.number')" required ltr />
       <BaseInput v-model="form.first_name" :label="t('workforce.firstName')" required />
       <BaseInput v-model="form.last_name" :label="t('workforce.lastName')" required />
-      <label class="field">
-        <span>{{ t('workforce.country') }}</span>
-        <select v-model="form.payroll_country">
-          <option value="SS">South Sudan</option>
-          <option value="UG">Uganda</option>
-        </select>
-      </label>
-      <label class="field">
-        <span>{{ t('workforce.department') }}</span>
-        <select v-model="form.department_id" required>
-          <option v-for="d in departments" :key="d.id" :value="d.id">{{ d.name }}</option>
-        </select>
-      </label>
-      <BaseInput v-model="form.hire_date" type="date" :label="t('workforce.hireDate')" required />
-      <BaseInput v-model="form.gross_salary" :label="t('workforce.gross')" required />
-      <BaseInput v-model="form.salary_currency" :label="t('workforce.currency')" required />
+      <BaseSelect
+        v-model="form.payroll_country"
+        :label="t('workforce.country')"
+        :options="countryOptions"
+        ltr
+      />
+      <BaseSelect
+        v-model="form.department_id"
+        :label="t('workforce.department')"
+        :options="departmentOptions"
+        required
+      />
+      <BaseDatePicker v-model="form.hire_date" :label="t('workforce.hireDate')" required />
+      <BaseInput v-model="form.gross_salary" :label="t('workforce.gross')" required ltr />
+      <BaseInput v-model="form.salary_currency" :label="t('workforce.currency')" required ltr />
       <BaseButton type="submit" :disabled="busy">{{ t('workforce.saveEmployee') }}</BaseButton>
     </form>
 
-    <SkeletonBlock v-if="loading" :rows="5" height="1.25rem" />
-    <EmptyState v-else-if="!employees.length" :title="t('workforce.empty')" />
-    <table v-else>
-      <thead>
-        <tr>
-          <th>{{ t('workforce.number') }}</th>
-          <th>{{ t('workforce.name') }}</th>
-          <th>{{ t('workforce.country') }}</th>
-          <th>{{ t('workforce.department') }}</th>
-          <th>{{ t('grants.status') }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="e in employees" :key="e.id">
-          <td>{{ e.employee_number }}</td>
-          <td>{{ e.display_name }}</td>
-          <td>{{ e.payroll_country }}</td>
-          <td>{{ e.department_name }}</td>
-          <td><StatusBadge :status="e.status" /></td>
-        </tr>
-      </tbody>
-    </table>
+    <DataTableToolbar v-model="filterQuery" />
+    <DataTable
+      :columns="columns"
+      :rows="employees"
+      :caption="t('workforce.employees')"
+      :loading="loading"
+      :empty-title="t('workforce.empty')"
+      :filter-query="filterQuery"
+      row-key="id"
+    >
+      <template #cell-status="{ row }">
+        <StatusBadge :status="String(row.status)" />
+      </template>
+    </DataTable>
   </section>
 </template>
 
@@ -175,32 +187,8 @@ onMounted(() => void load());
   max-width: 28rem;
   margin-bottom: 1.5rem;
   padding: 1rem;
-  border: 1px solid var(--line, var(--border));
-  border-radius: var(--radius-md, 10px);
-  background: #ffffffd6;
-}
-.field {
-  display: grid;
-  gap: 0.35rem;
-  font-size: 0.9rem;
-}
-.field select {
-  padding: 0.55rem 0.65rem;
-  border-radius: var(--radius-md, 8px);
-  border: 1px solid var(--line, var(--border));
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1rem 0;
-}
-th,
-td {
-  text-align: start;
-  padding: 0.65rem 0.5rem;
-  border-bottom: 1px solid var(--border);
-}
-.error {
-  color: var(--danger);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
 }
 </style>

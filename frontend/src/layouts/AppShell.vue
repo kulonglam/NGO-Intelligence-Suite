@@ -1,84 +1,57 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
-import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router';
+import { RouterView, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth';
+import { NAV_GROUPS, paletteItemsFromNav } from '../lib/nav';
 import LocaleSwitcher from '../components/layout/LocaleSwitcher.vue';
+import ThemeSwitcher from '../components/layout/ThemeSwitcher.vue';
+import AppBreadcrumbs from '../components/layout/AppBreadcrumbs.vue';
+import AppSidebar from '../components/layout/AppSidebar.vue';
+import AppHeader from '../components/layout/AppHeader.vue';
+import CommandPalette from '../components/layout/CommandPalette.vue';
 import BaseButton from '../components/base/BaseButton.vue';
-import ToastHost from '../components/feedback/ToastHost.vue';
-
-type NavItem = { to: string; labelKey: string; exact?: boolean };
-type NavGroup = { id: string; labelKey: string; items: NavItem[] };
+import ToastContainer from '../components/feedback/ToastContainer.vue';
+import SessionBanner from '../components/feedback/SessionBanner.vue';
 
 const { t } = useI18n();
 const auth = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 
-const groups: NavGroup[] = [
-  {
-    id: 'overview',
-    labelKey: 'nav.overview',
-    items: [{ to: '/', labelKey: 'app.overview', exact: true }],
-  },
-  {
-    id: 'programmes',
-    labelKey: 'nav.programmes',
-    items: [
-      { to: '/grants', labelKey: 'app.grants' },
-      { to: '/finance', labelKey: 'app.finance' },
-      { to: '/reports', labelKey: 'app.reports' },
-    ],
-  },
-  {
-    id: 'workforce',
-    labelKey: 'nav.workforce',
-    items: [
-      { to: '/employees', labelKey: 'app.employees' },
-      { to: '/leave', labelKey: 'app.leave' },
-      { to: '/payroll', labelKey: 'app.payroll' },
-      { to: '/training', labelKey: 'app.training' },
-    ],
-  },
-  {
-    id: 'field',
-    labelKey: 'nav.field',
-    items: [{ to: '/field', labelKey: 'app.field' }],
-  },
-  {
-    id: 'intelligence',
-    labelKey: 'nav.intelligence',
-    items: [
-      { to: '/intelligence', labelKey: 'app.intelligence' },
-      { to: '/ai', labelKey: 'app.ai' },
-      { to: '/compliance', labelKey: 'app.compliance' },
-    ],
-  },
-  {
-    id: 'settings',
-    labelKey: 'nav.settings',
-    items: [
-      { to: '/notifications', labelKey: 'app.notifications' },
-      { to: '/settings/webhooks', labelKey: 'app.webhooks' },
-    ],
-  },
-];
+const openGroups = ref<Record<string, boolean>>({});
+const drawerOpen = ref(false);
+const paletteOpen = ref(false);
+const menuBtn = ref<HTMLButtonElement | null>(null);
+const sidebarRef = ref<InstanceType<typeof AppSidebar> | null>(null);
+const searchBtn = ref<HTMLButtonElement | null>(null);
 
-function groupContainsPath(group: NavGroup, path: string) {
+const visibleGroups = computed(() =>
+  NAV_GROUPS.map((g) => ({
+    id: g.id,
+    label: t(g.labelKey),
+    items: g.items
+      .filter((item) => auth.canAny(item.anyOf))
+      .map((item) => ({
+        to: item.to,
+        label: t(item.labelKey),
+        exact: item.exact,
+      })),
+  })).filter((g) => g.items.length > 0),
+);
+
+const paletteItems = computed(() => paletteItemsFromNav());
+
+function groupContainsPath(group: (typeof NAV_GROUPS)[number], path: string) {
   return group.items.some((item) =>
     item.exact ? path === item.to : path === item.to || path.startsWith(`${item.to}/`),
   );
 }
 
-const openGroups = ref<Record<string, boolean>>({});
-const drawerOpen = ref(false);
-const menuBtn = ref<HTMLButtonElement | null>(null);
-const drawerEl = ref<HTMLElement | null>(null);
-
 function syncOpenGroups() {
   const next: Record<string, boolean> = { ...openGroups.value };
-  for (const g of groups) {
-    // Active route's group always open; others keep user toggle state (default closed).
+  for (const g of NAV_GROUPS) {
+    if (!visibleGroups.value.some((v) => v.id === g.id)) continue;
     if (groupContainsPath(g, route.path)) next[g.id] = true;
     else if (next[g.id] === undefined) next[g.id] = false;
   }
@@ -103,17 +76,26 @@ function openDrawer() {
   drawerOpen.value = true;
 }
 
-function onKey(e: KeyboardEvent) {
+function drawerRoot(): HTMLElement | null {
+  return (sidebarRef.value?.$el as HTMLElement | undefined) ?? null;
+}
+
+function onGlobalKey(e: KeyboardEvent) {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    paletteOpen.value = true;
+  }
   if (e.key === 'Escape' && drawerOpen.value) {
     e.preventDefault();
     closeDrawer();
   }
-  if (e.key === 'Tab' && drawerOpen.value && drawerEl.value) {
+  const el = drawerRoot();
+  if (e.key === 'Tab' && drawerOpen.value && el) {
     const focusable = [
-      ...drawerEl.value.querySelectorAll<HTMLElement>(
+      ...el.querySelectorAll<HTMLElement>(
         'a[href], button, select, [tabindex]:not([tabindex="-1"])',
       ),
-    ].filter((el) => !el.hasAttribute('disabled'));
+    ].filter((node) => !node.hasAttribute('disabled'));
     if (!focusable.length) return;
     const first = focusable[0]!;
     const last = focusable[focusable.length - 1]!;
@@ -132,6 +114,8 @@ const pageTitle = computed(() => {
   return t(key);
 });
 
+const tenantLabel = computed(() => auth.user?.tenant_id?.slice(0, 8) ?? '—');
+
 watch(
   () => route.path,
   () => {
@@ -142,96 +126,84 @@ watch(
 
 onMounted(() => {
   syncOpenGroups();
-  document.addEventListener('keydown', onKey);
+  document.addEventListener('keydown', onGlobalKey);
 });
-onUnmounted(() => document.removeEventListener('keydown', onKey));
+onUnmounted(() => document.removeEventListener('keydown', onGlobalKey));
 </script>
 
 <template>
   <div class="shell" :class="{ 'drawer-open': drawerOpen }">
-    <div
-      v-if="drawerOpen"
-      class="scrim"
-      aria-hidden="true"
-      @click="closeDrawer"
-    />
-    <aside
-      ref="drawerEl"
+    <div v-if="drawerOpen" class="scrim" aria-hidden="true" @click="closeDrawer" />
+    <AppSidebar
+      ref="sidebarRef"
       id="app-nav"
-      class="nav"
-      aria-label="Primary"
-      :aria-hidden="false"
+      class="nav-shell"
+      :brand-eyebrow="t('app.shortName')"
+      :brand-title="t('app.name')"
+      :groups="visibleGroups"
+      :open-groups="openGroups"
+      @toggle-group="toggleGroup"
     >
-      <div class="brand">
-        <p class="eyebrow">{{ t('app.shortName') }}</p>
-        <p class="brand-name">{{ t('app.name') }}</p>
-      </div>
-      <nav>
-        <div v-for="group in groups" :key="group.id" class="group">
-          <button
-            type="button"
-            class="group-toggle"
-            :aria-expanded="Boolean(openGroups[group.id])"
-            :aria-controls="`nav-group-${group.id}`"
-            @click="toggleGroup(group.id)"
-          >
-            <span>{{ t(group.labelKey) }}</span>
-            <span class="chev" aria-hidden="true">{{ openGroups[group.id] ? '▾' : '▸' }}</span>
-          </button>
-          <div
-            v-show="openGroups[group.id]"
-            :id="`nav-group-${group.id}`"
-            class="group-items"
-          >
-            <RouterLink
-              v-for="item in group.items"
-              :key="item.to"
-              :to="item.to"
-              :active-class="item.exact ? '' : 'active'"
-              exact-active-class="active"
-            >
-              {{ t(item.labelKey) }}
-            </RouterLink>
+      <template #footer>
+        <div class="footer desktop-only">
+          <LocaleSwitcher variant="onBrand" />
+          <ThemeSwitcher variant="onBrand" />
+          <div v-if="auth.user" class="user">
+            <strong>{{ auth.user.display_name }}</strong>
+            <span>{{ auth.user.role }}</span>
+            <BaseButton variant="ghost" class="signout" @click="logout">
+              {{ t('app.signOut') }}
+            </BaseButton>
           </div>
         </div>
-      </nav>
-      <div class="footer desktop-only">
-        <LocaleSwitcher />
-        <div v-if="auth.user" class="user">
-          <strong>{{ auth.user.display_name }}</strong>
-          <span>{{ auth.user.role }}</span>
-          <BaseButton variant="ghost" class="signout" @click="logout">
-            {{ t('app.signOut') }}
-          </BaseButton>
-        </div>
-      </div>
-    </aside>
+      </template>
+    </AppSidebar>
 
     <div class="content">
-      <header class="topbar">
-        <button
-          ref="menuBtn"
-          type="button"
-          class="menu-btn"
-          :aria-expanded="drawerOpen"
-          aria-controls="app-nav"
-          @click="drawerOpen ? closeDrawer() : openDrawer()"
-        >
-          {{ drawerOpen ? t('nav.closeMenu') : t('nav.openMenu') }}
-        </button>
-        <p class="context">{{ pageTitle }}</p>
-        <div class="top-actions">
-          <LocaleSwitcher />
+      <SessionBanner />
+      <AppHeader>
+        <template #start>
+          <button
+            ref="menuBtn"
+            type="button"
+            class="menu-btn"
+            :aria-expanded="drawerOpen"
+            aria-controls="app-nav"
+            @click="drawerOpen ? closeDrawer() : openDrawer()"
+          >
+            {{ drawerOpen ? t('nav.closeMenu') : t('nav.openMenu') }}
+          </button>
+        </template>
+        <template #main>
+          <AppBreadcrumbs />
+          <p class="context">{{ pageTitle }}</p>
+        </template>
+        <template #actions>
+          <button
+            ref="searchBtn"
+            type="button"
+            class="search-btn"
+            @click="paletteOpen = true"
+          >
+            {{ t('search.open') }}
+            <kbd>⌘K</kbd>
+          </button>
+          <span class="tenant" :title="auth.user?.tenant_id">{{
+            t('nav.tenant', { id: tenantLabel })
+          }}</span>
+          <ThemeSwitcher variant="surface" />
+          <LocaleSwitcher variant="surface" />
           <BaseButton v-if="auth.user" variant="ghost" class="signout-top" @click="logout">
             {{ t('app.signOut') }}
           </BaseButton>
-        </div>
-      </header>
+        </template>
+      </AppHeader>
       <main id="main-content" class="main" tabindex="-1">
         <RouterView />
       </main>
     </div>
-    <ToastHost />
+    <CommandPalette v-model:open="paletteOpen" :items="paletteItems" />
+    <ToastContainer />
   </div>
 </template>
 
@@ -244,134 +216,79 @@ onUnmounted(() => document.removeEventListener('keydown', onKey));
 .scrim {
   display: none;
 }
-.nav {
-  padding: 1.75rem 1.35rem;
+.nav-shell {
   background: linear-gradient(180deg, var(--brand-deep), var(--brand));
   color: var(--on-brand);
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  min-height: 100vh;
   position: sticky;
   inset-block-start: 0;
   max-height: 100vh;
   overflow: auto;
 }
-.brand-name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.25;
-}
-.eyebrow {
-  margin: 0 0 0.25rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.72rem;
-  opacity: 0.75;
-}
-.group {
-  display: grid;
-  gap: 0.25rem;
-}
-.group-toggle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  border: 0;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  font: inherit;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 0.45rem 0.5rem;
-  cursor: pointer;
-  border-radius: var(--radius-sm);
-}
-.group-toggle:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-}
-.group-items {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding-inline-start: 0.25rem;
-}
-nav a {
-  padding: 0.55rem 0.75rem;
-  border-radius: var(--radius-md);
-  color: rgba(255, 255, 255, 0.82);
-}
-nav a.active {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-nav a:focus-visible,
-.menu-btn:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-}
 .footer {
-  margin-block-start: auto;
   display: grid;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 .user {
   display: grid;
-  gap: 0.25rem;
-  font-size: 0.9rem;
+  gap: 0.2rem;
+  font-size: 0.85rem;
 }
 .user span {
   opacity: 0.7;
 }
-.signout,
-.signout-top {
-  margin-block-start: 0.4rem;
+.signout {
+  margin-block-start: 0.35rem;
   border-color: rgba(255, 255, 255, 0.25) !important;
   background: transparent !important;
   color: #fff !important;
+}
+.signout-top {
+  margin: 0;
 }
 .content {
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
-.topbar {
-  display: none;
-  position: sticky;
-  inset-block-start: 0;
-  z-index: 20;
-  min-height: var(--header-height);
-  padding: 0.65rem 1rem;
-  align-items: center;
-  gap: 0.75rem;
-  background: color-mix(in srgb, var(--paper) 92%, white);
-  border-bottom: 1px solid var(--color-border);
-  backdrop-filter: blur(8px);
-}
 .context {
   margin: 0;
   font-weight: 600;
   color: var(--brand-deep);
-  flex: 1;
-  min-width: 0;
+  font-size: 0.95rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.top-actions {
-  display: flex;
+.search-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.search-btn kbd {
+  font-size: 0.72rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+}
+.search-btn:focus-visible,
+.menu-btn:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+.tenant {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
 }
 .main {
-  padding: 2.25rem 2.5rem;
+  padding: 1.5rem 1.75rem 2rem;
   max-width: var(--content-max-width);
 }
 .menu-btn {
@@ -380,20 +297,13 @@ nav a:focus-visible,
   background: var(--color-surface);
   color: var(--color-text);
   border-radius: var(--radius-pill);
-  padding: 0.5rem 0.85rem;
+  padding: 0.45rem 0.8rem;
   font-weight: 600;
   cursor: pointer;
 }
-.menu-btn:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-}
-@media (max-width: 860px) {
+@media (max-width: 960px) {
   .shell {
     grid-template-columns: 1fr;
-  }
-  .topbar {
-    display: flex;
   }
   .menu-btn {
     display: inline-flex;
@@ -401,20 +311,23 @@ nav a:focus-visible,
   .desktop-only {
     display: none;
   }
-  .nav {
+  .search-btn kbd {
+    display: none;
+  }
+  .nav-shell {
     position: fixed;
     inset-block: 0;
     inset-inline-start: 0;
     width: min(var(--sidebar-width), 88vw);
     z-index: 40;
     transform: translateX(-105%);
-    transition: transform var(--duration-base) ease;
+    transition: transform var(--duration-base) var(--ease-standard);
     max-height: none;
   }
-  [dir='rtl'] .nav {
+  [dir='rtl'] .nav-shell {
     transform: translateX(105%);
   }
-  .shell.drawer-open .nav {
+  .shell.drawer-open .nav-shell {
     transform: translateX(0);
   }
   .scrim {
@@ -422,16 +335,10 @@ nav a:focus-visible,
     position: fixed;
     inset: 0;
     z-index: 30;
-    background: rgba(20, 38, 43, 0.45);
+    background: var(--color-overlay);
   }
   .main {
-    padding: 1.25rem 1.1rem 2rem;
-  }
-  .signout-top {
-    border-color: var(--color-border) !important;
-    color: var(--color-text) !important;
-    background: var(--color-surface) !important;
-    margin: 0 !important;
+    padding: 1.1rem 1rem 2rem;
   }
 }
 </style>

@@ -39,7 +39,39 @@
     "intelligence": "الاستخبارات",
     "settings": "الإعدادات",
     "openMenu": "القائمة",
-    "closeMenu": "إغلاق"
+    "closeMenu": "إغلاق",
+    "breadcrumbs": "مسار التنقل",
+    "tenant": "المستأجر {id}",
+    "forbidden": "ليست لديك صلاحية للوصول إلى هذه الصفحة.",
+    "designSystem": "نظام التصميم"
+  },
+  "theme": {
+    "label": "المظهر",
+    "system": "النظام",
+    "light": "فاتح",
+    "dark": "داكن"
+  },
+  "session": {
+    "warnBanner": "تنتهي جلستك خلال نحو {minutes} دقيقة. سجّل الدخول مجددًا للتمديد.",
+    "warnToast": "تنتهي الجلسة خلال نحو {minutes} دقيقة.",
+    "extend": "تمديد الجلسة"
+  },
+  "search": {
+    "title": "الانتقال إلى…",
+    "open": "بحث",
+    "placeholder": "ابحث في الصفحات…",
+    "empty": "لا توجد صفحات مطابقة",
+    "hint": "↑↓ للتنقل · Enter للفتح · Esc للإغلاق"
+  },
+  "table": {
+    "empty": "لا توجد صفوف",
+    "filter": "تصفية الجدول",
+    "filterPlaceholder": "تصفية…",
+    "showing": "عرض {shown} من {total}",
+    "page": "صفحة {page} من {pages}",
+    "prev": "الصفحة السابقة",
+    "next": "الصفحة التالية",
+    "pageSize": "صفوف لكل صفحة"
   },
   "confirm": {
     "cancel": "إلغاء",
@@ -302,5 +334,20 @@
     "approved": "معتمد",
     "reconciled": "مُسوّى",
     "reversed": "معكوس"
+  },
+  "forms": {
+    "required": "مطلوب"
+  },
+  "designSystem": {
+    "eyebrow": "الأساس · §19.5",
+    "title": "نظام التصميم",
+    "lede": "الرموز والأساس والمخططات وعناصر المجال والذكاء الاصطناعي لـ NGOIS (اللغة السواحيلية مؤجلة).",
+    "tokens": "رموز الألوان"
+  },
+  "domain": {
+    "budget": "الميزانية",
+    "spent": "المصروف",
+    "burnRate": "معدل الإنفاق",
+    "burnRateEmpty": "لا توجد بيانات لمعدل الإنفاق"
   }
 }

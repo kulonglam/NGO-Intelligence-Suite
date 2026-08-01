@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { api } from '../lib/api';
 import BaseButton from '../components/base/BaseButton.vue';
+import BaseDatePicker from '../components/base/BaseDatePicker.vue';
 import BaseInput from '../components/base/BaseInput.vue';
+import BaseSelect from '../components/base/BaseSelect.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
-import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
-import EmptyState from '../components/feedback/EmptyState.vue';
+import SectionCard from '../components/layout/SectionCard.vue';
+import DataTable from '../components/data/DataTable.vue';
+import DataTableToolbar from '../components/data/DataTableToolbar.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
 
 type LeaveType = { id: string; code: string; name: string };
 type Employee = { id: string; display_name: string; employee_number: string };
@@ -40,6 +44,8 @@ const balances = ref<LeaveBalance[]>([]);
 const error = ref<string | null>(null);
 const loading = ref(true);
 const busy = ref(false);
+const balanceFilter = ref('');
+const requestFilter = ref('');
 const form = ref({
   employee_id: '',
   leave_type_id: '',
@@ -47,6 +53,48 @@ const form = ref({
   end_date: '',
   days_requested: '1',
 });
+
+const employeeOptions = computed(() =>
+  employees.value.map((e) => ({
+    value: e.id,
+    label: `${e.employee_number} — ${e.display_name}`,
+  })),
+);
+
+const leaveTypeOptions = computed(() =>
+  types.value.map((lt) => ({ value: lt.id, label: lt.name })),
+);
+
+const balanceColumns = computed(() => [
+  { key: 'display_name', label: t('workforce.name'), sortable: true },
+  { key: 'leave_type_name', label: t('workforce.leaveType'), sortable: true },
+  { key: 'accrued_days', label: t('workforce.accrued'), numeric: true },
+  { key: 'taken_days', label: t('workforce.taken'), numeric: true },
+]);
+
+const balanceRows = computed(() =>
+  balances.value.map((b, i) => ({
+    ...b,
+    id: `${b.employee_id}-${b.leave_type_code}-${i}`,
+    leave_type_name: b.leave_type_name ?? b.leave_type_code,
+  })),
+);
+
+const requestColumns = computed(() => [
+  { key: 'display_name', label: t('workforce.name'), sortable: true },
+  { key: 'leave_type_name', label: t('workforce.leaveType') },
+  { key: 'period', label: t('workforce.period') },
+  { key: 'days_requested', label: t('workforce.days'), numeric: true },
+  { key: 'status', label: t('grants.status') },
+  { key: 'actions', label: '' },
+]);
+
+const requestRows = computed(() =>
+  requests.value.map((r) => ({
+    ...r,
+    period: `${r.start_date} → ${r.end_date}`,
+  })),
+);
 
 async function load() {
   loading.value = true;
@@ -139,49 +187,40 @@ onMounted(() => void load());
         <BaseButton variant="ghost" :disabled="loading" @click="load">{{ t('app.refresh') }}</BaseButton>
       </template>
     </PageHeader>
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
 
-    <div class="balances-head">
-      <h2>{{ t('workforce.balances') }}</h2>
-      <BaseButton :disabled="busy" @click="runAccrue">{{ t('workforce.accrue') }}</BaseButton>
-    </div>
-    <EmptyState v-if="!loading && !balances.length" :title="t('workforce.noBalances')" />
-    <table v-else-if="balances.length">
-      <thead>
-        <tr>
-          <th>{{ t('workforce.name') }}</th>
-          <th>{{ t('workforce.leaveType') }}</th>
-          <th>{{ t('workforce.accrued') }}</th>
-          <th>{{ t('workforce.taken') }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(b, i) in balances" :key="i">
-          <td>{{ b.display_name }}</td>
-          <td>{{ b.leave_type_name ?? b.leave_type_code }}</td>
-          <td>{{ b.accrued_days }}</td>
-          <td>{{ b.taken_days }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <SectionCard :title="t('workforce.balances')" title-id="balances-heading" class="block">
+      <template #actions>
+        <BaseButton :disabled="busy" @click="runAccrue">{{ t('workforce.accrue') }}</BaseButton>
+      </template>
+      <DataTableToolbar v-model="balanceFilter" />
+      <DataTable
+        :columns="balanceColumns"
+        :rows="balanceRows"
+        :caption="t('workforce.balances')"
+        :loading="loading"
+        :empty-title="t('workforce.noBalances')"
+        :filter-query="balanceFilter"
+        row-key="id"
+      />
+    </SectionCard>
 
     <form class="create" @submit.prevent="createRequest">
-      <label class="field">
-        <span>{{ t('workforce.employees') }}</span>
-        <select v-model="form.employee_id" required>
-          <option v-for="e in employees" :key="e.id" :value="e.id">
-            {{ e.employee_number }} — {{ e.display_name }}
-          </option>
-        </select>
-      </label>
-      <label class="field">
-        <span>{{ t('workforce.leaveType') }}</span>
-        <select v-model="form.leave_type_id" required>
-          <option v-for="lt in types" :key="lt.id" :value="lt.id">{{ lt.name }}</option>
-        </select>
-      </label>
-      <BaseInput v-model="form.start_date" type="date" :label="t('workforce.startDate')" required />
-      <BaseInput v-model="form.end_date" type="date" :label="t('workforce.endDate')" required />
+      <BaseSelect
+        v-model="form.employee_id"
+        :label="t('workforce.employees')"
+        :options="employeeOptions"
+        required
+        ltr
+      />
+      <BaseSelect
+        v-model="form.leave_type_id"
+        :label="t('workforce.leaveType')"
+        :options="leaveTypeOptions"
+        required
+      />
+      <BaseDatePicker v-model="form.start_date" :label="t('workforce.startDate')" required />
+      <BaseDatePicker v-model="form.end_date" :label="t('workforce.endDate')" required />
       <BaseInput
         v-model="form.days_requested"
         type="number"
@@ -191,53 +230,36 @@ onMounted(() => void load());
       <BaseButton type="submit" :disabled="busy">{{ t('workforce.requestLeave') }}</BaseButton>
     </form>
 
-    <SkeletonBlock v-if="loading" :rows="4" height="1.25rem" />
-    <EmptyState v-else-if="!requests.length" :title="t('workforce.noLeave')" />
-    <table v-else>
-      <thead>
-        <tr>
-          <th>{{ t('workforce.name') }}</th>
-          <th>{{ t('workforce.leaveType') }}</th>
-          <th>{{ t('workforce.period') }}</th>
-          <th>{{ t('workforce.days') }}</th>
-          <th>{{ t('grants.status') }}</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="r in requests" :key="r.id">
-          <td>{{ r.display_name }}</td>
-          <td>{{ r.leave_type_name }}</td>
-          <td>{{ r.start_date }} → {{ r.end_date }}</td>
-          <td>{{ r.days_requested }}</td>
-          <td><StatusBadge :status="r.status" /></td>
-          <td>
-            <BaseButton
-              v-if="r.status === 'pending'"
-              variant="ghost"
-              :disabled="busy"
-              @click="approve(r.id)"
-            >
-              {{ t('workforce.approve') }}
-            </BaseButton>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <DataTableToolbar v-model="requestFilter" />
+    <DataTable
+      :columns="requestColumns"
+      :rows="requestRows"
+      :caption="t('workforce.leave')"
+      :loading="loading"
+      :empty-title="t('workforce.noLeave')"
+      :filter-query="requestFilter"
+      row-key="id"
+    >
+      <template #cell-status="{ row }">
+        <StatusBadge :status="String(row.status)" />
+      </template>
+      <template #cell-actions="{ row }">
+        <BaseButton
+          v-if="row.status === 'pending'"
+          variant="ghost"
+          :disabled="busy"
+          @click="approve(String(row.id))"
+        >
+          {{ t('workforce.approve') }}
+        </BaseButton>
+      </template>
+    </DataTable>
   </section>
 </template>
 
 <style scoped>
-.balances-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.balances-head h2 {
-  margin: 0;
-  font-size: 1.15rem;
+.block {
+  margin-block-end: 1.25rem;
 }
 .create {
   display: grid;
@@ -245,32 +267,8 @@ onMounted(() => void load());
   max-width: 28rem;
   margin: 1rem 0 1.5rem;
   padding: 1rem;
-  border: 1px solid var(--line, var(--border));
-  border-radius: var(--radius-md, 10px);
-  background: #ffffffd6;
-}
-.field {
-  display: grid;
-  gap: 0.35rem;
-  font-size: 0.9rem;
-}
-.field select {
-  padding: 0.55rem 0.65rem;
-  border-radius: var(--radius-md, 8px);
-  border: 1px solid var(--line, var(--border));
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.25rem;
-}
-th,
-td {
-  text-align: start;
-  padding: 0.65rem 0.5rem;
-  border-bottom: 1px solid var(--border);
-}
-.error {
-  color: var(--danger);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
 }
 </style>

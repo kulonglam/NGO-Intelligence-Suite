@@ -6,13 +6,20 @@ import { api } from '../lib/api';
 import { formatMoney } from '../lib/format';
 import { useAuthStore } from '../stores/auth';
 import BaseButton from '../components/base/BaseButton.vue';
+import BaseDatePicker from '../components/base/BaseDatePicker.vue';
+import BaseTextarea from '../components/base/BaseTextarea.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
 import SectionCard from '../components/layout/SectionCard.vue';
 import StatCard from '../components/data/StatCard.vue';
+import DataTable from '../components/data/DataTable.vue';
 import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
 import EmptyState from '../components/feedback/EmptyState.vue';
-
+import AlertBanner from '../components/feedback/AlertBanner.vue';
+import CurrencyInput from '../components/forms/CurrencyInput.vue';
+import GrantStatusBadge from '../components/domain/GrantStatusBadge.vue';
+import BurnRateChart from '../components/domain/BurnRateChart.vue';
+import AuditTrailList from '../components/domain/AuditTrailList.vue';
 
 type Summary = {
   grant: {
@@ -69,6 +76,30 @@ const form = ref({
   notes: '',
 });
 const fileInput = ref<HTMLInputElement | null>(null);
+
+const disbursementColumns = computed(() => [
+  { key: 'date_display', label: t('grants.detail.date'), sortable: true },
+  { key: 'amount_display', label: t('grants.detail.amount'), numeric: true },
+  { key: 'status', label: t('grants.status') },
+  { key: 'actions', label: '' },
+]);
+
+const disbursementRows = computed(() =>
+  disbursements.value.map((d) => ({
+    ...d,
+    date_display: d.received_date?.slice?.(0, 10) ?? d.received_date,
+    amount_display: formatMoney(d.amount, d.currency, locale.value),
+  })),
+);
+
+const auditItems = computed(() =>
+  disbursements.value.map((d) => ({
+    id: d.id,
+    title: d.status,
+    at: d.received_date,
+    body: formatMoney(d.amount, d.currency, locale.value),
+  })),
+);
 
 async function load() {
   loading.value = true;
@@ -179,7 +210,7 @@ watch(grantId, () => {
     <p class="back">
       <RouterLink to="/grants">← {{ t('grants.detail.awards') }}</RouterLink>
     </p>
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
     <SkeletonBlock v-if="loading" :rows="5" height="1.25rem" />
 
     <template v-if="summary && !loading">
@@ -190,7 +221,7 @@ watch(grantId, () => {
         heading-id="grant-heading"
       >
         <template #actions>
-          <StatusBadge :status="summary.grant.status" />
+          <GrantStatusBadge :status="summary.grant.status" />
           <BaseButton variant="ghost" @click="load">{{ t('app.refresh') }}</BaseButton>
         </template>
       </PageHeader>
@@ -210,70 +241,68 @@ watch(grantId, () => {
         />
       </div>
 
+      <BurnRateChart
+        class="burn"
+        :categories="[summary.grant.grant_number]"
+        :budget="[Number(summary.ceiling)]"
+        :spent="[Number(summary.committed)]"
+      />
+
+      <AuditTrailList
+        v-if="auditItems.length"
+        class="audit"
+        :items="auditItems"
+        :title="t('grants.detail.disbursements')"
+      />
+
       <SectionCard :title="t('grants.detail.disbursements')" title-id="disb-heading">
-        <EmptyState
-          v-if="!disbursements.length"
-          :title="t('grants.detail.emptyDisbursements')"
-        />
-        <table v-else>
-          <caption class="sr-only">{{ t('grants.detail.disbursements') }}</caption>
-          <thead>
-            <tr>
-              <th scope="col">{{ t('grants.detail.date') }}</th>
-              <th scope="col">{{ t('grants.detail.amount') }}</th>
-              <th scope="col">{{ t('grants.status') }}</th>
-              <th scope="col">{{ t('grants.detail.submitForApproval') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="d in disbursements" :key="d.id">
-              <td class="bidi-isolate" dir="ltr">
-                {{ d.received_date?.slice?.(0, 10) ?? d.received_date }}
-              </td>
-              <td class="bidi-isolate" dir="ltr">
-                {{ formatMoney(d.amount, d.currency, locale) }}
-              </td>
-              <td><StatusBadge :status="d.status" /></td>
-              <td class="actions">
-                <BaseButton
-                  v-if="d.status === 'recorded'"
-                  variant="ghost"
-                  @click="submitDisbursement(d.id)"
-                >
-                  {{ t('grants.detail.submitForApproval') }}
-                </BaseButton>
-                <BaseButton
-                  v-if="d.status === 'pending_approval' || d.status === 'recorded'"
-                  variant="ghost"
-                  @click="approveDisbursement(d.id)"
-                >
-                  {{ t('grants.detail.approve') }}
-                </BaseButton>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <DataTable
+          :columns="disbursementColumns"
+          :rows="disbursementRows"
+          :caption="t('grants.detail.disbursements')"
+          :empty-title="t('grants.detail.emptyDisbursements')"
+          :paginate="false"
+          row-key="id"
+        >
+          <template #cell-status="{ row }">
+            <StatusBadge :status="String(row.status)" />
+          </template>
+          <template #cell-actions="{ row }">
+            <div class="actions">
+              <BaseButton
+                v-if="row.status === 'recorded'"
+                variant="ghost"
+                @click="submitDisbursement(String(row.id))"
+              >
+                {{ t('grants.detail.submitForApproval') }}
+              </BaseButton>
+              <BaseButton
+                v-if="row.status === 'pending_approval' || row.status === 'recorded'"
+                variant="ghost"
+                @click="approveDisbursement(String(row.id))"
+              >
+                {{ t('grants.detail.approve') }}
+              </BaseButton>
+            </div>
+          </template>
+        </DataTable>
 
         <form class="create" @submit.prevent="createDisbursement">
           <h3>{{ t('grants.detail.record') }}</h3>
           <div class="row">
-            <label>
-              {{ t('grants.detail.amount') }}
-              <input v-model="form.amount" required dir="ltr" />
-            </label>
-            <label>
-              {{ t('grants.currency') }}
-              <input v-model="form.currency" maxlength="3" required dir="ltr" />
-            </label>
-            <label>
-              {{ t('grants.detail.date') }}
-              <input v-model="form.received_date" type="date" required dir="ltr" />
-            </label>
+            <CurrencyInput
+              v-model="form.amount"
+              v-model:currency="form.currency"
+              :label="t('grants.detail.amount')"
+              required
+            />
+            <BaseDatePicker
+              v-model="form.received_date"
+              :label="t('grants.detail.date')"
+              required
+            />
           </div>
-          <label>
-            {{ t('grants.detail.notes') }}
-            <input v-model="form.notes" />
-          </label>
+          <BaseTextarea v-model="form.notes" :label="t('grants.detail.notes')" :rows="2" />
           <BaseButton type="submit" variant="secondary">{{ t('grants.detail.record') }}</BaseButton>
         </form>
       </SectionCard>
@@ -303,45 +332,36 @@ watch(grantId, () => {
 
 <style scoped>
 .back { margin: 0 0 12px; }
-.back a { color: var(--brand); text-decoration: none; font-weight: 600; }
+.back a { color: var(--color-primary); text-decoration: none; font-weight: 600; }
 .stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 20px;
 }
-.section-gap :deep(.card),
-:deep(.card) {
-  margin-bottom: 18px;
+.burn,
+.audit {
+  margin-bottom: 20px;
 }
-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-th, td { text-align: start; padding: 10px 8px; border-bottom: 1px solid var(--line); }
 .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .create { display: grid; gap: 10px; margin-top: 16px; }
-.row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-label { display: grid; gap: 6px; font-size: 0.9rem; font-weight: 500; }
-input {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 10px 12px;
-}
+.row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .files { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 8px; }
 .files li { display: flex; justify-content: space-between; gap: 12px; }
 .linkish {
   border: 0;
   background: none;
-  color: var(--brand);
+  color: var(--color-primary);
   font-weight: 600;
   cursor: pointer;
   padding: 0;
   text-align: start;
 }
 .linkish:focus-visible {
-  outline: 3px solid var(--focus);
+  outline: 3px solid var(--color-focus);
   outline-offset: 2px;
 }
 .upload { display: grid; gap: 8px; font-weight: 500; }
-.error { color: var(--danger); }
 @media (max-width: 900px) {
   .stats, .row { grid-template-columns: 1fr; }
 }

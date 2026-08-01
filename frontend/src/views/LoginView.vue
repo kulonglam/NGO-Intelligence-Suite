@@ -6,6 +6,7 @@ import { useAuthStore } from '../stores/auth';
 import BaseButton from '../components/base/BaseButton.vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import LocaleSwitcher from '../components/layout/LocaleSwitcher.vue';
+import ThemeSwitcher from '../components/layout/ThemeSwitcher.vue';
 
 const { t } = useI18n();
 const auth = useAuthStore();
@@ -31,6 +32,7 @@ async function submit() {
 <template>
   <div class="page">
     <div class="locale-wrap">
+      <ThemeSwitcher />
       <LocaleSwitcher />
     </div>
     <section class="hero" aria-labelledby="login-hero">
@@ -85,6 +87,9 @@ async function submit() {
   position: absolute;
   inset-block-start: 1.25rem;
   inset-inline-end: 1.25rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 .locale-wrap :deep(select) {
   border-color: var(--line);

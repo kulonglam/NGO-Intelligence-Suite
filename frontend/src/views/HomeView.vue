@@ -22,6 +22,27 @@ const expenseCount = ref<number | null>(null);
 const payrollCount = ref<number | null>(null);
 const kpiCount = ref<number | null>(null);
 
+const quickLinks = computed(() =>
+  [
+    {
+      to: '/grants',
+      labelKey: 'home.goGrants',
+      anyOf: ['grant:award:list', 'grant:award:read'],
+    },
+    {
+      to: '/finance',
+      labelKey: 'home.goFinance',
+      anyOf: ['grant:expenditure:read', 'grant:budget:read'],
+    },
+    { to: '/payroll', labelKey: 'home.goPayroll', anyOf: ['payroll:run:read'] },
+    {
+      to: '/intelligence',
+      labelKey: 'home.goIntelligence',
+      anyOf: ['reporting:dashboard:read', 'grant:report:read'],
+    },
+  ].filter((link) => auth.canAny(link.anyOf)),
+);
+
 onMounted(async () => {
   loading.value = true;
   try {
@@ -73,12 +94,11 @@ onMounted(async () => {
       />
     </div>
 
-    <SectionCard :title="t('home.quickLinks')" title-id="quick-links">
+    <SectionCard v-if="quickLinks.length" :title="t('home.quickLinks')" title-id="quick-links">
       <div class="links">
-        <RouterLink to="/grants">{{ t('home.goGrants') }}</RouterLink>
-        <RouterLink to="/finance">{{ t('home.goFinance') }}</RouterLink>
-        <RouterLink to="/payroll">{{ t('home.goPayroll') }}</RouterLink>
-        <RouterLink to="/intelligence">{{ t('home.goIntelligence') }}</RouterLink>
+        <RouterLink v-for="link in quickLinks" :key="link.to" :to="link.to">
+          {{ t(link.labelKey) }}
+        </RouterLink>
       </div>
     </SectionCard>
 

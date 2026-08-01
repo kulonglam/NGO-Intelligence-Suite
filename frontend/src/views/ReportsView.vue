@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { api } from '../lib/api';
 import { formatMoney } from '../lib/format';
@@ -7,8 +7,12 @@ import BaseButton from '../components/base/BaseButton.vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import StatusBadge from '../components/base/StatusBadge.vue';
 import PageHeader from '../components/layout/PageHeader.vue';
+import SectionCard from '../components/layout/SectionCard.vue';
+import DataTable from '../components/data/DataTable.vue';
+import DataTableToolbar from '../components/data/DataTableToolbar.vue';
 import SkeletonBlock from '../components/feedback/SkeletonBlock.vue';
-import EmptyState from '../components/feedback/EmptyState.vue';
+import StatCard from '../components/data/StatCard.vue';
+import AlertBanner from '../components/feedback/AlertBanner.vue';
 
 type Portfolio = {
   award_count: number;
@@ -42,6 +46,38 @@ const error = ref<string | null>(null);
 const loading = ref(true);
 const from = ref('2026-01-01');
 const to = ref('2026-12-31');
+const awardFilter = ref('');
+
+const awardColumns = computed(() => [
+  { key: 'grant_number', label: t('grants.number'), sortable: true },
+  { key: 'title', label: t('grants.grantTitle'), sortable: true },
+  { key: 'status', label: t('grants.status') },
+  { key: 'ceiling_display', label: t('reports.ceiling'), numeric: true },
+  { key: 'committed_display', label: t('reports.committed'), numeric: true },
+  { key: 'remaining_display', label: t('reports.remaining'), numeric: true },
+]);
+
+const awardRows = computed(() =>
+  (portfolio.value?.awards ?? []).map((a) => ({
+    ...a,
+    ceiling_display: formatMoney(a.ceiling, a.currency, locale.value),
+    committed_display: formatMoney(a.committed, a.currency, locale.value),
+    remaining_display: formatMoney(a.remaining, a.currency, locale.value),
+  })),
+);
+
+const statusColumns = computed(() => [
+  { key: 'status', label: t('grants.status') },
+  { key: 'count', label: t('reports.count'), numeric: true },
+  { key: 'total_display', label: t('reports.total'), numeric: true },
+]);
+
+const statusRows = computed(() =>
+  (disbursements.value?.by_status ?? []).map((row) => ({
+    ...row,
+    total_display: formatMoney(row.total, 'USD', locale.value),
+  })),
+);
 
 async function load() {
   loading.value = true;
@@ -79,86 +115,72 @@ onMounted(() => {
       </template>
     </PageHeader>
 
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <AlertBanner v-if="error" variant="danger">{{ error }}</AlertBanner>
     <SkeletonBlock v-if="loading" :rows="6" height="1.2rem" />
 
     <template v-else-if="portfolio">
       <div class="totals" aria-label="Portfolio totals">
-        <div>
-          <span>{{ t('reports.awardCount') }}</span>
-          <strong>{{ portfolio.award_count }}</strong>
-        </div>
-        <div>
-          <span>{{ t('reports.ceiling') }}</span>
-          <strong>{{ formatMoney(portfolio.ceiling, 'USD', locale) }}</strong>
-        </div>
-        <div>
-          <span>{{ t('reports.committed') }}</span>
-          <strong>{{ formatMoney(portfolio.committed, 'USD', locale) }}</strong>
-        </div>
-        <div>
-          <span>{{ t('reports.remaining') }}</span>
-          <strong>{{ formatMoney(portfolio.remaining, 'USD', locale) }}</strong>
-        </div>
+        <StatCard :label="t('reports.awardCount')" :value="String(portfolio.award_count)" />
+        <StatCard
+          :label="t('reports.ceiling')"
+          :value="formatMoney(portfolio.ceiling, 'USD', locale)"
+        />
+        <StatCard
+          :label="t('reports.committed')"
+          :value="formatMoney(portfolio.committed, 'USD', locale)"
+        />
+        <StatCard
+          :label="t('reports.remaining')"
+          :value="formatMoney(portfolio.remaining, 'USD', locale)"
+        />
       </div>
 
-      <h2>{{ t('reports.portfolio') }}</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>{{ t('grants.number') }}</th>
-            <th>{{ t('grants.grantTitle') }}</th>
-            <th>{{ t('grants.status') }}</th>
-            <th>{{ t('reports.ceiling') }}</th>
-            <th>{{ t('reports.committed') }}</th>
-            <th>{{ t('reports.remaining') }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="a in portfolio.awards" :key="a.id">
-            <td>{{ a.grant_number }}</td>
-            <td>{{ a.title }}</td>
-            <td><StatusBadge :status="a.status" /></td>
-            <td>{{ formatMoney(a.ceiling, a.currency, locale) }}</td>
-            <td>{{ formatMoney(a.committed, a.currency, locale) }}</td>
-            <td>{{ formatMoney(a.remaining, a.currency, locale) }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <SectionCard :title="t('reports.portfolio')" title-id="portfolio-heading" class="block">
+        <DataTableToolbar v-model="awardFilter" />
+        <DataTable
+          :columns="awardColumns"
+          :rows="awardRows"
+          :caption="t('reports.portfolio')"
+          :filter-query="awardFilter"
+          row-key="id"
+        >
+          <template #cell-status="{ row }">
+            <StatusBadge :status="String(row.status)" />
+          </template>
+        </DataTable>
+      </SectionCard>
     </template>
 
-    <h2>{{ t('reports.disbursements') }}</h2>
-    <form class="range" @submit.prevent="load">
-      <BaseInput v-model="from" type="date" :label="t('reports.from')" />
-      <BaseInput v-model="to" type="date" :label="t('reports.to')" />
-      <BaseButton type="submit">{{ t('app.refresh') }}</BaseButton>
-    </form>
+    <SectionCard :title="t('reports.disbursements')" title-id="disb-heading" class="block">
+      <form class="range" @submit.prevent="load">
+        <BaseInput v-model="from" type="date" :label="t('reports.from')" />
+        <BaseInput v-model="to" type="date" :label="t('reports.to')" />
+        <BaseButton type="submit">{{ t('app.refresh') }}</BaseButton>
+      </form>
 
-    <template v-if="disbursements">
-      <p class="lede">
-        {{ t('reports.rangeSummary', { count: disbursements.count, total: formatMoney(disbursements.total, 'USD', locale) }) }}
-      </p>
-      <EmptyState
-        v-if="!disbursements.by_status.length"
-        :title="t('reports.emptyDisbursements')"
-      />
-      <table v-else>
-        <thead>
-          <tr>
-            <th>{{ t('grants.status') }}</th>
-            <th>{{ t('reports.count') }}</th>
-            <th>{{ t('reports.total') }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in disbursements.by_status" :key="row.status">
-            <td><StatusBadge :status="row.status" /></td>
-            <td>{{ row.count }}</td>
-            <td>{{ formatMoney(row.total, 'USD', locale) }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </template>
+      <template v-if="disbursements">
+        <p class="lede">
+          {{
+            t('reports.rangeSummary', {
+              count: disbursements.count,
+              total: formatMoney(disbursements.total, 'USD', locale),
+            })
+          }}
+        </p>
+        <DataTable
+          :columns="statusColumns"
+          :rows="statusRows"
+          :caption="t('reports.disbursements')"
+          :empty-title="t('reports.emptyDisbursements')"
+          :paginate="false"
+          row-key="status"
+        >
+          <template #cell-status="{ row }">
+            <StatusBadge :status="String(row.status)" />
+          </template>
+        </DataTable>
+      </template>
+    </SectionCard>
   </section>
 </template>
 
@@ -166,34 +188,19 @@ onMounted(() => {
 .reports {
   max-width: 1100px;
 }
+.block {
+  margin-block-end: 1.25rem;
+}
 .lede {
-  color: var(--muted);
+  color: var(--color-text-muted);
   max-width: 42rem;
+  margin: 0 0 0.75rem;
 }
 .totals {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
-  margin: 1.5rem 0;
-}
-.totals div {
-  display: grid;
-  gap: 0.25rem;
-}
-.totals span {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-block-end: 2rem;
-}
-th,
-td {
-  text-align: start;
-  padding: 0.65rem 0.5rem;
-  border-bottom: 1px solid var(--border);
+  margin: 0 0 1.5rem;
 }
 .range {
   display: flex;
@@ -202,7 +209,9 @@ td {
   align-items: end;
   margin-block-end: 1rem;
 }
-.error {
-  color: var(--danger);
+@media (max-width: 900px) {
+  .totals {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 </style>
